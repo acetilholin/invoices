@@ -30,7 +30,7 @@
                                 <q-icon name="house" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/">Domov</router-link>
+                                <router-link to="/" class="text-black">Domov</router-link>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-ripple>
@@ -38,7 +38,7 @@
                                 <q-icon name="article" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers">Predračuni</router-link>
+                                <router-link to="/customers" class="text-black">Predračuni</router-link>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-ripple>
@@ -46,7 +46,7 @@
                                 <q-icon name="people" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers">Stranke</router-link>
+                                <router-link to="/customers" class="text-black">Stranke</router-link>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-ripple>
@@ -54,7 +54,7 @@
                                 <q-icon name="description" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers">Računi</router-link>
+                                <router-link to="/customers" class="text-black">Računi</router-link>
                             </q-item-section>
                         </q-item>
 
@@ -92,14 +92,7 @@
 </script>
 
 <style scoped>
-    a:-webkit-any-link {
+    .text-black {
         text-decoration: none;
-    }
-    .router-link-exact-active {
-        color: black;
-        font-weight: bold;
-    }
-    .router-link-active {
-        color: black !important;
     }
 </style>

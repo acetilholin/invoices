@@ -6463,7 +6463,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\na[data-v-63cd6604]:-webkit-any-link {\n    text-decoration: none;\n}\n.router-link-exact-active[data-v-63cd6604] {\n    color: black;\n    font-weight: bold;\n}\n.router-link-active[data-v-63cd6604] {\n    color: black !important;\n}\n", ""]);
+exports.push([module.i, "\n.text-black[data-v-63cd6604] {\n    text-decoration: none;\n}\n", ""]);
 
 // exports
 
@@ -81202,9 +81202,14 @@ var render = function() {
                           _c(
                             "q-item-section",
                             [
-                              _c("router-link", { attrs: { to: "/" } }, [
-                                _vm._v("Domov")
-                              ])
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "text-black",
+                                  attrs: { to: "/" }
+                                },
+                                [_vm._v("Domov")]
+                              )
                             ],
                             1
                           )
@@ -81231,7 +81236,10 @@ var render = function() {
                             [
                               _c(
                                 "router-link",
-                                { attrs: { to: "/customers" } },
+                                {
+                                  staticClass: "text-black",
+                                  attrs: { to: "/customers" }
+                                },
                                 [_vm._v("Predračuni")]
                               )
                             ],
@@ -81260,7 +81268,10 @@ var render = function() {
                             [
                               _c(
                                 "router-link",
-                                { attrs: { to: "/customers" } },
+                                {
+                                  staticClass: "text-black",
+                                  attrs: { to: "/customers" }
+                                },
                                 [_vm._v("Stranke")]
                               )
                             ],
@@ -81289,7 +81300,10 @@ var render = function() {
                             [
                               _c(
                                 "router-link",
-                                { attrs: { to: "/customers" } },
+                                {
+                                  staticClass: "text-black",
+                                  attrs: { to: "/customers" }
+                                },
                                 [_vm._v("Računi")]
                               )
                             ],
@@ -97816,6 +97830,28 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
 /***/ }),
 
+/***/ "./resources/js/store/auth.js":
+/*!************************************!*\
+  !*** ./resources/js/store/auth.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    token: null,
+    user: null,
+    auth_error: null
+  },
+  mutations: {},
+  actions: {},
+  getters: {}
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/store.js":
 /*!*************************************!*\
   !*** ./resources/js/store/store.js ***!
@@ -97828,15 +97864,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   namespaced: true,
-  state: {},
-  mutations: {},
-  actions: {},
-  getters: {}
+  modules: {
+    auth: _auth__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
 
