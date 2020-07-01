@@ -5,7 +5,19 @@
                 <q-toolbar>
                     <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
                     <q-toolbar-title>Domov</q-toolbar-title>
-                    <span class="q-mr-md" v-if="currentUser">{{ currentUser.name }}</span>
+                    <span class="q-mr-md">
+                        <q-btn dense color="blue-10" round icon="email" class="q-ml-md">
+                        <q-badge color="red" floating>1</q-badge>
+                    </q-btn>
+                    </span>
+                    <span class="q-mr-md" v-if="currentUser">
+                        <q-chip>
+                            <q-avatar>
+                              <img src="https://cdn.quasar.dev/img/avatar1.jpg">
+                            </q-avatar>
+                              {{ currentUser.name }}
+                        </q-chip>
+                    </span>
                     <q-btn @click.prevent="signOut" outline color="white" label="Odjava" />
                 </q-toolbar>
             </q-header>
@@ -27,26 +39,18 @@
                     <q-list padding>
                         <q-item clickable v-ripple>
                             <q-item-section avatar>
-                                <q-icon name="house" />
-                            </q-item-section>
-                            <q-item-section>
-                                <router-link to="/" class="text-black">Domov</router-link>
-                            </q-item-section>
-                        </q-item>
-                        <q-item clickable v-ripple>
-                            <q-item-section avatar>
                                 <q-icon name="article" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers" class="text-black">Predračuni</router-link>
+                                <router-link to="/customers" class="text-black text-subtitle1">Predračuni</router-link>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-ripple>
                             <q-item-section avatar>
-                                <q-icon name="people" />
+                                <q-icon name="business_center" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers" class="text-black">Stranke</router-link>
+                                <router-link to="/customers" class="text-black text-subtitle1">Stranke</router-link>
                             </q-item-section>
                         </q-item>
                         <q-item clickable v-ripple>
@@ -54,7 +58,31 @@
                                 <q-icon name="description" />
                             </q-item-section>
                             <q-item-section>
-                                <router-link to="/customers" class="text-black">Računi</router-link>
+                                <router-link to="/customers" class="text-black text-subtitle1">Računi</router-link>
+                            </q-item-section>
+                        </q-item>
+                        <q-item clickable v-ripple>
+                            <q-item-section avatar>
+                                <q-icon name="poll" />
+                            </q-item-section>
+                            <q-item-section>
+                                <router-link to="/customers" class="text-black text-subtitle1">Promet</router-link>
+                            </q-item-section>
+                        </q-item>
+                        <q-item clickable v-ripple>
+                            <q-item-section avatar>
+                                <q-icon name="public" />
+                            </q-item-section>
+                            <q-item-section>
+                                <router-link to="/customers" class="text-black text-subtitle1">Spletna stran</router-link>
+                            </q-item-section>
+                        </q-item>
+                        <q-item clickable v-ripple>
+                            <q-item-section avatar>
+                                <q-icon name="people_outline" />
+                            </q-item-section>
+                            <q-item-section>
+                                <router-link to="/customers" class="text-black text-subtitle1">Uporabniki</router-link>
                             </q-item-section>
                         </q-item>
 
@@ -63,7 +91,7 @@
             </q-drawer>
 
             <q-page-container class="q-ml-md q-mt-md">
-                {{ authenticated }}
+
                 <router-view></router-view>
             </q-page-container>
 
@@ -73,20 +101,32 @@
 
 <script>
 
+    import {mapGetters, mapActions} from 'vuex'
+
     export default {
         name: "Home",
         data() {
             return {
                 drawer: false,
                 miniState: true,
-                currentUser: {
-                    name: 'Uporabnik'
-                },
                 authenticated: true
             }
         },
+        computed: {
+            ...mapGetters({
+                currentUser: 'user'
+            })
+        },
         methods: {
-            signOut() { }
+            ...mapActions({
+               signoutAction: 'logout'
+            }),
+            signOut() {
+                this.signoutAction()
+                .then(() => {
+                    this.$router.push('/login-register')
+                })
+            }
         }
     }
 </script>
