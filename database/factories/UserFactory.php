@@ -21,10 +21,9 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
-        'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => Hash::make('test@test.test'),
+        'password' => Hash::make('test@gmail.com'),
         'enabled' => $faker->boolean,
         'role' => $faker->randomElement(['user', 'admin']),
         'picture' => Str::random(10).'.jpg',

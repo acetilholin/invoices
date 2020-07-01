@@ -12,22 +12,22 @@
                     align="justify"
                     narrow-indicator
                 >
-                    <q-tab name="login" label="Prijava"></q-tab>
-                    <q-tab name="register" label="Registracija"></q-tab>
+                    <q-tab name="email" label="Email"></q-tab>
+                    <q-tab name="new-password" label="Novo geslo"></q-tab>
                 </q-tabs>
 
                 <q-separator />
 
                 <q-tab-panels v-model="tab" animated>
-                    <q-tab-panel name="login">
-                        <div class="text-h6">Prijava</div>
+                    <q-tab-panel name="email">
+                        <div class="text-h6">Ponastavitveni email</div>
                         <q-form
-                            @submit="loginUser"
-                            @reset="clearLogin"
+                            @submit="sendEmail"
+                            @reset="clearSendEmail"
                             class="q-col-gutter-lg"
                         >
                             <q-input
-                                v-model="loginForm.email"
+                                v-model="email"
                                 label="Email"
                                 type="email"
                                 :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
@@ -36,68 +36,50 @@
                                     <q-icon name="alternate_email" />
                                 </template>
                             </q-input>
-                            <q-input
-                                v-model="loginForm.password"
-                                :type="isPwd1 ? 'password' : 'text'"
-                                label="Geslo"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite geslo']"
-                            >
-                                <template v-slot:prepend>
-                                    <q-icon name="lock" />
-                                </template>
-                                <template v-slot:append>
-                                    <q-icon
-                                        :name="isPwd1 ? 'visibility_off' : 'visibility'"
-                                        class="cursor-pointer"
-                                        @click="isPwd1 = !isPwd1"
-                                    />
-                                </template>
-                            </q-input>
                             <div>
-                                <q-btn label="Prijava" type="submit" color="green"/>
+                                <q-btn label="Pošlji" type="submit" color="green"/>
                                 <q-btn label="Počisti" type="reset" color="primary" flat class="q-ml-sm" />
                             </div>
                         </q-form>
                         <div class="text-center q-mt-lg">
-                            <q-btn to="/new-password" outline color="primary" label="Novo geslo" />
+                            <q-btn to="/login-register" outline color="primary" label="Prijava" />
                         </div>
                     </q-tab-panel>
 
-                    <q-tab-panel name="register">
-                        <div class="text-h6">Registracija</div>
+                    <q-tab-panel name="new-password">
+                        <div class="text-h6">Novo geslo</div>
                         <q-form
-                            @submit="registerUser"
-                            @reset="clearRegister"
+                            @submit="newPassword"
+                            @reset="clearNewPassword"
                             class="q-col-gutter-lg"
                         >
-                            <!-- :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']" -->
                             <q-input
-                                v-model="registerForm.email"
+                                v-model="newPass.email"
                                 label="Email"
                                 type="email"
-
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
                                 </template>
                             </q-input>
-                            <!--  :rules="[ val => val && val.length > 3  || 'Vnesite uporabniško ime']" -->
-                            <q-input
-                                v-model="registerForm.username"
-                                label="Uporabniško ime"
-                                type="text"
 
+                            <q-input
+                                v-model="newPass.token"
+                                label="Žeton"
+                                type="text"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite prejeti žeton']"
                             >
                                 <template v-slot:prepend>
-                                    <q-icon name="person" />
+                                    <q-icon name="vpn_key" />
                                 </template>
                             </q-input>
-                            <!--   :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']" -->
+
                             <q-input
-                                v-model="registerForm.password"
+                                v-model="newPass.password"
                                 label="Geslo"
                                 :type="isPwd2 ? 'password' : 'text'"
-
+                                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -111,21 +93,20 @@
                                 </template>
                             </q-input>
 
-                            <!--  :rules="[
-                                    val => val && val.length > 0 || 'Ponovite geslo',
-                                    val => val === this.registerForm.password || 'Gesli se ne ujemata']" -->
                             <q-input
-                                v-model="registerForm.password_confirmation"
+                                v-model="newPass.password_confirmation"
                                 label="Ponovite geslo"
                                 type="password"
-
+                                :rules="[
+                                    val => val && val.length > 0 || 'Ponovite geslo',
+                                    val => val === this.newPass.password || 'Gesli se ne ujemata']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
                                 </template>
                             </q-input>
                             <div>
-                                <q-btn label="Registracija" type="submit" color="green"/>
+                                <q-btn label="Spremeni" type="submit" color="green"/>
                                 <q-btn label="Počisti" type="reset" color="primary" flat class="q-ml-sm" />
                             </div>
                         </q-form>
@@ -141,28 +122,25 @@
     import {mapActions} from 'vuex'
 
     export default {
-        name: "LoginRegister",
+        name: "NewPassword",
         data() {
             return {
-                loginForm: {
+                email: '',
+                newPass: {
                     email: '',
-                    password: ''
-                },
-                registerForm: {
-                    email: '',
-                    username: '',
+                    token: '',
                     password: '',
                     password_confirmation: ''
                 },
-                tab: 'login',
+                tab: 'email',
                 isPwd1: true,
                 isPwd2: true
             }
         },
         methods: {
             ...mapActions({
-               loginAction: 'login',
-                registerAction: 'register'
+               sendResetEmail: 'resetEmail',
+               changePassword: 'changePassword'
             }),
             showNotif(message, type) {
                 this.$q.notify({
@@ -171,33 +149,37 @@
                     type: type
                 })
             },
-            clearLogin() {
-                this.loginForm = {}
-            },
-            clearRegister() {
-                this.registerForm = {}
-            },
-            loginUser() {
-                this.loginAction(this.loginForm)
-                .then((response) => {
-                    this.$router.push('/')
-                })
-                .catch((e) => {
-                     this.showNotif(e,'negative')
-                })
-            },
-            registerUser() {
-                this.registerAction(this.registerForm)
+            sendEmail() {
+                this.sendResetEmail(this.email)
                 .then((response) => {
                     this.showNotif(response.success,'positive')
                 })
                 .catch((e) => {
                     this.showNotif(e,'negative')
                 })
+            },
+            clearSendEmail() {
+                this.email = ''
+            },
+            newPassword() {
+                this.changePassword(this.newPass)
+                .then((response) => {
+                    this.showNotif(response.success,'positive')
+                    setTimeout( () => this.$router.push({ path: '/login-register'}), 4000);
+                })
+                .catch((e) => {
+                    this.showNotif(e,'negative')
+                })
+            },
+            clearNewPassword() {
+                this.newPassword = {}
             }
         }
     }
 </script>
 
 <style scoped>
+    .text-subtitle1 {
+        text-decoration: none;
+    }
 </style>
