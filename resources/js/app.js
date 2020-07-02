@@ -21,7 +21,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000/api/auth'
 
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-    const authenticated = store.getters.authenticated
+    const authenticated = store.getters["auth/authenticated"]
 
     if (requiresAuth && !authenticated) {
         next('/login-register')
@@ -32,8 +32,7 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-
-store.dispatch('loginAttempt', localStorage.getItem('token'))
+store.dispatch('auth/loginAttempt', localStorage.getItem('token'))
     .then(() => {
         const app = new Vue({
             el: '#app',

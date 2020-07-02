@@ -59,7 +59,7 @@
                             </div>
                         </q-form>
                         <div class="text-center q-mt-lg">
-                            <q-btn to="/new-password" outline color="primary" label="Novo geslo" />
+                            <q-btn to="/new-password" outline icon="mail" color="primary" label="Novo geslo" />
                         </div>
                     </q-tab-panel>
 
@@ -70,34 +70,33 @@
                             @reset="clearRegister"
                             class="q-col-gutter-lg"
                         >
-                            <!-- :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']" -->
                             <q-input
                                 v-model="registerForm.email"
                                 label="Email"
                                 type="email"
-
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
                                 </template>
                             </q-input>
-                            <!--  :rules="[ val => val && val.length > 3  || 'Vnesite uporabniško ime']" -->
+
                             <q-input
                                 v-model="registerForm.username"
                                 label="Uporabniško ime"
                                 type="text"
-
+                                :rules="[ val => val && val.length > 3  || 'Vnesite uporabniško ime']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="person" />
                                 </template>
                             </q-input>
-                            <!--   :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']" -->
+
                             <q-input
                                 v-model="registerForm.password"
                                 label="Geslo"
                                 :type="isPwd2 ? 'password' : 'text'"
-
+                                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -110,15 +109,13 @@
                                     />
                                 </template>
                             </q-input>
-
-                            <!--  :rules="[
-                                    val => val && val.length > 0 || 'Ponovite geslo',
-                                    val => val === this.registerForm.password || 'Gesli se ne ujemata']" -->
                             <q-input
                                 v-model="registerForm.password_confirmation"
                                 label="Ponovite geslo"
                                 type="password"
-
+                                :rules="[
+                                    val => val && val.length > 0 || 'Ponovite geslo',
+                                    val => val === this.registerForm.password || 'Gesli se ne ujemata']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -161,8 +158,8 @@
         },
         methods: {
             ...mapActions({
-               loginAction: 'login',
-                registerAction: 'register'
+               loginAction: 'auth/login',
+               registerAction: 'auth/register'
             }),
             showNotif(message, type) {
                 this.$q.notify({
