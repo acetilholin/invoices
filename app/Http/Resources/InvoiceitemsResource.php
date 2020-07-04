@@ -18,9 +18,9 @@ class InvoiceitemsResource extends JsonResource
         return [
             'sifra_predracuna' => $this->sifra_predracuna,
             'ime_priimek' => $this->ime_priimek,
-            'total' => round($predracun->totalPrice,2),
-            'timestamp' => date('d-m-Y', strtotime($this->timestamp)),
-            'expiration' => date('d-m-Y', strtotime($this->expiration)),
+            'total' => $predracun->totalPrice,
+            'timestamp' => $this->timestamp,
+            'expiration' => $this->expiration,
             'invoice_id' => $this->invoice_id,
             'work_date' => $this->work_date,
         ];

@@ -12,8 +12,8 @@ require('./bootstrap');
 
 Vue.use(Quasar)
 Vue.use(VueAxios, axios)
-
 Quasar.lang.set(Quasar.lang.sl)
+Vue.use(require('vue-moment'));
 
 window.Vue = require('vue');
 

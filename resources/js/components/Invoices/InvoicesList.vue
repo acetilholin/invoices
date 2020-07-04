@@ -13,7 +13,7 @@
             <template v-slot:body="props">
                 <q-tr :props="props">
                     <q-td>
-                        {{ count() }}
+                        {{ tableIndex(props.row) }}
                     </q-td>
                     <q-td key="sifra_predracuna" :props="props">
                         {{ props.row.sifra_predracuna }}
@@ -22,14 +22,14 @@
                         {{ props.row.ime_priimek }}
                     </q-td>
                     <q-td key="timestamp" :props="props">
-                        {{ props.row.timestamp }}
+                        {{ props.row.timestamp | moment('DD-MM-Y') }}
                     </q-td>
                     <q-td key="total" :props="props">
-                        {{ props.row.total }}
+                        {{ props.row.total | decimals }}
                     </q-td>
                     <q-td key="expiration" :props="props">
-                        <q-badge color="green">
-                            {{ props.row.expiration }}
+                        <q-badge :color="$moment(today()).isBefore(props.row.expiration) ? 'green' : 'red'">
+                            {{ props.row.expiration | moment('DD-MM-Y') }}
                         </q-badge>
                     </q-td>
                 </q-tr>
@@ -46,7 +46,6 @@
         name: "InvoicesList",
         data() {
             return {
-                i: 1,
                 pagination: {
                     rowsPerPage: 50
                 },
@@ -54,7 +53,7 @@
                     {
                         name: 'index',
                         label: '#',
-                        align: 'center',
+                        align: 'center'
                     },
                     {
                         name: 'sifra_predracuna',
@@ -74,20 +73,28 @@
                         sortable: true,
                         format: val => `${val}`
                     },
-                    {name: 'total', label: 'Znesek', field: 'total', sortable: true, format: val => `${val} €`},
+                    {name: 'total', label: 'Znesek', field: 'total', sortable: true},
                     {name: 'expiration', label: 'Zapadlost', field: 'expiration', sortable: true}
                 ]
+            }
+        },
+        filters: {
+            decimals(value) {
+                return Math.round(value * 100) / 100 + ' €'
             }
         },
         methods: {
             getPaginationLabel(firstRowIndex, endRowIndex, totalRowsNumber) {
                 return firstRowIndex + '-' + endRowIndex + ' od ' + totalRowsNumber
             },
-            count() {
-                return this.i++
-            }
+            tableIndex(row) {
+                return this.invoices.indexOf(row) + 1
+            },
+            today() {
+                return this.$moment().format('Y-MM-DD')
+            },
         },
-        created() {
+        mounted() {
             this.$store.dispatch('invoices/invoicesAction')
         },
         computed: {
@@ -99,5 +106,7 @@
 </script>
 
 <style scoped>
-
+    .q-badge {
+        padding: .3rem
+    }
 </style>
