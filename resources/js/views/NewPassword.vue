@@ -42,7 +42,7 @@
                             </div>
                         </q-form>
                         <div class="text-center q-mt-lg">
-                            <q-btn to="/login-register" outline color="primary" label="Prijava" />
+                            <q-btn to="/login-register" icon="login" outline color="primary" label="Prijava" />
                         </div>
                     </q-tab-panel>
 
@@ -139,8 +139,8 @@
         },
         methods: {
             ...mapActions({
-               sendResetEmail: 'resetEmail',
-               changePassword: 'changePassword'
+               sendResetEmail: 'auth/resetEmail',
+               changePassword: 'auth/changePassword'
             }),
             showNotif(message, type) {
                 this.$q.notify({
