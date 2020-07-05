@@ -3,7 +3,7 @@
         <q-header elevated class="bg-primary text-white" v-show="authenticated">
             <q-toolbar>
                 <q-btn flat @click="changeDrawerState" round dense icon="menu" />
-                <q-toolbar-title>Domov</q-toolbar-title>
+                <q-toolbar-title>Predračuni</q-toolbar-title>
                 <span class="q-mr-md">
                         <q-btn dense color="blue-10" round icon="email" class="q-ml-md">
                         <q-badge color="red" floating>1</q-badge>

@@ -1,0 +1,12 @@
+/* tables */
+.q-table tbody td {
+    font-size: 14px !important;
+}
+
+.q-badge {
+    padding: .3rem
+}
+
+.q-table tbody {
+    text-align: center;
+}
