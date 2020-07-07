@@ -6,9 +6,6 @@
             :columns="columns"
             row-key="index"
             :pagination.sync="pagination"
-            rows-per-page-label="Vrstic na strani"
-            :pagination-label="getPaginationLabel"
-            no-data-label="Ni podatkov"
         >
             <template v-slot:body="props">
                 <q-tr :props="props">
@@ -73,8 +70,8 @@
                         sortable: true,
                         format: val => `${val}`
                     },
-                    {name: 'total', label: 'Znesek', field: 'total', sortable: true},
-                    {name: 'expiration', label: 'Zapadlost', field: 'expiration', sortable: true}
+                    {name: 'total', label: 'Znesek', field: 'total', sortable: true,  align: 'center'},
+                    {name: 'expiration', label: 'Zapadlost', field: 'expiration', sortable: true,  align: 'center'}
                 ]
             }
         },
@@ -84,9 +81,6 @@
             }
         },
         methods: {
-            getPaginationLabel(firstRowIndex, endRowIndex, totalRowsNumber) {
-                return firstRowIndex + '-' + endRowIndex + ' od ' + totalRowsNumber
-            },
             tableIndex(row) {
                 return this.invoices.indexOf(row) + 1
             },

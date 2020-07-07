@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/quasar@1.12.8/dist/quasar.min.css" rel="stylesheet" type="text/css">
     <!-- Quasar "@1.12.8" -->
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/custom.css') }}" >
+
     <title>Predračuni</title>
 </head>
 <body>

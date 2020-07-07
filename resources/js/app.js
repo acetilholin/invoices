@@ -5,14 +5,17 @@ import router from "./routes/routes";
 import store from "./store/store";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import langSl from 'quasar/lang/sl'
 
 
 require('./store/subscriber')
 require('./bootstrap');
 
-Vue.use(Quasar)
+Vue.use(Quasar, {
+    lang: langSl
+})
+
 Vue.use(VueAxios, axios)
-Quasar.lang.set(Quasar.lang.sl)
 Vue.use(require('vue-moment'));
 
 window.Vue = require('vue');

@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('enabled')->default(false);
             $table->string('role')->default('user');
-            $table->string('picture')->nullable();
+            $table->string('picture')->default('default.png');
             $table->boolean('force_password_reset')->nullable();
             $table->timestamp('last_seen')->nullable();
             $table->string('country')->nullable();
