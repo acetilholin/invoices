@@ -105,7 +105,7 @@
                         setTimeout(() => {
                             this.submitting = false
                             this.$refs.createModal.hide()
-                        }, 1000)
+                        }, 1500)
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')

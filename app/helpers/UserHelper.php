@@ -25,4 +25,10 @@ class UserHelper
         User::where('id', $id)
             ->update([$attr => $data]);
     }
+
+    public function removeUser($user)
+    {
+        $id = $user->id;
+
+    }
 }

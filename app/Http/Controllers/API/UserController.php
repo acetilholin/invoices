@@ -67,7 +67,7 @@ class UserController extends Controller
                     'success' => trans('user.userCreated'),
                     'users' => $users
                 ], 200);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return response()->json(['error' => trans('user.cannotCreate')], 401);
             }
         }
@@ -92,6 +92,13 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
+        $id = $request->id;
+        $user = User::find($id);
+
+        if ($user->email == env('ADMIN')) {
+            return response()->json(['error' => trans('user.cannotChangeAdmin')], 401);
+        }
+
         $userHelper = new UserHelper();
         $userHelper->editSingleAttr($request);
 
@@ -118,11 +125,25 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {
-        //
+        $id = $user->id;
+        if ($user->email == env('ADMIN')) {
+            return response()->json(['error' => trans('user.cannotDeleteAdmin')], 401);
+        }
+
+        try {
+            User::where('id', $id)->delete();
+            $users = $this->index();
+            return response()->json([
+                'success' => trans('user.userDeleted'),
+                'users' => $users
+            ], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['error' => trans('user.cannotDelete')], 401);
+        }
     }
 
     protected function messages()

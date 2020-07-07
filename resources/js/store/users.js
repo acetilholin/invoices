@@ -34,6 +34,16 @@ export default {
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
+        },
+        async removeUser({commit}, id) {
+            return await axios.delete(`/users/${id}`)
+                .then((response) => {
+                    commit('SET_USERS', response.data.users)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
         }
     },
     getters: {

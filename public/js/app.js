@@ -2553,7 +2553,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this.submitting = false;
 
           _this.$refs.createModal.hide();
-        }, 1000);
+        }, 1500);
       })["catch"](function (e) {
         _this.showNotif(e, 'negative');
 
@@ -2582,6 +2582,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -2691,6 +2694,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         field: 'country',
         sortable: true,
         align: 'center'
+      }, {
+        name: 'edit',
+        label: 'Uredi',
+        align: 'center'
       }]
     };
   },
@@ -2709,7 +2716,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
-    changeDetail: 'users/changeSingleDetail'
+    changeDetail: 'users/changeSingleDetail',
+    remove: 'users/removeUser'
   })), {}, {
     showNotif: function showNotif(message, type) {
       this.$q.notify({
@@ -2756,6 +2764,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.showNotif(response, 'positive');
       })["catch"](function (e) {
         _this2.showNotif(e, 'negative');
+      });
+    },
+    removeUser: function removeUser(id) {
+      var _this3 = this;
+
+      this.remove(id).then(function (response) {
+        _this3.showNotif(response, 'positive');
+      })["catch"](function (e) {
+        _this3.showNotif(e, 'negative');
       });
     }
   }),
@@ -84608,7 +84625,24 @@ var render = function() {
                           height: "40px"
                         }
                       })
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "q-td",
+                      { key: "edit", attrs: { props: props } },
+                      [
+                        _c("q-icon", {
+                          staticClass: "pointer text-red action-icon",
+                          attrs: { name: "delete_outline" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeUser(props.row.id)
+                            }
+                          }
+                        })
+                      ],
+                      1
+                    )
                   ],
                   1
                 )
@@ -107509,6 +107543,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee2);
+      }))();
+    },
+    removeUser: function removeUser(_ref4, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref4.commit;
+                _context3.next = 3;
+                return axios["delete"]("/users/".concat(id)).then(function (response) {
+                  commit('SET_USERS', response.data.users);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 3:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },

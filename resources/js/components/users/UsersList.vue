@@ -40,6 +40,9 @@
                     <q-td key="country" :props="props">
                         <img :src="countryImage(props.row.country)" alt="" width="40px" height="40px">
                     </q-td>
+                    <q-td key="edit" :props="props">
+                        <q-icon name="delete_outline" @click="removeUser(props.row.id)" class="pointer text-red action-icon"></q-icon>
+                    </q-td>
                 </q-tr>
             </template>
         </q-table>
@@ -76,7 +79,8 @@
                     {name: 'picture', label: 'Avatar', field: 'picture', sortable: true, align: 'center'},
                     {name: 'online', label: 'Online', field: 'online', align: 'center', sortable: true},
                     {name: 'last_seen', label: 'Zadnjič tu', field: 'last_seen', align: 'center', sortable: true},
-                    {name: 'country', label: 'Država', field: 'country', sortable: true, align: 'center'}
+                    {name: 'country', label: 'Država', field: 'country', sortable: true, align: 'center'},
+                    {name: 'edit', label: 'Uredi', align: 'center'}
                 ]
             }
         },
@@ -97,6 +101,7 @@
         methods: {
             ...mapActions({
                 changeDetail: 'users/changeSingleDetail',
+                remove: 'users/removeUser'
             }),
             showNotif(message, type) {
                 this.$q.notify({
@@ -145,6 +150,15 @@
                         this.showNotif(e, 'negative')
                     })
 
+            },
+            removeUser(id) {
+                this.remove(id)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
             }
         },
         created() {

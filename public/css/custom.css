@@ -10,3 +10,7 @@
 .q-table tbody {
     text-align: center;
 }
+
+.action-icon {
+    font-size: 1.7rem;
+}
