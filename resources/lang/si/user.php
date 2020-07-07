@@ -2,5 +2,6 @@
 
 return [
     'cannotCreate' => 'Uporabnika ni mogoče ustvariti',
-    'userCreated' => 'Uporabnik ustvarjen'
+    'userCreated' => 'Uporabnik ustvarjen',
+    'userDetailChanged' => 'Spremenjeno'
 ];

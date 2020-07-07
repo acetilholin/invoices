@@ -177,6 +177,7 @@
             loginUser() {
                 this.loginAction(this.loginForm)
                 .then((response) => {
+                    this.showNotif('Pozdravljeni :)','positive')
                     this.$router.push('/')
                 })
                 .catch((e) => {

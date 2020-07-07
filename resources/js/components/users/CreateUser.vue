@@ -5,6 +5,7 @@
    </div>
    <q-dialog
        v-model="medium"
+       ref="createModal"
    >
        <q-card style="width: 700px; max-width: 80vw;">
            <q-card-section>
@@ -40,7 +41,19 @@
                    </q-input>
 
                    <div>
-                       <q-btn label="Ustvari" type="submit" color="green"/>
+                       <q-btn
+                           type="submit"
+                           :loading="submitting"
+                           label="Ustvari"
+                           class="q-mt-md"
+                           color="green"
+                       >
+                           <template v-slot:loading>
+                               <q-spinner-tail
+                                   color="white"
+                               />
+                           </template>
+                       </q-btn>
                        <q-btn label="Počisti" type="reset" color="primary" flat class="q-ml-sm" />
                    </div>
                </q-form>
@@ -66,7 +79,8 @@
                 user: {
                     email: '',
                     username: ''
-                }
+                },
+                submitting: false
             }
         },
         methods: {
@@ -84,12 +98,18 @@
                 })
             },
             createNew() {
+                this.submitting = true
                 this.addUser(this.user)
                     .then((response) => {
-                        this.showNotif(response.success, 'positive')
+                        this.showNotif(response, 'positive')
+                        setTimeout(() => {
+                            this.submitting = false
+                            this.$refs.createModal.hide()
+                        }, 1000)
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')
+                        this.submitting = false
                     })
             }
         }

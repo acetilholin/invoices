@@ -19,17 +19,15 @@
                         {{ props.row.email }}
                     </q-td>
                     <q-td key="enabled" :props="props">
-                        <q-badge :color="badge(props.row.enabled)">
+                        <q-badge :color="badge(props.row.enabled)" @click="enabledDisabled(props.row.id, props.row.enabled)" class="pointer">
                             <q-icon :name="props.row.enabled | enabled " />
                         </q-badge>
                     </q-td>
                     <q-td key="role" :props="props">
-                        {{ props.row.role }}
+                        <span class="pointer" @click="adminUser(props.row.id, props.row.role)">{{ props.row.role | role }}</span>
                     </q-td>
                     <q-td key="picture" :props="props">
-                        <q-avatar>
-                            <img src="https://cdn.quasar.dev/img/avatar.png">
-                        </q-avatar>
+                        <img :src="userImage(props.row.picture)" alt="" height="40px">
                     </q-td>
                     <q-td key="online" :props="props">
                         <span class="text-green text-weight-bold" v-if="props.row.online">
@@ -40,7 +38,7 @@
                         {{ props.row.last_seen | moment('hh:mm DD-MM-Y') }}
                     </q-td>
                     <q-td key="country" :props="props">
-                        {{ props.row.country }}
+                        <img :src="countryImage(props.row.country)" alt="" width="40px" height="40px">
                     </q-td>
                 </q-tr>
             </template>
@@ -51,11 +49,11 @@
 <script>
 
     import CreateUser from "./CreateUser";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "UsersList",
-        data () {
+        data() {
             return {
                 columns: [
                     {
@@ -83,7 +81,7 @@
             }
         },
         components: {
-          CreateUser
+            CreateUser
         },
         filters: {
             enabled(value) {
@@ -91,19 +89,68 @@
             },
             online(value) {
                 return 'online'
+            },
+            role(value) {
+                return value === 'admin' ? 'administrator' : 'uporabnik'
             }
         },
         methods: {
+            ...mapActions({
+                changeDetail: 'users/changeSingleDetail',
+            }),
+            showNotif(message, type) {
+                this.$q.notify({
+                    message: message,
+                    position: 'top',
+                    type: type
+                })
+            },
+            countryImage(img) {
+                return '/countries/' + img + '.svg'
+            },
+            userImage(img) {
+                return '/pictures/' + img
+            },
             tableIndex(row) {
                 return this.users.indexOf(row) + 1
             },
             badge(value) {
                 return value === 1 ? 'green' : 'red'
+            },
+            enabledDisabled(id, status) {
+                let details = {
+                    'id': id,
+                    'data': !status,
+                    'attr': 'enabled'
+                }
+                this.changeDetail(details)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
+            },
+            adminUser(id, role) {
+                let details = {
+                    'id': id,
+                    'data': role,
+                    'attr': 'role'
+                }
+                this.changeDetail(details)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
+
             }
         },
-        mounted() {
+        created() {
             this.$store.dispatch('users/usersAction')
         },
+
         computed: {
             ...mapGetters({
                 users: 'users/getUsers'
@@ -113,5 +160,7 @@
 </script>
 
 <style scoped>
-
+    .pointer {
+        cursor: pointer;
+    }
 </style>

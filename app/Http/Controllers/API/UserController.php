@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\helpers\MsgFormatterHelper;
+use App\helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -61,7 +62,11 @@ class UserController extends Controller
 
             try {
                 User::create($userData)->save();
-                return response()->json(['success' => trans('user.userCreated')], 200);
+                $users = $this->index();
+                return response()->json([
+                    'success' => trans('user.userCreated'),
+                    'users' => $users
+                ], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => trans('user.cannotCreate')], 401);
             }
@@ -76,18 +81,25 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(User $user)
+    public function edit(Request $request)
     {
-        //
+        $userHelper = new UserHelper();
+        $userHelper->editSingleAttr($request);
+
+        $users = $this->index();
+        return response()->json([
+            'success' => trans('user.userDetailChanged'),
+            'users' => $users
+        ], 200);
     }
 
     /**

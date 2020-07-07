@@ -11,14 +11,25 @@ export default {
     actions: {
         usersAction({commit}) {
             axios.get('/users')
-                .then((response) => {
+                .then(response => {
                     commit('SET_USERS', response.data.data)
                 })
         },
-        async addUser({context}, user) {
+        async addUser({commit}, user) {
             return await axios.post('/users', user)
                 .then(response => {
-                    return response.data
+                    commit('SET_USERS', response.data.users)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async changeSingleDetail({commit}, details) {
+            return await axios.get(`users/${details.id}/edit/${details.attr}/${details.data}`)
+                .then((response) => {
+                    commit('SET_USERS', response.data.users)
+                    return response.data.success
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
