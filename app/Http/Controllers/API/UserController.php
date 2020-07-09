@@ -110,6 +110,50 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for editing password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function newPassword(Request $request)
+    {
+        $id = $request->id;
+        $oldPassword = $request->password_old;
+        $password = $request->password;
+        $password_confirmation = $request->password_new;
+
+        $rules = array(
+            'password' => 'required|min:5',
+            'password_confirmation' => 'required|same:password'
+        );
+
+        $credentials = [
+            'password' => $password,
+            'password_confirmation' => $password_confirmation
+        ];
+
+        $validator = Validator::make($credentials, $rules, $this->messages());
+
+        if ($validator->fails()) {
+            $formatter = new MsgFormatterHelper();
+            $messages = $formatter->formatt($validator->errors()->all());
+            return response()->json(['error' => $messages], 401);
+        }
+
+        $userHelper = new UserHelper();
+        if (!$userHelper->checkPassword($id, $oldPassword)) {
+            return response()->json(['error' => trans('user.wrongOldPassword')], 401);
+        } else {
+            $userHelper->updatePassword($id, $password);
+            $user = User::find($id);
+            return response()->json([
+                'success' => trans('user.passwordUpdated'),
+                'user' => $user
+            ], 200);
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -154,7 +198,11 @@ class UserController extends Controller
             'email.email' => trans('loginRegister.emailFormat'),
             'username.required' => trans('loginRegister.usernameRequired'),
             'username.unique' => trans('loginRegister.usernameAlreadyInUse'),
-            'username.max' => trans('loginRegister.usernameMax')
+            'username.max' => trans('loginRegister.usernameMax'),
+            'password.required' => trans('loginRegister.passwordRequired'),
+            'password.min' => trans('loginRegister.passwordTooShort'),
+            'password_confirmation.same' => trans('loginRegister.passwordMissmatch'),
+            'password_confirmation.required' => trans('loginRegister.passConfirmationRequired'),
         ];
     }
 }

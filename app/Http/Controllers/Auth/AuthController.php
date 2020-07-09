@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -54,6 +55,9 @@ class AuthController extends Controller
         if (!auth()->attempt($credentials)) {
             return response()->json(['error' => trans('loginRegister.wrongCredentials')], 401);
         }
+
+        $userHelper = new UserHelper();
+        $userHelper->lastSeen($user);
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -178,8 +182,10 @@ class AuthController extends Controller
     {
         $user = $request->user();
         return response()->json([
+            'id' => $user->id,
             'email' => $user->email,
-            'username' => $user->username
+            'username' => $user->username,
+            'picture' => $user->picture
         ]);
     }
 

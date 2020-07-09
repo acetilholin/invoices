@@ -1,3 +1,5 @@
+import auth from "./auth";
+
 export default {
     namespaced: true,
     state: {
@@ -39,6 +41,16 @@ export default {
             return await axios.delete(`/users/${id}`)
                 .then((response) => {
                     commit('SET_USERS', response.data.users)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async changePassword({commit}, details) {
+            return await axios.post(`/users/edit/password`, details)
+                .then((response) => {
+                    auth.mutations.SET_USER(response.data.user)
                     return response.data.success
                 })
                 .catch((e) => {

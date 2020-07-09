@@ -5,6 +5,8 @@ return [
     'userCreated' => 'Uporabnik ustvarjen',
     'userDetailChanged' => 'Spremenjeno',
     'cannotDeleteAdmin' => 'Skrbnika ni mogoče izbrisati',
-    'cannotChangeAdmin' => 'Skrbniku ni mogoče spreminjati',
-    'userDeleted' => 'Uporabnik izbrisan'
+    'cannotChangeAdmin' => 'Skrbniku ni mogoče spreminjati nastavitev',
+    'userDeleted' => 'Uporabnik izbrisan',
+    'wrongOldPassword' => 'Trenutno geslo je napačno',
+    'passwordUpdated' => 'Geslo je spremenjeno'
 ];

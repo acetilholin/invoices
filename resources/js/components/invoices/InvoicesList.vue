@@ -5,6 +5,7 @@
             :data="invoices"
             :columns="columns"
             row-key="index"
+            color="primary"
             :pagination.sync="pagination"
         >
             <template v-slot:body="props">
