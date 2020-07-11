@@ -87,10 +87,15 @@
                     <div class="text-h8 q-pt-lg q-pb-lg">Spremeni sliko</div>
                     <q-form
                         @submit="changePicture">
-                        <q-uploader
-                            url="http://localhost:4444/upload"
-                            style="max-width: 300px"
-                        />
+                        <q-file color="primary"
+                                v-model="image"
+                                accept=".jpg, .jpeg, .png"
+                                @rejected=" this.showNotif('Dovoljeni formati so .jpg, .jpeg, .png','negative')"
+                                label="Datoteka">
+                            <template v-slot:prepend>
+                                <q-icon name="attach_file" />
+                            </template>
+                        </q-file>
                         <div class="q-mt-md">
                             <q-btn label="Spremeni" type="submit" color="green"/>
                         </div>
@@ -118,7 +123,8 @@
                     password_new: ''
                 },
                 isPwd1: true,
-                isPwd2: true
+                isPwd2: true,
+                image: null
             }
         },
         computed: {
@@ -135,7 +141,8 @@
             ...mapActions({
                 signoutAction: 'auth/logout',
                 drawerState: 'general/drawerAction',
-                newPassword: 'users/changePassword'
+                newPassword: 'users/changePassword',
+                newImage: 'users/changeImage'
             }),
             showNotif(message, type) {
                 this.$q.notify({
@@ -160,7 +167,17 @@
                     })
             },
             changePicture() {
-
+                let photoData = {
+                    'id': this.currentUser.id,
+                    'image': this.image
+                }
+                this.newImage(photoData)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
             },
             onReset() {
               this.newPass = {}

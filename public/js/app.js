@@ -2354,6 +2354,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
@@ -2366,7 +2371,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password_new: ''
       },
       isPwd1: true,
-      isPwd2: true
+      isPwd2: true,
+      image: null
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -2381,7 +2387,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     signoutAction: 'auth/logout',
     drawerState: 'general/drawerAction',
-    newPassword: 'users/changePassword'
+    newPassword: 'users/changePassword',
+    newImage: 'users/changeImage'
   })), {}, {
     showNotif: function showNotif(message, type) {
       this.$q.notify({
@@ -2405,7 +2412,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.showNotif(e, 'negative');
       });
     },
-    changePicture: function changePicture() {},
+    changePicture: function changePicture() {
+      var _this2 = this;
+
+      var photoData = {
+        'id': this.currentUser.id,
+        'image': this.image
+      };
+      this.newImage(photoData).then(function (response) {
+        _this2.showNotif(response, 'positive');
+      })["catch"](function (e) {
+        _this2.showNotif(e, 'negative');
+      });
+    },
     onReset: function onReset() {
       this.newPass = {};
     },
@@ -2413,10 +2432,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return '/pictures/' + img;
     },
     signOut: function signOut() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.signoutAction().then(function () {
-        _this2.$router.push('/login-register');
+        _this3.$router.push('/login-register');
       });
     },
     changeDrawerState: function changeDrawerState() {
@@ -84382,9 +84401,38 @@ var render = function() {
                     "q-form",
                     { on: { submit: _vm.changePicture } },
                     [
-                      _c("q-uploader", {
-                        staticStyle: { "max-width": "300px" },
-                        attrs: { url: "http://localhost:4444/upload" }
+                      _c("q-file", {
+                        attrs: {
+                          color: "primary",
+                          accept: ".jpg, .jpeg, .png",
+                          label: "Datoteka"
+                        },
+                        on: {
+                          rejected: function($event) {
+                            return this.showNotif(
+                              "Dovoljeni formati so .jpg, .jpeg, .png",
+                              "negative"
+                            )
+                          }
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "prepend",
+                            fn: function() {
+                              return [
+                                _c("q-icon", { attrs: { name: "attach_file" } })
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ]),
+                        model: {
+                          value: _vm.image,
+                          callback: function($$v) {
+                            _vm.image = $$v
+                          },
+                          expression: "image"
+                        }
                       }),
                       _vm._v(" "),
                       _c(
@@ -107783,13 +107831,11 @@ _store__WEBPACK_IMPORTED_MODULE_0__["default"].subscribe(function (mutation) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth */ "./resources/js/store/auth.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
@@ -107899,7 +107945,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit = _ref5.commit;
                 _context4.next = 3;
                 return axios.post("/users/edit/password", details).then(function (response) {
-                  _auth__WEBPACK_IMPORTED_MODULE_1__["default"].mutations.SET_USER(response.data.user);
                   return response.data.success;
                 })["catch"](function (e) {
                   throw e.response.data.error;
@@ -107914,6 +107959,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee4);
+      }))();
+    },
+    changeImage: function changeImage(_ref6, photoData) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                commit = _ref6.commit;
+                _context5.next = 3;
+                return axios.put("/users/".concat(photoData.id), {
+                  photoData: photoData
+                }).then(function (response) {
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 3:
+                return _context5.abrupt("return", _context5.sent);
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   },

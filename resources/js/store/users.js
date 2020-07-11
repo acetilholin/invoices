@@ -1,5 +1,3 @@
-import auth from "./auth";
-
 export default {
     namespaced: true,
     state: {
@@ -50,7 +48,17 @@ export default {
         async changePassword({commit}, details) {
             return await axios.post(`/users/edit/password`, details)
                 .then((response) => {
-                    auth.mutations.SET_USER(response.data.user)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async changeImage({commit}, photoData) {
+            return await axios.put(`/users/${photoData.id}`, {
+                photoData
+            })
+                .then((response) => {
                     return response.data.success
                 })
                 .catch((e) => {
