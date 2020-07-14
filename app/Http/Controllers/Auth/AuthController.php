@@ -58,6 +58,7 @@ class AuthController extends Controller
 
         $userHelper = new UserHelper();
         $userHelper->lastSeen($user);
+        session()->put('uid', $user->id);
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -185,7 +186,8 @@ class AuthController extends Controller
             'id' => $user->id,
             'email' => $user->email,
             'username' => $user->username,
-            'picture' => $user->picture
+            'picture' => $user->picture,
+            'role' => $user->role
         ]);
     }
 

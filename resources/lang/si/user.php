@@ -8,5 +8,9 @@ return [
     'cannotChangeAdmin' => 'Skrbniku ni mogoče spreminjati nastavitev',
     'userDeleted' => 'Uporabnik izbrisan',
     'wrongOldPassword' => 'Trenutno geslo je napačno',
-    'passwordUpdated' => 'Geslo je spremenjeno'
+    'passwordUpdated' => 'Geslo je spremenjeno',
+    'cannotPerformOperation' => 'Operacija ni izvedljiva',
+    'notEnoughRights' => 'Nimate dovolj pravic',
+    'preventAutoDelete' => 'Ne morete se izbrisati',
+    'pictureUpdated' => 'Slika je posodobljena'
 ];

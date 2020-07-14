@@ -29,8 +29,8 @@
                             <q-input
                                 v-model="loginForm.email"
                                 label="Email"
-                                type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
+                                type="text"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -74,7 +74,7 @@
                                 v-model="registerForm.email"
                                 label="Email"
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -161,6 +161,10 @@
                loginAction: 'auth/login',
                registerAction: 'auth/register'
             }),
+            isValidEmail (val) {
+                const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+                return emailPattern.test(val) || 'Neveljaven email';
+            },
             showNotif(message, type) {
                 this.$q.notify({
                     message: message,

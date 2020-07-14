@@ -95,11 +95,13 @@ class UserController extends Controller
         $id = $request->id;
         $user = User::find($id);
 
-        if ($user->email == env('ADMIN')) {
-            return response()->json(['error' => trans('user.cannotChangeAdmin')], 401);
+        $userHelper = new UserHelper();
+        $status = $userHelper->checkPermissions('edit', $user);
+
+        if ($status) {
+            return response()->json(['error' => $status], 401);
         }
 
-        $userHelper = new UserHelper();
         $userHelper->editSingleAttr($request);
 
         $users = $this->index();
@@ -162,10 +164,25 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $id = $request->id;
-        $data = $request->photoData;
 
-        dd($request);
+    }
+
+    /**
+     * Update the specified photo in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function photo(Request $request)
+    {
+        $userHelper = new UserHelper();
+        $user = $userHelper->updatePhoto($request);
+
+        return response()->json([
+            'success' => trans('user.pictureUpdated'),
+            'user' => $user
+        ], 200);
     }
 
     /**
@@ -177,8 +194,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $id = $user->id;
-        if ($user->email == env('ADMIN')) {
-            return response()->json(['error' => trans('user.cannotDeleteAdmin')], 401);
+        $userHelper = new UserHelper();
+        $status = $userHelper->checkPermissions('delete', $user);
+
+        if ($status) {
+            return response()->json(['error' => $status], 401);
         }
 
         try {

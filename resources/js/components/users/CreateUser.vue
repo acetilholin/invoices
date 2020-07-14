@@ -1,7 +1,16 @@
 <template>
 <div class="create-user">
    <div class="text-center">
-       <q-btn push color="white" text-color="green" title="Nov uporabnik" @click="medium = true" round icon="person" />
+       <q-fab color="primary" glossy icon="keyboard_arrow_right" direction="right">
+           <q-fab-action external-label
+                         label-position="top"
+                         color="green"
+                         text-color="white"
+                         @click="medium = true"
+                         icon="person"
+                         label="Nov uporabnik"
+           />
+       </q-fab>
    </div>
    <q-dialog
        v-model="medium"
@@ -21,8 +30,8 @@
                    <q-input
                        v-model="user.email"
                        label="Email"
-                       type="email"
-                       :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
+                       type="text"
+                       :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
                    >
                        <template v-slot:prepend>
                            <q-icon name="alternate_email" />
@@ -76,6 +85,7 @@
         data() {
             return {
                 medium: false,
+                showUser: false,
                 user: {
                     email: '',
                     username: ''
@@ -90,12 +100,19 @@
             clearForm() {
                 this.user = {}
             },
+            isValidEmail (val) {
+                const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+                return emailPattern.test(val) || 'Neveljaven email';
+            },
             showNotif(message, type) {
                 this.$q.notify({
                     message: message,
                     position: 'top',
                     type: type
                 })
+            },
+            onClick() {
+
             },
             createNew() {
                 this.submitting = true
@@ -105,7 +122,7 @@
                         setTimeout(() => {
                             this.submitting = false
                             this.$refs.createModal.hide()
-                        }, 1500)
+                        }, 500)
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')
