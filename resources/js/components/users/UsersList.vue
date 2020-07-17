@@ -27,7 +27,9 @@
                         <span class="pointer" @click="adminUser(props.row.id, props.row.role)">{{ props.row.role | role }}</span>
                     </q-td>
                     <q-td key="picture" :props="props">
-                        <img :src="userImage(props.row.picture)" alt="" height="40px">
+                        <q-avatar size="40px">
+                            <img :src="userImage(props.row.picture)" alt="">
+                        </q-avatar>
                     </q-td>
                     <q-td key="online" :props="props">
                         <span class="text-green text-weight-bold" v-if="props.row.online">
@@ -174,7 +176,5 @@
 </script>
 
 <style scoped>
-    .pointer {
-        cursor: pointer;
-    }
+
 </style>

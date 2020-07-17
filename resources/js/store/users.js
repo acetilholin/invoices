@@ -44,6 +44,30 @@ export default {
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
+        },
+        async changePassword({commit}, details) {
+            return await axios.post(`/users/edit/password`, details)
+                .then((response) => {
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async changeImage({commit, dispatch}, photoData) {
+            const fData = new FormData()
+            fData.append('file', photoData.file)
+            fData.append('id', photoData.id)
+            return await axios.post('/users/photo', fData, {headers: {'Content-Type': 'multipart/form-data'}})
+                .then((response) => {
+                    let user = response.data.user
+                    commit('auth/SET_USER', user, {root: true})
+                    dispatch('usersAction')
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
         }
     },
     getters: {

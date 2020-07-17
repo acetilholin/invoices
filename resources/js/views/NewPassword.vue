@@ -30,7 +30,7 @@
                                 v-model="email"
                                 label="Email"
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -57,7 +57,7 @@
                                 v-model="newPass.email"
                                 label="Email"
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov']"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -149,6 +149,10 @@
                     type: type
                 })
             },
+            isValidEmail (val) {
+                const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+                return emailPattern.test(val) || 'Neveljaven email';
+            },
             sendEmail() {
                 this.sendResetEmail(this.email)
                 .then((response) => {
@@ -172,7 +176,7 @@
                 })
             },
             clearNewPassword() {
-                this.newPassword = {}
+                this.newPass = {}
             }
         }
     }

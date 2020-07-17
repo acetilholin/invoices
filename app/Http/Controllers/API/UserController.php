@@ -11,6 +11,7 @@ use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\NewUser;
 
 class UserController extends Controller
 {
@@ -59,9 +60,11 @@ class UserController extends Controller
             $password = Hash::make($notEncrypted);
 
             $userData['password'] = $password;
+            $userData['enabled'] = 1;
 
             try {
                 User::create($userData)->save();
+                \Mail::to($userData['email'])->send(new NewUser($userData['email'], $notEncrypted));
                 $users = $this->index();
                 return response()->json([
                     'success' => trans('user.userCreated'),
@@ -95,11 +98,13 @@ class UserController extends Controller
         $id = $request->id;
         $user = User::find($id);
 
-        if ($user->email == env('ADMIN')) {
-            return response()->json(['error' => trans('user.cannotChangeAdmin')], 401);
+        $userHelper = new UserHelper();
+        $status = $userHelper->checkPermissions('edit', $user);
+
+        if ($status) {
+            return response()->json(['error' => $status], 401);
         }
 
-        $userHelper = new UserHelper();
         $userHelper->editSingleAttr($request);
 
         $users = $this->index();
@@ -107,6 +112,50 @@ class UserController extends Controller
             'success' => trans('user.userDetailChanged'),
             'users' => $users
         ], 200);
+    }
+
+    /**
+     * Show the form for editing password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function newPassword(Request $request)
+    {
+        $id = $request->id;
+        $oldPassword = $request->password_old;
+        $password = $request->password;
+        $password_confirmation = $request->password_new;
+
+        $rules = array(
+            'password' => 'required|min:5',
+            'password_confirmation' => 'required|same:password'
+        );
+
+        $credentials = [
+            'password' => $password,
+            'password_confirmation' => $password_confirmation
+        ];
+
+        $validator = Validator::make($credentials, $rules, $this->messages());
+
+        if ($validator->fails()) {
+            $formatter = new MsgFormatterHelper();
+            $messages = $formatter->formatt($validator->errors()->all());
+            return response()->json(['error' => $messages], 401);
+        }
+
+        $userHelper = new UserHelper();
+        if (!$userHelper->checkPassword($id, $oldPassword)) {
+            return response()->json(['error' => trans('user.wrongOldPassword')], 401);
+        } else {
+            $userHelper->updatePassword($id, $password);
+            $user = User::find($id);
+            return response()->json([
+                'success' => trans('user.passwordUpdated'),
+                'user' => $user
+            ], 200);
+        }
     }
 
     /**
@@ -118,7 +167,25 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+
+    }
+
+    /**
+     * Update the specified photo in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function photo(Request $request)
+    {
+        $userHelper = new UserHelper();
+        $user = $userHelper->updatePhoto($request);
+
+        return response()->json([
+            'success' => trans('user.pictureUpdated'),
+            'user' => $user
+        ], 200);
     }
 
     /**
@@ -129,13 +196,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $id = $user->id;
-        if ($user->email == env('ADMIN')) {
-            return response()->json(['error' => trans('user.cannotDeleteAdmin')], 401);
+        $userHelper = new UserHelper();
+        $status = $userHelper->checkPermissions('delete', $user);
+
+        if ($status) {
+            return response()->json(['error' => $status], 401);
         }
 
         try {
-            User::where('id', $id)->delete();
+            $user->delete();
             $users = $this->index();
             return response()->json([
                 'success' => trans('user.userDeleted'),
@@ -154,7 +223,11 @@ class UserController extends Controller
             'email.email' => trans('loginRegister.emailFormat'),
             'username.required' => trans('loginRegister.usernameRequired'),
             'username.unique' => trans('loginRegister.usernameAlreadyInUse'),
-            'username.max' => trans('loginRegister.usernameMax')
+            'username.max' => trans('loginRegister.usernameMax'),
+            'password.required' => trans('loginRegister.passwordRequired'),
+            'password.min' => trans('loginRegister.passwordTooShort'),
+            'password_confirmation.same' => trans('loginRegister.passwordMissmatch'),
+            'password_confirmation.required' => trans('loginRegister.passConfirmationRequired'),
         ];
     }
 }

@@ -27,7 +27,6 @@ $factory->define(User::class, function (Faker $faker) {
         'enabled' => $faker->boolean,
         'role' => $faker->randomElement(['user', 'admin']),
         'picture' => 'default.png',
-        'force_password_reset' => $faker->boolean,
         'last_seen' => now(),
         'country' => 'si',
         'first_visit' => $faker->boolean,

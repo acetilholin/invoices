@@ -14,3 +14,7 @@
 .action-icon {
     font-size: 1.7rem;
 }
+
+.pointer {
+    cursor: pointer;
+}

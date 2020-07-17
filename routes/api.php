@@ -27,7 +27,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::resource('invoices', 'API\InvoicesController');
 
     Route::resource('users', 'API\UserController');
+
     Route::get('users/{id}/edit/{attr}/{data}','API\UserController@edit');
+    Route::post('users/edit/password','API\UserController@newPassword');
+    Route::post('users/photo','API\UserController@photo');
 });
 
 

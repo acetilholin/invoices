@@ -11,8 +11,8 @@
                     </span>
                 <span class="q-mr-md" v-if="currentUser">
                         <q-chip>
-                            <q-avatar>
-                              <img src="https://cdn.quasar.dev/img/avatar1.jpg">
+                            <q-avatar class="bg-white">
+                                <img :src="userImage(currentUser.picture)" @click="modal" class="pointer">
                             </q-avatar>
                               {{ currentUser.username }}
                         </q-chip>
@@ -20,38 +20,45 @@
                 <q-btn @click.prevent="signOut" outline color="white" label="Odjava" />
             </q-toolbar>
         </q-header>
+        <header-dialog :currentUser="currentUser"></header-dialog>
     </div>
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex";
+    import {mapGetters, mapActions} from "vuex";
+    import HeaderDialog from "./HeaderDialog";
 
     export default {
         name: "Header",
+        components: {
+          HeaderDialog
+        },
         computed: {
             ...mapGetters({
                 currentUser: 'auth/user',
                 authenticated: 'auth/authenticated',
                 drawer: 'general/getDrawer'
-            }),
-            currentPage() {
-                return this.$route.path
-            }
+            })
         },
         methods: {
             ...mapActions({
-                signoutAction: 'auth/logout',
-                drawerState: 'general/drawerAction'
-
+               signoutAction: 'auth/logout',
+               triggerModal: 'general/modalAction'
             }),
+            changeDrawerState() {
+                this.drawerState(!this.drawer)
+            },
+            userImage(img) {
+                return '/pictures/' + img
+            },
+            modal() {
+                this.triggerModal(true)
+            },
             signOut() {
                 this.signoutAction()
                     .then(() => {
                         this.$router.push('/login-register')
                     })
-            },
-            changeDrawerState() {
-                this.drawerState(!this.drawer)
             }
         }
     }
