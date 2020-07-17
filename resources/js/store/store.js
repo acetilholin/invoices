@@ -4,6 +4,7 @@ import auth from "./auth";
 import general from "./general";
 import invoices from "./invoices";
 import users from "./users";
+import customers from "./customers";
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
         auth,
         general,
         invoices,
-        users
+        users,
+        customers
     }
 })
 

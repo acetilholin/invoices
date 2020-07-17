@@ -141,6 +141,7 @@
                 }
                 this.changeDetail(details)
                     .then((response) => {
+                        this.showNotif
                         this.showNotif(response, 'positive')
                     })
                     .catch((e) => {
@@ -175,7 +176,6 @@
         created() {
             this.$store.dispatch('users/usersAction')
         },
-
         computed: {
             ...mapGetters({
                 users: 'users/getUsers'
