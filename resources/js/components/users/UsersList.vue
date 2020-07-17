@@ -6,7 +6,15 @@
             :data="users"
             :columns="columns"
             row-key="name"
+            :filter="filter"
         >
+            <template v-slot:top-right>
+                <q-input borderless dense debounce="300" v-model="filter" placeholder="Išči">
+                    <template v-slot:append>
+                        <q-icon name="search" />
+                    </template>
+                </q-input>
+            </template>
             <template v-slot:body="props">
                 <q-tr :props="props">
                     <q-td>
@@ -60,6 +68,7 @@
         name: "UsersList",
         data() {
             return {
+                filter: '',
                 columns: [
                     {
                         name: 'index',

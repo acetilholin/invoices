@@ -2933,9 +2933,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3067,12 +3064,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UsersList",
   data: function data() {
     return {
+      filter: '',
       columns: [{
         name: 'index',
         label: '#',
@@ -85356,11 +85362,10 @@ var render = function() {
                         "div",
                         [
                           _c("q-btn", {
-                            staticClass: "q-mt-md",
                             attrs: {
-                              type: "submit",
-                              loading: _vm.submitting,
                               label: "Ustvari",
+                              loading: _vm.submitting,
+                              type: "submit",
                               color: "green"
                             },
                             scopedSlots: _vm._u([
@@ -85456,9 +85461,42 @@ var render = function() {
           title: "Uporabniki",
           data: _vm.users,
           columns: _vm.columns,
-          "row-key": "name"
+          "row-key": "name",
+          filter: _vm.filter
         },
         scopedSlots: _vm._u([
+          {
+            key: "top-right",
+            fn: function() {
+              return [
+                _c("q-input", {
+                  attrs: {
+                    borderless: "",
+                    dense: "",
+                    debounce: "300",
+                    placeholder: "Išči"
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "append",
+                      fn: function() {
+                        return [_c("q-icon", { attrs: { name: "search" } })]
+                      },
+                      proxy: true
+                    }
+                  ]),
+                  model: {
+                    value: _vm.filter,
+                    callback: function($$v) {
+                      _vm.filter = $$v
+                    },
+                    expression: "filter"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          },
           {
             key: "body",
             fn: function(props) {
