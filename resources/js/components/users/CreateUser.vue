@@ -1,16 +1,7 @@
 <template>
 <div class="create-user">
    <div class="text-center">
-       <q-fab color="primary" glossy icon="keyboard_arrow_right" direction="right">
-           <q-fab-action external-label
-                         label-position="top"
-                         color="green"
-                         text-color="white"
-                         @click="medium = true"
-                         icon="person"
-                         label="Nov uporabnik"
-           />
-       </q-fab>
+        <create @triggerModal="modal"></create>
    </div>
    <q-dialog
        v-model="medium"
@@ -48,14 +39,11 @@
                            <q-icon name="person" />
                        </template>
                    </q-input>
-
                    <div>
-                       <q-btn
-                           type="submit"
-                           :loading="submitting"
-                           label="Ustvari"
-                           class="q-mt-md"
-                           color="green"
+                       <q-btn label="Ustvari"
+                              :loading="submitting"
+                              type="submit"
+                              color="green"
                        >
                            <template v-slot:loading>
                                <q-spinner-tail
@@ -79,6 +67,7 @@
 <script>
 
     import {mapActions} from 'vuex'
+    import Create from "../App/Create";
 
     export default {
         name: "CreateUser",
@@ -93,10 +82,16 @@
                 submitting: false
             }
         },
+        components: {
+            Create
+        },
         methods: {
             ...mapActions({
                addUser: 'users/addUser'
             }),
+            modal(param) {
+               this.medium = param
+            },
             clearForm() {
                 this.user = {}
             },
@@ -110,9 +105,6 @@
                     position: 'top',
                     type: type
                 })
-            },
-            onClick() {
-
             },
             createNew() {
                 this.submitting = true

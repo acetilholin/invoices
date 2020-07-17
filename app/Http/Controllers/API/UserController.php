@@ -11,6 +11,7 @@ use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\NewUser;
 
 class UserController extends Controller
 {
@@ -59,9 +60,11 @@ class UserController extends Controller
             $password = Hash::make($notEncrypted);
 
             $userData['password'] = $password;
+            $userData['enabled'] = 1;
 
             try {
                 User::create($userData)->save();
+                \Mail::to($userData['email'])->send(new NewUser($userData['email'], $notEncrypted));
                 $users = $this->index();
                 return response()->json([
                     'success' => trans('user.userCreated'),
@@ -193,7 +196,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $id = $user->id;
         $userHelper = new UserHelper();
         $status = $userHelper->checkPermissions('delete', $user);
 
@@ -202,7 +204,7 @@ class UserController extends Controller
         }
 
         try {
-            User::where('id', $id)->delete();
+            $user->delete();
             $users = $this->index();
             return response()->json([
                 'success' => trans('user.userDeleted'),

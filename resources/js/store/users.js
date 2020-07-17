@@ -54,7 +54,7 @@ export default {
                     throw (e.response.data.error);
                 })
         },
-        async changeImage({commit}, photoData) {
+        async changeImage({commit, dispatch}, photoData) {
             const fData = new FormData()
             fData.append('file', photoData.file)
             fData.append('id', photoData.id)
@@ -62,6 +62,7 @@ export default {
                 .then((response) => {
                     let user = response.data.user
                     commit('auth/SET_USER', user, {root: true})
+                    dispatch('usersAction')
                     return response.data.success
                 })
                 .catch((e) => {

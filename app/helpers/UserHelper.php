@@ -5,8 +5,6 @@ namespace App\helpers;
 
 use App\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class UserHelper
 {

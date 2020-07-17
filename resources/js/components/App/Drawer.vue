@@ -52,7 +52,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/website'}" name="public" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/website" class="text-subtitle1">Spletna stran</router-link>
+                        <router-link to="/website" class="text-subtitle1">Web stran</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
