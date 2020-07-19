@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Customer;
 use App\Http\Controllers\Controller;
+use App\Post;
 use Illuminate\Http\Request;
-use App\Http\Resources\CustomersResource;
 
-class CustomerController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return CustomersResource::collection(Customer::all());
+        $posts = Post::all();
+        return response()->json([
+            'posts' => $posts
+        ], 200);
     }
 
     /**
@@ -43,10 +45,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Customer  $customer
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Post $post)
     {
         //
     }
@@ -54,10 +56,10 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Customer  $customer
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Post $post)
     {
         //
     }
@@ -66,10 +68,10 @@ class CustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Customer  $customer
+     * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -77,16 +79,11 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \App\Post  $post
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Post $post)
     {
-        $customer->delete();
-        $customers = $this->index();
-        return response()->json([
-            'success' => trans('customer.customerDeleted'),
-            'customers' => $customers
-        ], 200);
+        //
     }
 }

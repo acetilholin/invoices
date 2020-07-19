@@ -33,6 +33,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('users/photo','API\UserController@photo');
 
     Route::resource('customers', 'API\CustomerController');
+    Route::resource('posts', 'API\PostController');
 });
 
 

@@ -2494,6 +2494,124 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _App_Create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../App/Create */ "./resources/js/components/App/Create.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2525,16 +2643,51 @@ __webpack_require__.r(__webpack_exports__);
   name: "CreateCustomer",
   data: function data() {
     return {
-      medium: false
+      medium: false,
+      customer: {
+        company: '',
+        fullname: '',
+        street: '',
+        post: null,
+        telephone: '',
+        email: '',
+        sklic: '',
+        id_ddv: ''
+      },
+      options: this.posts
     };
   },
   components: {
     Create: _App_Create__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    posts: 'general/getPosts'
+  })),
+  created: function created() {
+    this.$store.dispatch('general/postAction');
+  },
   methods: {
     modal: function modal(param) {
       this.medium = param;
-    }
+    },
+    filterInput: function filterInput(val, update, abort) {
+      var _this = this;
+
+      update(function () {
+        var needle = val.toLowerCase();
+        _this.options = _this.posts.filter(function (v) {
+          return v.posta.toLowerCase().indexOf(needle) > -1;
+        });
+      });
+    },
+    isValidEmail: function isValidEmail(val) {
+      var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+      return emailPattern.test(val) || 'Neveljaven email';
+    },
+    onReset: function onReset() {
+      this.customer = {};
+    },
+    onSubmit: function onSubmit() {}
   }
 });
 
@@ -85029,13 +85182,359 @@ var render = function() {
         [
           _c(
             "q-card",
-            { staticStyle: { width: "700px", "max-width": "80vw" } },
+            { staticStyle: { width: "750px", "max-width": "85vw" } },
             [
               _c("q-card-section", [
                 _c("div", { staticClass: "text-h6" }, [_vm._v("Nova stranka")])
               ]),
               _vm._v(" "),
-              _c("q-card-section", { staticClass: "q-pt-none" }),
+              _c(
+                "q-card-section",
+                { staticClass: "q-pt-none" },
+                [
+                  _c(
+                    "q-form",
+                    {
+                      staticClass: "q-gutter-md",
+                      on: { submit: _vm.onSubmit, reset: _vm.onReset }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-6 input-margin",
+                            attrs: {
+                              label: "Naziv/podjetje",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite naziv/podjetje"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "business_center" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.company,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "company", $$v)
+                              },
+                              expression: "customer.company"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-5 input-margin",
+                            attrs: {
+                              label: "Ime in priimek",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite ime in priimek"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "person" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.fullname,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "fullname", $$v)
+                              },
+                              expression: "customer.fullname"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              label: "Kraj/ulica",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite kraj/ulica"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "add_location" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.street,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "street", $$v)
+                              },
+                              expression: "customer.street"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-select", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              "use-input": "",
+                              "hide-selected": "",
+                              "fill-input": "",
+                              "input-debounce": "0",
+                              label: "Pošta",
+                              options: _vm.options,
+                              "option-label": "posta",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return !!val || "Vnesite pošto"
+                                }
+                              ],
+                              "map-options": ""
+                            },
+                            on: { filter: _vm.filterInput },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "mail_outline" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.post,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "post", $$v)
+                              },
+                              expression: "customer.post"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-3 input-margin",
+                            attrs: {
+                              label: "Telefon",
+                              mask: "###-###-###",
+                              hint: "Maska: 031-123-456",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) || "Vnesite telefon"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "phone" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.telephone,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "telephone", $$v)
+                              },
+                              expression: "customer.telephone"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              label: "Email",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite email naslov"
+                                  )
+                                },
+                                _vm.isValidEmail
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "alternate_email" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "email", $$v)
+                              },
+                              expression: "customer.email"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              label: "Sklic št.",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite sklic št."
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "work" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.sklic,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "sklic", $$v)
+                              },
+                              expression: "customer.sklic"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-3 input-margin",
+                            attrs: {
+                              label: "ID za DDV",
+                              mask: "SI########",
+                              hint: "Maska: SI12345678",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite ID za DDV"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "work" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.id_ddv,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "id_ddv", $$v)
+                              },
+                              expression: "customer.id_ddv"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("q-btn", {
+                            attrs: {
+                              label: "Ustvari",
+                              type: "submit",
+                              color: "green"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-btn", {
+                            staticClass: "q-ml-sm",
+                            attrs: {
+                              label: "Počisti",
+                              type: "reset",
+                              color: "primary",
+                              flat: ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "q-card-actions",
@@ -109358,11 +109857,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
     drawer: true,
-    persistent: false
+    persistent: false,
+    posts: []
   },
   mutations: {
     CHANGE_DRAWER: function CHANGE_DRAWER(state, payload) {
@@ -109370,6 +109878,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     CHANGE_DIALOG: function CHANGE_DIALOG(state, payload) {
       state.persistent = payload;
+    },
+    SET_POSTS: function SET_POSTS(state, payload) {
+      state.posts = payload;
     }
   },
   actions: {
@@ -109380,6 +109891,26 @@ __webpack_require__.r(__webpack_exports__);
     modalAction: function modalAction(_ref2, dialogState) {
       var commit = _ref2.commit;
       commit('CHANGE_DIALOG', dialogState);
+    },
+    postAction: function postAction(_ref3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref3.commit;
+                axios.get('/posts').then(function (response) {
+                  commit('SET_POSTS', response.data.posts);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   getters: {
@@ -109388,6 +109919,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getDialog: function getDialog(state) {
       return state.persistent;
+    },
+    getPosts: function getPosts(state) {
+      return state.posts;
     }
   }
 });
