@@ -20,24 +20,13 @@
                         <div class="row">
                             <q-input
                                 v-model="customer.company"
-                                label="Naziv/podjetje"
-                                class="col-6 input-margin"
+                                label="Podjetje / ime in priimek"
+                                class="col-12"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite naziv/podjetje']"
+                                :rules="[ val => val && val.length > 0 || 'Vnesite podjetje / ime priimek']"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="business_center" />
-                                </template>
-                            </q-input>
-                            <q-input
-                                v-model="customer.fullname"
-                                label="Ime in priimek"
-                                class="col-5 input-margin"
-                                type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite ime in priimek']"
-                            >
-                                <template v-slot:prepend>
-                                    <q-icon name="person" />
                                 </template>
                             </q-input>
                         </div>
@@ -45,7 +34,7 @@
                             <q-input
                                 v-model="customer.street"
                                 label="Kraj/ulica"
-                                class="col-4 input-margin"
+                                class="col-6 input-margin"
                                 type="text"
                                 :rules="[ val => val && val.length > 0 || 'Vnesite kraj/ulica']"
                             >
@@ -72,18 +61,6 @@
                                     <q-icon name="mail_outline" />
                                 </template>
                             </q-select>
-                            <q-input
-                                v-model="customer.telephone"
-                                label="Telefon"
-                                class="col-3 input-margin"
-                                mask="###-###-###"
-                                hint="Maska: 031-123-456"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite telefon']"
-                            >
-                                <template v-slot:prepend>
-                                    <q-icon name="phone" />
-                                </template>
-                            </q-input>
                         </div>
                         <div class="row">
                             <q-input
@@ -91,21 +68,21 @@
                                 label="Email"
                                 class="col-4 input-margin"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                                :rules="[isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
                                 </template>
                             </q-input>
                             <q-input
-                                v-model="customer.sklic"
-                                label="Sklic št."
-                                class="col-4 input-margin"
-                                type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite sklic št.']"
+                                v-model="customer.telephone"
+                                label="Telefon"
+                                class="col-3 input-margin"
+                                mask="###-###-###"
+                                hint="Maska: 031-123-456"
                             >
                                 <template v-slot:prepend>
-                                    <q-icon name="work" />
+                                    <q-icon name="phone" />
                                 </template>
                             </q-input>
                             <q-input
@@ -114,7 +91,18 @@
                                 class="col-3 input-margin"
                                 mask="SI########"
                                 hint="Maska: SI12345678"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite ID za DDV']"
+                            >
+                                <template v-slot:prepend>
+                                    <q-icon name="work" />
+                                </template>
+                            </q-input>
+                        </div>
+                        <div class="row">
+                            <q-input
+                                v-model="customer.sklic"
+                                label="Sklic št."
+                                class="col-4 input-margin"
+                                type="text"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="work" />
@@ -137,7 +125,7 @@
 
 <script>
 
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import Create from "../App/Create";
 
     export default {
@@ -147,7 +135,6 @@
                 medium: false,
                 customer: {
                     company: '',
-                    fullname: '',
                     street: '',
                     post: null,
                     telephone: '',
@@ -170,6 +157,9 @@
             this.$store.dispatch('general/postAction')
         },
         methods: {
+            ...mapActions({
+               createCustomer: 'customers/create'
+            }),
             modal(param) {
                 this.medium = param
             },
@@ -189,7 +179,7 @@
                 this.customer = {}
             },
             onSubmit() {
-
+                this.createCustomer(this.customer)
             }
         }
 

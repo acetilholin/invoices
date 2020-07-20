@@ -174,7 +174,7 @@
             }
         },
         created() {
-            this.$store.dispatch('users/usersAction')
+            this.$store.dispatch('users/all')
         },
         computed: {
             ...mapGetters({

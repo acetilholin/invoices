@@ -2625,18 +2625,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2646,7 +2634,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       medium: false,
       customer: {
         company: '',
-        fullname: '',
         street: '',
         post: null,
         telephone: '',
@@ -2666,7 +2653,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.$store.dispatch('general/postAction');
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    createCustomer: 'customers/create'
+  })), {}, {
     modal: function modal(param) {
       this.medium = param;
     },
@@ -2687,8 +2676,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     onReset: function onReset() {
       this.customer = {};
     },
-    onSubmit: function onSubmit() {}
-  }
+    onSubmit: function onSubmit() {
+      this.createCustomer(this.customer);
+    }
+  })
 });
 
 /***/ }),
@@ -2785,11 +2776,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         label: '#',
         align: 'center'
       }, {
-        name: 'ime_priimek',
+        name: 'naziv_partnerja',
         required: true,
-        label: 'Ime in priimek',
+        label: 'Podjetje/ime in priimek',
         align: 'center',
-        field: 'ime_priimek',
+        field: 'naziv_partnerja',
         format: function format(val) {
           return "".concat(val);
         },
@@ -2820,7 +2811,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     CreateCustomer: _CreateCustomer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
-    this.$store.dispatch('customers/customersAction');
+    this.$store.dispatch('customers/all');
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     customers: 'customers/getCustomers'
@@ -3589,7 +3580,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   created: function created() {
-    this.$store.dispatch('users/usersAction');
+    this.$store.dispatch('users/all');
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     users: 'users/getUsers'
@@ -85204,15 +85195,15 @@ var render = function() {
                         { staticClass: "row" },
                         [
                           _c("q-input", {
-                            staticClass: "col-6 input-margin",
+                            staticClass: "col-12",
                             attrs: {
-                              label: "Naziv/podjetje",
+                              label: "Podjetje / ime in priimek",
                               type: "text",
                               rules: [
                                 function(val) {
                                   return (
                                     (val && val.length > 0) ||
-                                    "Vnesite naziv/podjetje"
+                                    "Vnesite podjetje / ime priimek"
                                   )
                                 }
                               ]
@@ -85237,40 +85228,6 @@ var render = function() {
                               },
                               expression: "customer.company"
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("q-input", {
-                            staticClass: "col-5 input-margin",
-                            attrs: {
-                              label: "Ime in priimek",
-                              type: "text",
-                              rules: [
-                                function(val) {
-                                  return (
-                                    (val && val.length > 0) ||
-                                    "Vnesite ime in priimek"
-                                  )
-                                }
-                              ]
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "prepend",
-                                fn: function() {
-                                  return [
-                                    _c("q-icon", { attrs: { name: "person" } })
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ]),
-                            model: {
-                              value: _vm.customer.fullname,
-                              callback: function($$v) {
-                                _vm.$set(_vm.customer, "fullname", $$v)
-                              },
-                              expression: "customer.fullname"
-                            }
                           })
                         ],
                         1
@@ -85281,7 +85238,7 @@ var render = function() {
                         { staticClass: "row" },
                         [
                           _c("q-input", {
-                            staticClass: "col-4 input-margin",
+                            staticClass: "col-6 input-margin",
                             attrs: {
                               label: "Kraj/ulica",
                               type: "text",
@@ -85355,40 +85312,6 @@ var render = function() {
                               },
                               expression: "customer.post"
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("q-input", {
-                            staticClass: "col-3 input-margin",
-                            attrs: {
-                              label: "Telefon",
-                              mask: "###-###-###",
-                              hint: "Maska: 031-123-456",
-                              rules: [
-                                function(val) {
-                                  return (
-                                    (val && val.length > 0) || "Vnesite telefon"
-                                  )
-                                }
-                              ]
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "prepend",
-                                fn: function() {
-                                  return [
-                                    _c("q-icon", { attrs: { name: "phone" } })
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ]),
-                            model: {
-                              value: _vm.customer.telephone,
-                              callback: function($$v) {
-                                _vm.$set(_vm.customer, "telephone", $$v)
-                              },
-                              expression: "customer.telephone"
-                            }
                           })
                         ],
                         1
@@ -85403,15 +85326,7 @@ var render = function() {
                             attrs: {
                               label: "Email",
                               type: "text",
-                              rules: [
-                                function(val) {
-                                  return (
-                                    (val && val.length > 0) ||
-                                    "Vnesite email naslov"
-                                  )
-                                },
-                                _vm.isValidEmail
-                              ]
+                              rules: [_vm.isValidEmail]
                             },
                             scopedSlots: _vm._u([
                               {
@@ -85436,36 +85351,29 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("q-input", {
-                            staticClass: "col-4 input-margin",
+                            staticClass: "col-3 input-margin",
                             attrs: {
-                              label: "Sklic št.",
-                              type: "text",
-                              rules: [
-                                function(val) {
-                                  return (
-                                    (val && val.length > 0) ||
-                                    "Vnesite sklic št."
-                                  )
-                                }
-                              ]
+                              label: "Telefon",
+                              mask: "###-###-###",
+                              hint: "Maska: 031-123-456"
                             },
                             scopedSlots: _vm._u([
                               {
                                 key: "prepend",
                                 fn: function() {
                                   return [
-                                    _c("q-icon", { attrs: { name: "work" } })
+                                    _c("q-icon", { attrs: { name: "phone" } })
                                   ]
                                 },
                                 proxy: true
                               }
                             ]),
                             model: {
-                              value: _vm.customer.sklic,
+                              value: _vm.customer.telephone,
                               callback: function($$v) {
-                                _vm.$set(_vm.customer, "sklic", $$v)
+                                _vm.$set(_vm.customer, "telephone", $$v)
                               },
-                              expression: "customer.sklic"
+                              expression: "customer.telephone"
                             }
                           }),
                           _vm._v(" "),
@@ -85474,15 +85382,7 @@ var render = function() {
                             attrs: {
                               label: "ID za DDV",
                               mask: "SI########",
-                              hint: "Maska: SI12345678",
-                              rules: [
-                                function(val) {
-                                  return (
-                                    (val && val.length > 0) ||
-                                    "Vnesite ID za DDV"
-                                  )
-                                }
-                              ]
+                              hint: "Maska: SI12345678"
                             },
                             scopedSlots: _vm._u([
                               {
@@ -85501,6 +85401,36 @@ var render = function() {
                                 _vm.$set(_vm.customer, "id_ddv", $$v)
                               },
                               expression: "customer.id_ddv"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: { label: "Sklic št.", type: "text" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "work" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.sklic,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "sklic", $$v)
+                              },
+                              expression: "customer.sklic"
                             }
                           })
                         ],
@@ -85655,11 +85585,11 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "q-td",
-                      { key: "ime_priimek", attrs: { props: props } },
+                      { key: "naziv_partnerja", attrs: { props: props } },
                       [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(props.row.ime_priimek) +
+                            _vm._s(props.row.naziv_partnerja) +
                             "\n                "
                         )
                       ]
@@ -109805,7 +109735,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   actions: {
-    customersAction: function customersAction(_ref) {
+    all: function all(_ref) {
       var commit = _ref.commit;
       axios.get('/customers').then(function (response) {
         commit('SET_CUSTOMERS', response.data.data);
@@ -109836,6 +109766,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee);
+      }))();
+    },
+    create: function create(_ref3, customer) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var commit, newCustomer;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref3.commit;
+                newCustomer = {
+                  'naziv_partnerja': customer.company,
+                  'kraj_ulica': customer.street,
+                  'posta': customer.post.posta,
+                  'email': customer.email,
+                  'telefon': customer.telephone,
+                  'id_ddv': customer.id_ddv,
+                  'sklic_st': customer.sklic
+                };
+                _context2.next = 4;
+                return axios.post('/customers', newCustomer).then(function (response) {
+                  commit('SET_CUSTOMERS', response.data.customers);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 4:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     }
   },
@@ -110061,7 +110027,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   actions: {
-    usersAction: function usersAction(_ref) {
+    all: function all(_ref) {
       var commit = _ref.commit;
       axios.get('/users').then(function (response) {
         commit('SET_USERS', response.data.data);
@@ -110195,7 +110161,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   commit('auth/SET_USER', user, {
                     root: true
                   });
-                  dispatch('usersAction');
+                  dispatch('all');
                   return response.data.success;
                 })["catch"](function (e) {
                   throw e.response.data.error;

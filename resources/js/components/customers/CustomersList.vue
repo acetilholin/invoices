@@ -21,8 +21,8 @@
                     <q-td>
                         {{ tableIndex(props.row) }}
                     </q-td>
-                    <q-td key="ime_priimek" :props="props">
-                        {{ props.row.ime_priimek }}
+                    <q-td key="naziv_partnerja" :props="props">
+                        {{ props.row.naziv_partnerja }}
                     </q-td>
                     <q-td key="kraj_ulica" :props="props">
                         {{ props.row.kraj_ulica }}
@@ -78,11 +78,11 @@
                       align: 'center'
                   },
                   {
-                      name: 'ime_priimek',
+                      name: 'naziv_partnerja',
                       required: true,
-                      label: 'Ime in priimek',
+                      label: 'Podjetje/ime in priimek',
                       align: 'center',
-                      field: 'ime_priimek',
+                      field: 'naziv_partnerja',
                       format: val => `${val}`,
                       sortable: true
                   },
@@ -97,7 +97,7 @@
             CreateCustomer
         },
         created() {
-            this.$store.dispatch('customers/customersAction')
+            this.$store.dispatch('customers/all')
         },
         computed: {
             ...mapGetters({
