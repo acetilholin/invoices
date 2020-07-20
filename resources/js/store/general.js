@@ -3,7 +3,7 @@ export default {
     state: {
         drawer: true,
         persistent: false,
-        posts: []
+        editModal: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -12,8 +12,8 @@ export default {
         CHANGE_DIALOG(state, payload) {
             state.persistent = payload
         },
-        SET_POSTS(state, payload) {
-            state.posts = payload
+        CHANGE_EDIT_DIALOG(state, payload) {
+            state.editModal = payload
         }
     },
     actions: {
@@ -23,11 +23,8 @@ export default {
         modalAction({commit}, dialogState) {
             commit('CHANGE_DIALOG', dialogState)
         },
-        async postAction({commit}) {
-            axios.get('/posts')
-                .then(response => {
-                   commit('SET_POSTS', response.data.posts)
-                })
+        editCustomerModal({commit}, modal) {
+            commit('CHANGE_EDIT_DIALOG', modal)
         }
     },
     getters: {
@@ -37,8 +34,8 @@ export default {
         getDialog(state) {
             return state.persistent
         },
-        getPosts(state) {
-            return state.posts
+        getEditModal(state) {
+            return state.editModal
         }
     }
 }

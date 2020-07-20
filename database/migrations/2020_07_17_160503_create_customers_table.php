@@ -18,7 +18,7 @@ class CreateCustomersTable extends Migration
             $table->string('naziv_partnerja');
             $table->string('kraj_ulica');
             $table->string('posta');
-            $table->string('telefon');
+            $table->string('telefon')->nullable();;
             $table->string('sklic_st')->nullable();
             $table->string('id_ddv')->nullable();
             $table->string('email')->nullable();

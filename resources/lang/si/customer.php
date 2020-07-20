@@ -6,5 +6,6 @@ return [
     'nazivPartnerjaMax' => 'Naziv je daljši od :max znakov',
     'postRequired' => 'Posta je obvezna',
     'streetRequired' => 'Ulica je obvezna',
-    'telephoneRegex' => 'Telefon je napačnega formata'
+    'customerCreated' => 'Stranka je ustvarjena',
+    'companyExists' => 'Podjetje/oseba že obstaja'
 ];

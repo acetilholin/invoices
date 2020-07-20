@@ -41,12 +41,12 @@
                             <q-list>
                                 <q-item clickable v-close-popup @click="removeCustomer(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="delete_outline" class="pointer text-red action-icon"></q-icon></q-item-label>
+                                        <q-item-label><q-icon name="delete_outline" class="pointer text-red action-icon"></q-icon> Izbriši</q-item-label>
                                     </q-item-section>
                                 </q-item>
-                                <q-item clickable v-close-popup @click="editUser(props.row.id)">
+                                <q-item clickable v-close-popup @click="editCustomer(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon></q-item-label>
+                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -55,18 +55,22 @@
                 </q-tr>
             </template>
         </q-table>
+        <edit-customer></edit-customer>
     </div>
 </template>
 
 <script>
 
     import CreateCustomer from "./CreateCustomer";
+    import EditCustomer from "./EditCustomer";
     import {mapGetters, mapActions} from "vuex";
 
     export default {
         name: "CustomersList",
         data() {
           return {
+              id: null,
+              customer: [],
               pagination: {
                   rowsPerPage: 30
               },
@@ -94,7 +98,8 @@
           }
         },
         components: {
-            CreateCustomer
+            CreateCustomer,
+            EditCustomer
         },
         created() {
             this.$store.dispatch('customers/all')
@@ -126,6 +131,10 @@
                     .catch((e) => {
                         this.showNotif(e, 'negative')
                     })
+            },
+            editCustomer(id) {
+                this.$store.dispatch('general/editCustomerModal', true)
+                this.$store.dispatch('customers/show', id)
             }
         }
     }

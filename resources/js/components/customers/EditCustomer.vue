@@ -1,25 +1,22 @@
 <template>
-    <div class="create-customer">
-        <div class="text-center">
-            <create @triggerModal="modal"></create>
-        </div>
+    <div>
         <q-dialog
-            v-model="medium"
+            v-model="editDialog"
         >
-            <q-card style="width: 750px; max-width: 85vw;">
+            <q-card style="width: 700px; max-width: 80vw;">
                 <q-card-section>
-                    <div class="text-h6">Nova stranka</div>
+                    <div class="text-h6">Uredi stranko</div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
                     <q-form
-                        @submit="createNew"
+                        @submit="edit"
                         @reset="onReset"
                         class="q-gutter-md"
                     >
                         <div class="row">
                             <q-input
-                                v-model="customer.company"
+                                v-model="customer.naziv_partnerja"
                                 label="Podjetje / ime in priimek"
                                 class="col-12"
                                 type="text"
@@ -32,7 +29,7 @@
                         </div>
                         <div class="row">
                             <q-input
-                                v-model="customer.street"
+                                v-model="customer.kraj_ulica"
                                 label="Kraj/ulica"
                                 class="col-6 input-margin"
                                 type="text"
@@ -43,7 +40,7 @@
                                 </template>
                             </q-input>
                             <q-select
-                                v-model="customer.post"
+                                v-model="customer.posta"
                                 use-input
                                 hide-selected
                                 fill-input
@@ -68,14 +65,13 @@
                                 label="Email"
                                 class="col-4 input-margin"
                                 type="text"
-                                :rules="[isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
                                 </template>
                             </q-input>
                             <q-input
-                                v-model="customer.telephone"
+                                v-model="customer.telefon"
                                 label="Telefon"
                                 class="col-3 input-margin"
                                 mask="###-###-###"
@@ -99,7 +95,7 @@
                         </div>
                         <div class="row">
                             <q-input
-                                v-model="customer.sklic"
+                                v-model="customer.sklic_st"
                                 label="Sklic št."
                                 class="col-4 input-margin"
                                 type="text"
@@ -125,8 +121,9 @@
                         </div>
                     </q-form>
                 </q-card-section>
+
                 <q-card-actions align="right" class="bg-white text-teal">
-                    <q-btn flat label="ZAPRI" v-close-popup />
+                    <q-btn flat label="ZAPRI" @click="closeDialog" />
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -136,43 +133,27 @@
 <script>
 
     import {mapGetters, mapActions} from 'vuex'
-    import Create from "../App/Create";
 
     export default {
-        name: "CreateCustomer",
+        name: "EditCustomer",
         data() {
             return {
                 submitting: false,
-                medium: false,
-                customer: {
-                    company: '',
-                    street: '',
-                    post: null,
-                    telephone: '',
-                    email: '',
-                    sklic: '',
-                    id_ddv: ''
-                },
                 options: this.posts
             }
         },
-        components: {
-            Create
-        },
-        computed: {
-          ...mapGetters({
-              posts: 'post/getPosts'
-          })
-        },
-        created() {
-            this.$store.dispatch('post/postAction')
-        },
         methods: {
             ...mapActions({
-               createCustomer: 'customers/create'
+                closeEditDialog: 'general/editCustomerModal'
             }),
-            modal(param) {
-                this.medium = param
+            closeDialog() {
+                this.closeEditDialog(false)
+            },
+            isValidEmail(val) {
+                if (val.length > 0) {
+                    const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+                    return emailPattern.test(val) || 'Neveljaven email';
+                }
             },
             filterInput (val, update, abort) {
                 update(() => {
@@ -181,12 +162,6 @@
                         v => v.posta.toLowerCase().indexOf(needle) > -1
                     )
                 })
-            },
-            isValidEmail(val) {
-                if (val.length > 0) {
-                    const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-                    return emailPattern.test(val) || 'Neveljaven email';
-                }
             },
             onReset() {
                 this.customer = {}
@@ -198,21 +173,17 @@
                     type: type
                 })
             },
-            createNew() {
-                this.createCustomer(this.customer)
-                    .then((response) => {
-                        this.showNotif(response, 'positive')
-                          setTimeout(() => {
-                              this.submitting = false
-                          }, 500)
-                    })
-                    .catch((e) => {
-                        this.showNotif(e, 'negative')
-                        this.submitting = false
-                    })
-            }
-        }
+            edit() {
 
+            }
+        },
+        computed: {
+            ...mapGetters({
+                editDialog: 'general/getEditModal',
+                customer: 'customers/getCustomer',
+                posts: 'post/getPosts'
+            })
+        }
     }
 </script>
 

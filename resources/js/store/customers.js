@@ -1,11 +1,15 @@
 export default {
     namespaced: true,
     state: {
-        customers: []
+        customers: [],
+        currentCustomer: []
     },
     mutations: {
         SET_CUSTOMERS(state, payload) {
             state.customers = payload
+        },
+        SET_CURRENT_CUSTOMER(state, payload) {
+            state.currentCustomer = payload
         }
     },
     actions: {
@@ -43,11 +47,20 @@ export default {
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
+        },
+        show({commit}, id) {
+            axios.get(`/customers/${id}`)
+                .then((response) => {
+                    commit('SET_CURRENT_CUSTOMER', response.data.customer)
+                })
         }
     },
     getters: {
         getCustomers(state) {
             return state.customers
+        },
+        getCustomer(state) {
+            return state.currentCustomer
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Customer;
+use App\helpers\MsgFormatterHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\CustomersResource;
@@ -34,33 +35,44 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $rules = array(
             'naziv_partnerja' => 'required|max:120',
-            'email' => 'required|email:rfc,dns',
             'posta' => 'required',
-            'kraj_ulica' => 'required',
-            'telefon' => 'regex:/^\d{3}-\d{3}-\d{3}$/'
+            'kraj_ulica' => 'required|unique_with:customers,naziv_partnerja,posta'
         );
 
         $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
         $validator = Validator::make($customerData, $rules, $this->messages());
 
+        if ($validator->fails()) {
+            $formatter = new MsgFormatterHelper();
+            $messages = $formatter->formatt($validator->errors()->all());
+            return response()->json(['error' => $messages], 401);
+        }
+
         Customer::create($customerData)->save();
+        $customers = Customer::all();
+        return response()->json([
+            'success' => trans('customer.customerCreated'),
+            'customers' => $customers
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Customer $customer)
     {
-        //
+        return response()->json([
+            'customer' => $customer->getAttributes()
+        ]);
     }
 
     /**
@@ -107,11 +119,9 @@ class CustomerController extends Controller
         return [
             'naziv_partnerja.required' => trans('customer.nazivRequired'),
             'naziv_partnerja.max' => trans('customer.nazivPartnerjaMax'),
-            'email.required' => trans('loginRegister.emailRequired'),
-            'email.email' => trans('loginRegister.emailFormat'),
             'posta.required' => trans('customer.postRequired'),
             'kraj_ulica.required' => trans('customer.streetRequired'),
-            'telefon.regex' => trans('customer.telephoneRegex')
+            'kraj_ulica.unique_with' => trans('customer.companyExists')
         ];
     }
 }

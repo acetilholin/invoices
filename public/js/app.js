@@ -2625,12 +2625,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateCustomer",
   data: function data() {
     return {
+      submitting: false,
       medium: false,
       customer: {
         company: '',
@@ -2648,10 +2659,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Create: _App_Create__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    posts: 'general/getPosts'
+    posts: 'post/getPosts'
   })),
   created: function created() {
-    this.$store.dispatch('general/postAction');
+    this.$store.dispatch('post/postAction');
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     createCustomer: 'customers/create'
@@ -2670,14 +2681,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     isValidEmail: function isValidEmail(val) {
-      var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-      return emailPattern.test(val) || 'Neveljaven email';
+      if (val.length > 0) {
+        var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+        return emailPattern.test(val) || 'Neveljaven email';
+      }
     },
     onReset: function onReset() {
       this.customer = {};
     },
-    onSubmit: function onSubmit() {
-      this.createCustomer(this.customer);
+    showNotif: function showNotif(message, type) {
+      this.$q.notify({
+        message: message,
+        position: 'top',
+        type: type
+      });
+    },
+    createNew: function createNew() {
+      var _this2 = this;
+
+      this.createCustomer(this.customer).then(function (response) {
+        _this2.showNotif(response, 'positive');
+
+        setTimeout(function () {
+          _this2.submitting = false;
+        }, 500);
+      })["catch"](function (e) {
+        _this2.showNotif(e, 'negative');
+
+        _this2.submitting = false;
+      });
     }
   })
 });
@@ -2694,7 +2726,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CreateCustomer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreateCustomer */ "./resources/js/components/customers/CreateCustomer.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _EditCustomer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditCustomer */ "./resources/js/components/customers/EditCustomer.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2761,12 +2794,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CustomersList",
   data: function data() {
     return {
+      id: null,
+      customer: [],
       pagination: {
         rowsPerPage: 30
       },
@@ -2808,15 +2845,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   components: {
-    CreateCustomer: _CreateCustomer__WEBPACK_IMPORTED_MODULE_0__["default"]
+    CreateCustomer: _CreateCustomer__WEBPACK_IMPORTED_MODULE_0__["default"],
+    EditCustomer: _EditCustomer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   created: function created() {
     this.$store.dispatch('customers/all');
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
     customers: 'customers/getCustomers'
   })),
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])({
     remove: 'customers/remove'
   })), {}, {
     showNotif: function showNotif(message, type) {
@@ -2837,8 +2875,212 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (e) {
         _this.showNotif(e, 'negative');
       });
+    },
+    editCustomer: function editCustomer(id) {
+      this.$store.dispatch('general/editCustomerModal', true);
+      this.$store.dispatch('customers/show', id);
     }
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "EditCustomer",
+  data: function data() {
+    return {
+      submitting: false,
+      options: this.posts
+    };
+  },
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    closeEditDialog: 'general/editCustomerModal'
+  })), {}, {
+    closeDialog: function closeDialog() {
+      this.closeEditDialog(false);
+    },
+    isValidEmail: function isValidEmail(val) {
+      if (val.length > 0) {
+        var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+        return emailPattern.test(val) || 'Neveljaven email';
+      }
+    },
+    filterInput: function filterInput(val, update, abort) {
+      var _this = this;
+
+      update(function () {
+        var needle = val.toLowerCase();
+        _this.options = _this.posts.filter(function (v) {
+          return v.posta.toLowerCase().indexOf(needle) > -1;
+        });
+      });
+    },
+    onReset: function onReset() {
+      this.customer = {};
+    },
+    showNotif: function showNotif(message, type) {
+      this.$q.notify({
+        message: message,
+        position: 'top',
+        type: type
+      });
+    },
+    edit: function edit() {}
+  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    editDialog: 'general/getEditModal',
+    customer: 'customers/getCustomer',
+    posts: 'post/getPosts'
+  }))
 });
 
 /***/ }),
@@ -85187,7 +85429,7 @@ var render = function() {
                     "q-form",
                     {
                       staticClass: "q-gutter-md",
-                      on: { submit: _vm.onSubmit, reset: _vm.onReset }
+                      on: { submit: _vm.createNew, reset: _vm.onReset }
                     },
                     [
                       _c(
@@ -85355,7 +85597,7 @@ var render = function() {
                             attrs: {
                               label: "Telefon",
                               mask: "###-###-###",
-                              hint: "Maska: 031-123-456"
+                              hint: "Format: 031-123-456"
                             },
                             scopedSlots: _vm._u([
                               {
@@ -85382,7 +85624,7 @@ var render = function() {
                             attrs: {
                               label: "ID za DDV",
                               mask: "SI########",
-                              hint: "Maska: SI12345678"
+                              hint: "Format: SI12345678"
                             },
                             scopedSlots: _vm._u([
                               {
@@ -85443,9 +85685,23 @@ var render = function() {
                           _c("q-btn", {
                             attrs: {
                               label: "Ustvari",
+                              loading: _vm.submitting,
                               type: "submit",
                               color: "green"
-                            }
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "loading",
+                                fn: function() {
+                                  return [
+                                    _c("q-spinner-tail", {
+                                      attrs: { color: "white" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
                           }),
                           _vm._v(" "),
                           _c("q-btn", {
@@ -85672,7 +85928,8 @@ var render = function() {
                                               staticClass:
                                                 "pointer text-red action-icon",
                                               attrs: { name: "delete_outline" }
-                                            })
+                                            }),
+                                            _vm._v(" Izbriši")
                                           ],
                                           1
                                         )
@@ -85695,7 +85952,7 @@ var render = function() {
                                     attrs: { clickable: "" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.editUser(props.row.id)
+                                        return _vm.editCustomer(props.row.id)
                                       }
                                     }
                                   },
@@ -85711,7 +85968,8 @@ var render = function() {
                                               staticClass:
                                                 "pointer text-black action-icon",
                                               attrs: { name: "create" }
-                                            })
+                                            }),
+                                            _vm._v(" Uredi")
                                           ],
                                           1
                                         )
@@ -85737,7 +85995,375 @@ var render = function() {
             }
           }
         ])
-      })
+      }),
+      _vm._v(" "),
+      _c("edit-customer")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "q-dialog",
+        {
+          model: {
+            value: _vm.editDialog,
+            callback: function($$v) {
+              _vm.editDialog = $$v
+            },
+            expression: "editDialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticStyle: { width: "700px", "max-width": "80vw" } },
+            [
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [_vm._v("Uredi stranko")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                { staticClass: "q-pt-none" },
+                [
+                  _c(
+                    "q-form",
+                    {
+                      staticClass: "q-gutter-md",
+                      on: { submit: _vm.edit, reset: _vm.onReset }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-12",
+                            attrs: {
+                              label: "Podjetje / ime in priimek",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite podjetje / ime priimek"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "business_center" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.naziv_partnerja,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "naziv_partnerja", $$v)
+                              },
+                              expression: "customer.naziv_partnerja"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-6 input-margin",
+                            attrs: {
+                              label: "Kraj/ulica",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite kraj/ulica"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "add_location" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.kraj_ulica,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "kraj_ulica", $$v)
+                              },
+                              expression: "customer.kraj_ulica"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-select", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              "use-input": "",
+                              "hide-selected": "",
+                              "fill-input": "",
+                              "input-debounce": "0",
+                              label: "Pošta",
+                              options: _vm.options,
+                              "option-label": "posta",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return !!val || "Vnesite pošto"
+                                }
+                              ],
+                              "map-options": ""
+                            },
+                            on: { filter: _vm.filterInput },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "mail_outline" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.posta,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "posta", $$v)
+                              },
+                              expression: "customer.posta"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: { label: "Email", type: "text" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "alternate_email" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "email", $$v)
+                              },
+                              expression: "customer.email"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-3 input-margin",
+                            attrs: {
+                              label: "Telefon",
+                              mask: "###-###-###",
+                              hint: "Format: 031-123-456"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "phone" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.telefon,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "telefon", $$v)
+                              },
+                              expression: "customer.telefon"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-3 input-margin",
+                            attrs: {
+                              label: "ID za DDV",
+                              mask: "SI########",
+                              hint: "Format: SI12345678"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "work" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.id_ddv,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "id_ddv", $$v)
+                              },
+                              expression: "customer.id_ddv"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-4 input-margin",
+                            attrs: { label: "Sklic št.", type: "text" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", { attrs: { name: "work" } })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.customer.sklic_st,
+                              callback: function($$v) {
+                                _vm.$set(_vm.customer, "sklic_st", $$v)
+                              },
+                              expression: "customer.sklic_st"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("q-btn", {
+                            attrs: {
+                              label: "Ustvari",
+                              loading: _vm.submitting,
+                              type: "submit",
+                              color: "green"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "loading",
+                                fn: function() {
+                                  return [
+                                    _c("q-spinner-tail", {
+                                      attrs: { color: "white" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("q-btn", {
+                            staticClass: "q-ml-sm",
+                            attrs: {
+                              label: "Počisti",
+                              type: "reset",
+                              color: "primary",
+                              flat: ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "q-card-actions",
+                {
+                  staticClass: "bg-white text-teal",
+                  attrs: { align: "right" }
+                },
+                [
+                  _c("q-btn", {
+                    attrs: { flat: "", label: "ZAPRI" },
+                    on: { click: _vm.closeDialog }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -108981,6 +109607,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/customers/EditCustomer.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/customers/EditCustomer.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true& */ "./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true&");
+/* harmony import */ var _EditCustomer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditCustomer.vue?vue&type=script&lang=js& */ "./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditCustomer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "0b8a0ead",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/customers/EditCustomer.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditCustomer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditCustomer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/customers/EditCustomer.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditCustomer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/customers/EditCustomer.vue?vue&type=template&id=0b8a0ead&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditCustomer_vue_vue_type_template_id_0b8a0ead_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/forms/Header/Password.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/forms/Header/Password.vue ***!
@@ -109727,11 +110422,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
-    customers: []
+    customers: [],
+    currentCustomer: []
   },
   mutations: {
     SET_CUSTOMERS: function SET_CUSTOMERS(state, payload) {
       state.customers = payload;
+    },
+    SET_CURRENT_CUSTOMER: function SET_CURRENT_CUSTOMER(state, payload) {
+      state.currentCustomer = payload;
     }
   },
   actions: {
@@ -109803,11 +110502,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    show: function show(_ref4, id) {
+      var commit = _ref4.commit;
+      axios.get("/customers/".concat(id)).then(function (response) {
+        commit('SET_CURRENT_CUSTOMER', response.data.customer);
+      });
     }
   },
   getters: {
     getCustomers: function getCustomers(state) {
       return state.customers;
+    },
+    getCustomer: function getCustomer(state) {
+      return state.currentCustomer;
     }
   }
 });
@@ -109823,20 +110531,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
     drawer: true,
     persistent: false,
-    posts: []
+    editModal: false
   },
   mutations: {
     CHANGE_DRAWER: function CHANGE_DRAWER(state, payload) {
@@ -109845,8 +110545,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     CHANGE_DIALOG: function CHANGE_DIALOG(state, payload) {
       state.persistent = payload;
     },
-    SET_POSTS: function SET_POSTS(state, payload) {
-      state.posts = payload;
+    CHANGE_EDIT_DIALOG: function CHANGE_EDIT_DIALOG(state, payload) {
+      state.editModal = payload;
     }
   },
   actions: {
@@ -109858,25 +110558,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var commit = _ref2.commit;
       commit('CHANGE_DIALOG', dialogState);
     },
-    postAction: function postAction(_ref3) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var commit;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                commit = _ref3.commit;
-                axios.get('/posts').then(function (response) {
-                  commit('SET_POSTS', response.data.posts);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+    editCustomerModal: function editCustomerModal(_ref3, modal) {
+      var commit = _ref3.commit;
+      commit('CHANGE_EDIT_DIALOG', modal);
     }
   },
   getters: {
@@ -109886,8 +110570,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getDialog: function getDialog(state) {
       return state.persistent;
     },
-    getPosts: function getPosts(state) {
-      return state.posts;
+    getEditModal: function getEditModal(state) {
+      return state.editModal;
     }
   }
 });
@@ -109930,6 +110614,64 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/store/post.js":
+/*!************************************!*\
+  !*** ./resources/js/store/post.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    posts: []
+  },
+  mutations: {
+    SET_POSTS: function SET_POSTS(state, payload) {
+      state.posts = payload;
+    }
+  },
+  actions: {
+    postAction: function postAction(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                axios.get('/posts').then(function (response) {
+                  commit('SET_POSTS', response.data.posts);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  getters: {
+    getPosts: function getPosts(state) {
+      return state.posts;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/store.js":
 /*!*************************************!*\
   !*** ./resources/js/store/store.js ***!
@@ -109947,6 +110689,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _invoices__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./invoices */ "./resources/js/store/invoices.js");
 /* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./users */ "./resources/js/store/users.js");
 /* harmony import */ var _customers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./customers */ "./resources/js/store/customers.js");
+/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./post */ "./resources/js/store/post.js");
+
 
 
 
@@ -109961,7 +110705,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     general: _general__WEBPACK_IMPORTED_MODULE_3__["default"],
     invoices: _invoices__WEBPACK_IMPORTED_MODULE_4__["default"],
     users: _users__WEBPACK_IMPORTED_MODULE_5__["default"],
-    customers: _customers__WEBPACK_IMPORTED_MODULE_6__["default"]
+    customers: _customers__WEBPACK_IMPORTED_MODULE_6__["default"],
+    post: _post__WEBPACK_IMPORTED_MODULE_7__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
