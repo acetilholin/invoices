@@ -65,6 +65,7 @@
                                 label="Email"
                                 class="col-4 input-margin"
                                 type="text"
+                                :rules="[isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -106,10 +107,10 @@
                             </q-input>
                         </div>
                         <div>
-                            <q-btn label="Ustvari"
+                            <q-btn label="Spremeni"
                                    :loading="submitting"
                                    type="submit"
-                                   color="green"
+                                   color="secondary"
                             >
                                 <template v-slot:loading>
                                     <q-spinner-tail
@@ -138,21 +139,25 @@
         name: "EditCustomer",
         data() {
             return {
+                visible: true,
                 submitting: false,
                 options: this.posts
             }
         },
         methods: {
             ...mapActions({
-                closeEditDialog: 'general/editCustomerModal'
+                closeEditDialog: 'general/editCustomerModal',
+                editCustomer: 'customers/edit'
             }),
             closeDialog() {
                 this.closeEditDialog(false)
             },
             isValidEmail(val) {
-                if (val.length > 0) {
-                    const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-                    return emailPattern.test(val) || 'Neveljaven email';
+                if (val) {
+                    if (val.length > 0) {
+                        const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+                        return emailPattern.test(val) || 'Neveljaven email';
+                    }
                 }
             },
             filterInput (val, update, abort) {
@@ -164,7 +169,13 @@
                 })
             },
             onReset() {
-                this.customer = {}
+                this.customer.naziv_partnerja = ''
+                this.customer.kraj_ulica = ''
+                this.customer.posta = ''
+                this.customer.email = ''
+                this.customer.telefon = ''
+                this.customer.id_ddv = ''
+                this.customer.sklic_st = ''
             },
             showNotif(message, type) {
                 this.$q.notify({
@@ -174,15 +185,29 @@
                 })
             },
             edit() {
-
+                this.submitting = true
+                this.editCustomer(this.customer)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                        setTimeout(() => {
+                            this.submitting = false
+                        }, 500)
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                        this.submitting = false
+                    })
             }
         },
         computed: {
             ...mapGetters({
                 editDialog: 'general/getEditModal',
-                customer: 'customers/getCustomer',
+                getCustomers: 'customers/getCustomer',
                 posts: 'post/getPosts'
-            })
+            }),
+            customer() {
+                return this.getCustomers
+            }
         }
     }
 </script>

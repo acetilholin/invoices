@@ -39,14 +39,14 @@
                     <q-td key="edit" :props="props">
                         <q-btn-dropdown color="primary" outline icon="settings">
                             <q-list>
-                                <q-item clickable v-close-popup @click="removeCustomer(props.row.id)">
-                                    <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="delete_outline" class="pointer text-red action-icon"></q-icon> Izbriši</q-item-label>
-                                    </q-item-section>
-                                </q-item>
                                 <q-item clickable v-close-popup @click="editCustomer(props.row.id)">
                                     <q-item-section class="text-center">
                                         <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-item clickable v-close-popup @click="confirm(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="delete_outline" class="pointer text-red action-icon"></q-icon> Izbriši</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -123,14 +123,22 @@
             tableIndex(row) {
                 return this.customers.indexOf(row) + 1
             },
-            removeCustomer(id) {
-                this.remove(id)
-                    .then((response) => {
-                        this.showNotif(response, 'positive')
-                    })
-                    .catch((e) => {
-                        this.showNotif(e, 'negative')
-                    })
+            confirm(id) {
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.remove(id)
+                        .then((response) => {
+                            this.showNotif(response, 'positive')
+                        })
+                        .catch((e) => {
+                            this.showNotif(e, 'negative')
+                        })
+                })
             },
             editCustomer(id) {
                 this.$store.dispatch('general/editCustomerModal', true)

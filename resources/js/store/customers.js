@@ -48,8 +48,27 @@ export default {
                     throw (e.response.data.error);
                 })
         },
+        async edit({commit}, customer) {
+            let posta = typeof customer.posta.posta === 'undefined' ? customer.posta : customer.posta.posta
+            return await axios.patch(`/customers/${customer.id}`, {
+                'naziv_partnerja': customer.naziv_partnerja,
+                'kraj_ulica': customer.kraj_ulica,
+                'posta': posta,
+                'email': customer.email,
+                'telefon': customer.telefon,
+                'id_ddv': customer.id_ddv,
+                'sklic_st': customer.sklic_st
+            })
+                .then((response) => {
+                    commit('SET_CUSTOMERS', response.data.customers)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
         show({commit}, id) {
-            axios.get(`/customers/${id}`)
+            axios.get(`/customers/${id}/edit`)
                 .then((response) => {
                     commit('SET_CURRENT_CUSTOMER', response.data.customer)
                 })

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Customer;
+use App\helpers\CustomerHelper;
 use App\helpers\MsgFormatterHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -39,20 +40,14 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = array(
-            'naziv_partnerja' => 'required|max:120',
-            'posta' => 'required',
-            'kraj_ulica' => 'required|unique_with:customers,naziv_partnerja,posta'
-        );
+        $helper = new CustomerHelper();
+        $validation = $helper->customerValidator($request);
+
+        if ($validation) {
+            return response()->json(['error' => $validation], 401);
+        }
 
         $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
-        $validator = Validator::make($customerData, $rules, $this->messages());
-
-        if ($validator->fails()) {
-            $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
-            return response()->json(['error' => $messages], 401);
-        }
 
         Customer::create($customerData)->save();
         $customers = Customer::all();
@@ -70,20 +65,20 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return response()->json([
-            'customer' => $customer->getAttributes()
-        ]);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Customer $customer)
     {
-        //
+        return response()->json([
+            'customer' => $customer->getAttributes()
+        ]);
     }
 
     /**
@@ -91,11 +86,18 @@ class CustomerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
+
+        $customer->update($customerData);
+        $customers = Customer::all();
+        return response()->json([
+            'success' => trans('customer.customerEdited'),
+            'customers' => $customers
+        ], 200);
     }
 
     /**
@@ -112,16 +114,5 @@ class CustomerController extends Controller
             'success' => trans('customer.customerDeleted'),
             'customers' => $customers
         ], 200);
-    }
-
-    protected function messages()
-    {
-        return [
-            'naziv_partnerja.required' => trans('customer.nazivRequired'),
-            'naziv_partnerja.max' => trans('customer.nazivPartnerjaMax'),
-            'posta.required' => trans('customer.postRequired'),
-            'kraj_ulica.required' => trans('customer.streetRequired'),
-            'kraj_ulica.unique_with' => trans('customer.companyExists')
-        ];
     }
 }

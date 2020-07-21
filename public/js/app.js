@@ -2699,6 +2699,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     createNew: function createNew() {
       var _this2 = this;
 
+      this.submitting = true;
       this.createCustomer(this.customer).then(function (response) {
         _this2.showNotif(response, 'positive');
 
@@ -2867,13 +2868,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     tableIndex: function tableIndex(row) {
       return this.customers.indexOf(row) + 1;
     },
-    removeCustomer: function removeCustomer(id) {
+    confirm: function confirm(id) {
       var _this = this;
 
-      this.remove(id).then(function (response) {
-        _this.showNotif(response, 'positive');
-      })["catch"](function (e) {
-        _this.showNotif(e, 'negative');
+      this.$q.dialog({
+        title: 'Brisanje',
+        message: '<span class="text-red">Želite izbrisati vnos?</span>',
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(function () {
+        _this.remove(id).then(function (response) {
+          _this.showNotif(response, 'positive');
+        })["catch"](function (e) {
+          _this.showNotif(e, 'negative');
+        });
       });
     },
     editCustomer: function editCustomer(id) {
@@ -3033,25 +3042,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditCustomer",
   data: function data() {
     return {
+      visible: true,
       submitting: false,
       options: this.posts
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
-    closeEditDialog: 'general/editCustomerModal'
+    closeEditDialog: 'general/editCustomerModal',
+    editCustomer: 'customers/edit'
   })), {}, {
     closeDialog: function closeDialog() {
       this.closeEditDialog(false);
     },
     isValidEmail: function isValidEmail(val) {
-      if (val.length > 0) {
-        var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-        return emailPattern.test(val) || 'Neveljaven email';
+      if (val) {
+        if (val.length > 0) {
+          var emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+          return emailPattern.test(val) || 'Neveljaven email';
+        }
       }
     },
     filterInput: function filterInput(val, update, abort) {
@@ -3065,7 +3079,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     onReset: function onReset() {
-      this.customer = {};
+      this.customer.naziv_partnerja = '';
+      this.customer.kraj_ulica = '';
+      this.customer.posta = '';
+      this.customer.email = '';
+      this.customer.telefon = '';
+      this.customer.id_ddv = '';
+      this.customer.sklic_st = '';
     },
     showNotif: function showNotif(message, type) {
       this.$q.notify({
@@ -3074,13 +3094,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: type
       });
     },
-    edit: function edit() {}
+    edit: function edit() {
+      var _this2 = this;
+
+      this.submitting = true;
+      this.editCustomer(this.customer).then(function (response) {
+        _this2.showNotif(response, 'positive');
+
+        setTimeout(function () {
+          _this2.submitting = false;
+        }, 500);
+      })["catch"](function (e) {
+        _this2.showNotif(e, 'negative');
+
+        _this2.submitting = false;
+      });
+    }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     editDialog: 'general/getEditModal',
-    customer: 'customers/getCustomer',
+    getCustomers: 'customers/getCustomer',
     posts: 'post/getPosts'
-  }))
+  })), {}, {
+    customer: function customer() {
+      return this.getCustomers;
+    }
+  })
 });
 
 /***/ }),
@@ -3811,13 +3850,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.showNotif(e, 'negative');
       });
     },
-    removeUser: function removeUser(id) {
+    confirm: function confirm(id) {
       var _this3 = this;
 
-      this.remove(id).then(function (response) {
-        _this3.showNotif(response, 'positive');
-      })["catch"](function (e) {
-        _this3.showNotif(e, 'negative');
+      this.$q.dialog({
+        title: 'Brisanje',
+        message: '<span class="text-red">Želite izbrisati vnos?</span>',
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(function () {
+        _this3.remove(id).then(function (response) {
+          _this3.showNotif(response, 'positive');
+        })["catch"](function (e) {
+          _this3.showNotif(e, 'negative');
+        });
       });
     }
   }),
@@ -85912,7 +85959,7 @@ var render = function() {
                                     attrs: { clickable: "" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeCustomer(props.row.id)
+                                        return _vm.editCustomer(props.row.id)
                                       }
                                     }
                                   },
@@ -85926,10 +85973,10 @@ var render = function() {
                                           [
                                             _c("q-icon", {
                                               staticClass:
-                                                "pointer text-red action-icon",
-                                              attrs: { name: "delete_outline" }
+                                                "pointer text-black action-icon",
+                                              attrs: { name: "create" }
                                             }),
-                                            _vm._v(" Izbriši")
+                                            _vm._v(" Uredi")
                                           ],
                                           1
                                         )
@@ -85952,7 +85999,7 @@ var render = function() {
                                     attrs: { clickable: "" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.editCustomer(props.row.id)
+                                        return _vm.confirm(props.row.id)
                                       }
                                     }
                                   },
@@ -85966,10 +86013,10 @@ var render = function() {
                                           [
                                             _c("q-icon", {
                                               staticClass:
-                                                "pointer text-black action-icon",
-                                              attrs: { name: "create" }
+                                                "pointer text-red action-icon",
+                                              attrs: { name: "delete_outline" }
                                             }),
-                                            _vm._v(" Uredi")
+                                            _vm._v(" Izbriši")
                                           ],
                                           1
                                         )
@@ -86191,7 +86238,11 @@ var render = function() {
                         [
                           _c("q-input", {
                             staticClass: "col-4 input-margin",
-                            attrs: { label: "Email", type: "text" },
+                            attrs: {
+                              label: "Email",
+                              type: "text",
+                              rules: [_vm.isValidEmail]
+                            },
                             scopedSlots: _vm._u([
                               {
                                 key: "prepend",
@@ -86306,10 +86357,10 @@ var render = function() {
                         [
                           _c("q-btn", {
                             attrs: {
-                              label: "Ustvari",
+                              label: "Spremeni",
                               loading: _vm.submitting,
                               type: "submit",
-                              color: "green"
+                              color: "secondary"
                             },
                             scopedSlots: _vm._u([
                               {
@@ -86543,7 +86594,7 @@ var render = function() {
                   label: "Spremeni",
                   loading: _vm.submitting,
                   type: "submit",
-                  color: "green"
+                  color: "secondary"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -86668,7 +86719,7 @@ var render = function() {
                   label: "Spremeni",
                   loading: _vm.submitting,
                   type: "submit",
-                  color: "green"
+                  color: "secondary"
                 },
                 scopedSlots: _vm._u([
                   {
@@ -87250,7 +87301,7 @@ var render = function() {
                           attrs: { name: "delete_outline" },
                           on: {
                             click: function($event) {
-                              return _vm.removeUser(props.row.id)
+                              return _vm.confirm(props.row.id)
                             }
                           }
                         })
@@ -110503,9 +110554,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    show: function show(_ref4, id) {
-      var commit = _ref4.commit;
-      axios.get("/customers/".concat(id)).then(function (response) {
+    edit: function edit(_ref4, customer) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var commit, posta;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref4.commit;
+                posta = typeof customer.posta.posta === 'undefined' ? customer.posta : customer.posta.posta;
+                _context3.next = 4;
+                return axios.patch("/customers/".concat(customer.id), {
+                  'naziv_partnerja': customer.naziv_partnerja,
+                  'kraj_ulica': customer.kraj_ulica,
+                  'posta': posta,
+                  'email': customer.email,
+                  'telefon': customer.telefon,
+                  'id_ddv': customer.id_ddv,
+                  'sklic_st': customer.sklic_st
+                }).then(function (response) {
+                  commit('SET_CUSTOMERS', response.data.customers);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 4:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    show: function show(_ref5, id) {
+      var commit = _ref5.commit;
+      axios.get("/customers/".concat(id, "/edit")).then(function (response) {
         commit('SET_CURRENT_CUSTOMER', response.data.customer);
       });
     }

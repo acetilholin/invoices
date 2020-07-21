@@ -55,7 +55,7 @@
                 <q-btn label="Spremeni"
                        :loading="submitting"
                        type="submit"
-                       color="green"
+                       color="secondary"
                 >
                     <template v-slot:loading>
                         <q-spinner-tail

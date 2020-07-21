@@ -199,6 +199,7 @@
                 })
             },
             createNew() {
+                this.submitting = true
                 this.createCustomer(this.customer)
                     .then((response) => {
                         this.showNotif(response, 'positive')
