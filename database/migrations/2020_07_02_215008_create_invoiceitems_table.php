@@ -17,7 +17,7 @@ class CreateInvoiceitemsTable extends Migration
             $table->id();
             $table->string('sifra_predracuna');
             $table->string('ime_priimek');
-            $table->foreignId('id_partnerja');
+            $table->unsignedInteger('post_id');
             $table->text('predracun');
             $table->date('timestamp');
             $table->date('expiration');

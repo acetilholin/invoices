@@ -18,3 +18,8 @@
 .pointer {
     cursor: pointer;
 }
+
+/* form */
+.input-margin {
+    margin: 3px;
+}

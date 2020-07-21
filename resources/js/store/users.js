@@ -9,7 +9,7 @@ export default {
         }
     },
     actions: {
-        usersAction({commit}) {
+        all({commit}) {
             axios.get('/users')
                 .then(response => {
                     commit('SET_USERS', response.data.data)
@@ -62,7 +62,7 @@ export default {
                 .then((response) => {
                     let user = response.data.user
                     commit('auth/SET_USER', user, {root: true})
-                    dispatch('usersAction')
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {

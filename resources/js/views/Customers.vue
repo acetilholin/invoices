@@ -1,12 +1,18 @@
 <template>
     <div class="customers">
-        stranke
+        <customers-list></customers-list>
     </div>
 </template>
 
 <script>
+
+    import CustomersList from "../components/customers/CustomersList";
+
     export default {
-        name: "Customers"
+        name: "Customers",
+        components: {
+            CustomersList
+        }
     }
 </script>
 

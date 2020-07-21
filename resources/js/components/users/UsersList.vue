@@ -51,7 +51,7 @@
                         <img :src="countryImage(props.row.country)" alt="" width="40px" height="40px">
                     </q-td>
                     <q-td key="edit" :props="props">
-                        <q-icon name="delete_outline" @click="removeUser(props.row.id)" class="pointer text-red action-icon"></q-icon>
+                        <q-icon name="delete_outline" @click="confirm(props.row.id)" class="pointer text-red action-icon"></q-icon>
                     </q-td>
                 </q-tr>
             </template>
@@ -141,6 +141,7 @@
                 }
                 this.changeDetail(details)
                     .then((response) => {
+                        this.showNotif
                         this.showNotif(response, 'positive')
                     })
                     .catch((e) => {
@@ -162,20 +163,27 @@
                     })
 
             },
-            removeUser(id) {
-                this.remove(id)
-                    .then((response) => {
-                        this.showNotif(response, 'positive')
-                    })
-                    .catch((e) => {
-                        this.showNotif(e, 'negative')
-                    })
+            confirm(id) {
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.remove(id)
+                        .then((response) => {
+                            this.showNotif(response, 'positive')
+                        })
+                        .catch((e) => {
+                            this.showNotif(e, 'negative')
+                        })
+                })
             }
         },
         created() {
-            this.$store.dispatch('users/usersAction')
+            this.$store.dispatch('users/all')
         },
-
         computed: {
             ...mapGetters({
                 users: 'users/getUsers'

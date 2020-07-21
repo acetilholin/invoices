@@ -43,7 +43,8 @@
         methods: {
             ...mapActions({
                signoutAction: 'auth/logout',
-               triggerModal: 'general/modalAction'
+               triggerModal: 'general/modalAction',
+               drawerState: 'general/drawerAction'
             }),
             changeDrawerState() {
                 this.drawerState(!this.drawer)
