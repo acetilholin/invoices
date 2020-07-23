@@ -13,6 +13,7 @@
                      v-model="file"
                      accept=".jpg, .jpeg, .png"
                      @rejected="showNotif('Dovoljeni formati so .jpg, .jpeg, .png','negative')"
+                     :rules="[val => !!val || 'Izberite sliko']"
                      label="Datoteka">
                  <template v-slot:prepend>
                      <q-icon name="attach_file" />
@@ -73,6 +74,7 @@
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')
+                        this.submitting = false
                     })
             },
             userImage(img) {

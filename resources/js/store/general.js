@@ -3,7 +3,8 @@ export default {
     state: {
         drawer: true,
         persistent: false,
-        editModal: false
+        editModal: false,
+        editInvoiceModal: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -14,6 +15,9 @@ export default {
         },
         CHANGE_EDIT_DIALOG(state, payload) {
             state.editModal = payload
+        },
+        CHANGE_EDIT_INVOICE_DIALOG(state, payload) {
+            state.editInvoiceModal = payload
         }
     },
     actions: {
@@ -25,6 +29,9 @@ export default {
         },
         editCustomerModal({commit}, modal) {
             commit('CHANGE_EDIT_DIALOG', modal)
+        },
+        editInvoiceDialogAction({commit}, modal) {
+            commit('CHANGE_EDIT_INVOICE_DIALOG', modal)
         }
     },
     getters: {
@@ -36,6 +43,9 @@ export default {
         },
         getEditModal(state) {
             return state.editModal
+        },
+        getEditInvoiceModal(state) {
+            return state.editInvoiceModal
         }
     }
 }

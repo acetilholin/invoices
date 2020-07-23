@@ -16,6 +16,7 @@ class InvoiceitemsResource extends JsonResource
     {
         $predracun = unserialize($this->predracun);
         return [
+            'id' => $this->id,
             'sifra_predracuna' => $this->sifra_predracuna,
             'ime_priimek' => $this->ime_priimek,
             'total' => $predracun->totalPrice,

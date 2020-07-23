@@ -11,6 +11,6 @@ class Customer extends Model
 
     public function invoiceitems()
     {
-        return $this->hasMany(Invoiceitems::class, 'post_id');
+        return $this->hasMany(Invoiceitems::class, 'customer_id');
     }
 }

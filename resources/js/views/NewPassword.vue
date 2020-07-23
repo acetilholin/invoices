@@ -2,6 +2,7 @@
     <div class="q-pa-md absolute-center">
 
         <div class="q-gutter-y-md column" style="width: 400px">
+            <span class="text-center text-subtitle1 text-primary">{{ title }}</span>
             <q-card>
                 <q-tabs
                     v-model="tab"
@@ -120,11 +121,13 @@
 <script>
 
     import {mapActions} from 'vuex'
+    import { logRegTitle } from '../global/variables.js'
 
     export default {
         name: "NewPassword",
         data() {
             return {
+                title: logRegTitle,
                 email: '',
                 newPass: {
                     email: '',

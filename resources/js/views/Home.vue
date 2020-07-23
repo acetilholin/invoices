@@ -1,7 +1,7 @@
 <template>
     <div class="home-view">
         <div class="text-center q-pt-md">
-            <q-btn push color="white" text-color="green" title="Nov predračun" round icon="article" />
+            <Create></Create>
             <invoices-list class="q-mt-md"></invoices-list>
         </div>
     </div>
@@ -10,11 +10,13 @@
 <script>
 
     import InvoicesList from "../components/invoices/InvoicesList";
+    import Create from "../components/App/Create";
 
     export default {
         name: "Home",
         components: {
-            InvoicesList
+            InvoicesList,
+            Create
         }
     }
 </script>

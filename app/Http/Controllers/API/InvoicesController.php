@@ -40,22 +40,24 @@ class InvoicesController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Invoiceitems  $invoiceitems
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(InvoiceitemsResource $invoiceitems)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Invoiceitems  $invoiceitems
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(InvoiceitemsResource $invoiceitems)
+    public function edit(Invoiceitems $invoiceitems)
     {
-        //
+        return response()->json([
+            'invoice' => $invoiceitems->getAttributes()
+        ]);
     }
 
     /**

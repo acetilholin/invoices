@@ -24,7 +24,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('reset', 'Auth\AuthController@reset');
     Route::get('me', 'Auth\AuthController@me');
 
-    Route::resource('invoices', 'API\InvoicesController');
+    Route::resource('invoices', 'API\InvoicesController')->parameters([
+        'invoices' => 'invoiceitems'
+    ]);
 
     Route::resource('users', 'API\UserController');
 

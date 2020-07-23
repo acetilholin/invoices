@@ -12,5 +12,6 @@ return [
     'cannotPerformOperation' => 'Operacija ni izvedljiva',
     'notEnoughRights' => 'Nimate dovolj pravic',
     'preventAutoDelete' => 'Ne morete se izbrisati',
-    'pictureUpdated' => 'Slika je posodobljena'
+    'pictureUpdated' => 'Slika je posodobljena',
+    'noPicture' => 'Izberite sliko'
 ];

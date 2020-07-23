@@ -179,6 +179,10 @@ class UserController extends Controller
      */
     public function photo(Request $request)
     {
+        if (!$request->hasFile('file')) {
+            return response()->json(['error' => trans('user.noPicture')], 401);
+        }
+
         $userHelper = new UserHelper();
         $user = $userHelper->updatePhoto($request);
 
