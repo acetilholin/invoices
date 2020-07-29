@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Invoiceitems;
 use Illuminate\Http\Request;
 use App\Http\Resources\InvoiceitemsResource;
+use App\Http\Resources\InvoiceResource;
 
 class InvoicesController extends Controller
 {
@@ -56,7 +57,7 @@ class InvoicesController extends Controller
     public function edit(Invoiceitems $invoiceitems)
     {
         return response()->json([
-            'invoice' => $invoiceitems->getAttributes()
+            'invoice' => InvoiceResource::make($invoiceitems)
         ]);
     }
 

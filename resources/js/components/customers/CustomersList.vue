@@ -5,7 +5,7 @@
             title="Stranke"
             :data="customers"
             :columns="columns"
-            row-key="name"
+            row-key="index"
             :filter="filter"
             :pagination.sync="pagination"
         >
