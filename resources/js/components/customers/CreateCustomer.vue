@@ -5,6 +5,7 @@
         </div>
         <q-dialog
             v-model="medium"
+            persistent
         >
             <q-card style="width: 750px; max-width: 85vw;">
                 <q-card-section>

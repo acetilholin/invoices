@@ -2347,6 +2347,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -2511,6 +2516,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -3054,6 +3060,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditCustomer",
@@ -3123,7 +3130,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    editDialog: 'general/getEditModal',
+    editDialog: 'general/getEditDialog',
     getCustomers: 'customers/getCustomer',
     posts: 'post/getPosts'
   })), {}, {
@@ -3565,6 +3572,153 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "AddItem",
+  data: function data() {
+    return {
+      item: {
+        description: "",
+        discount: 0,
+        qty: null,
+        price: 0,
+        priceItem: null,
+        unit: ""
+      },
+      units: ['m', 'ura', 'kg', 'm2']
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    addItemDialog: 'general/getAddItemDialog'
+  })),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    closeAddItemDialog: 'general/addItemDialog',
+    addItem: 'invoices/addItem'
+  })), {}, {
+    closeDialog: function closeDialog() {
+      this.closeAddItemDialog(false);
+    },
+    onSubmit: function onSubmit() {
+      var discount = parseInt(this.item.discount);
+      var price = parseFloat(this.item.price);
+      var qty = parseFloat(this.item.qty);
+      var priceItem = 0;
+      var key = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      priceItem = discount > 0 ? price * qty - price * qty * discount / 100 : price * qty;
+      var newItem = {
+        description: this.item.description,
+        discount: discount,
+        price: price,
+        priceItem: priceItem,
+        qty: qty,
+        unit: this.item.unit
+      };
+      var data = {
+        key: key,
+        value: newItem
+      };
+
+      var obj = _defineProperty({}, key, data.value);
+
+      this.$emit('newItem', obj);
+    },
+    onReset: function onReset() {
+      this.item = [];
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=script&lang=js& ***!
@@ -3575,7 +3729,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tables_Edit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../tables/Edit */ "./resources/js/components/invoices/tables/Edit.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _App_Create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../App/Create */ "./resources/js/components/App/Create.vue");
+/* harmony import */ var _AddItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddItem */ "./resources/js/components/invoices/dialogs/AddItem.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -3644,6 +3800,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3665,20 +3845,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
-    dialog: 'general/getEditInvoiceModal',
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])({
+    dialog: 'general/getEditInvoiceDialog',
     invoice: 'invoices/getInvoice',
     klavzule: 'klavzule/getKlavzule'
   })),
   components: {
+    AddItem: _AddItem__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Create: _App_Create__WEBPACK_IMPORTED_MODULE_1__["default"],
     Edit: _tables_Edit__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
     this.$store.dispatch('klavzule/klavzuleAction');
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
-    closeEditDialog: 'general/editInvoiceDialogAction'
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
+    closeEditDialog: 'general/editInvoiceDialogAction',
+    addItemDialog: 'general/addItemDialog'
   })), {}, {
+    addNewItem: function addNewItem(val) {
+      var newItem = {
+        description: "test 123",
+        discount: 0,
+        price: 450,
+        priceItem: 450,
+        qty: 1,
+        unit: "m2"
+      };
+      var key = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      var data = {
+        key: key,
+        value: newItem
+      };
+
+      var obj = _defineProperty({}, key, data.value);
+
+      this.invoice.items = Object.assign(this.invoice.items, obj);
+    },
+    addItem: function addItem() {
+      this.addItemDialog(true);
+    },
     showNotif: function showNotif(message, type) {
       this.$q.notify({
         message: message,
@@ -3697,6 +3902,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (_typeof(invoiceItems) === 'object') {
         return Object.keys(invoiceItems).map(function (key) {
+          invoiceItems[key].key = key;
           return invoiceItems[key];
         });
       }
@@ -3799,11 +4005,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Edit",
   props: ['invoice', 'items'],
   data: function data() {
     return {
+      invoiceItems: null,
+      totalItems: 0,
       filter: '',
       pagination: {
         rowsPerPage: 20
@@ -3844,7 +4065,7 @@ __webpack_require__.r(__webpack_exports__);
         align: 'center',
         sortable: true,
         field: function field(row) {
-          return row.price;
+          return row.priceItem;
         }
       }, {
         name: 'priceItem',
@@ -3853,7 +4074,7 @@ __webpack_require__.r(__webpack_exports__);
         align: 'center',
         sortable: true,
         field: function field(row) {
-          return row.priceItem;
+          return row.price;
         }
       }, {
         name: 'discount',
@@ -3886,10 +4107,64 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     tableIndex: function tableIndex(row) {
-      return this.items.indexOf(row) + 1;
+      return this.invoiceItems.indexOf(row) + 1;
+    },
+    changeItemData: function changeItemData(message, row) {
+      var discount = parseInt(row.discount);
+      var price = parseFloat(row.price);
+      var quantity = parseInt(row.qty);
+      row.priceItem = discount > 0 ? price * quantity - price * quantity * discount / 100 : price * quantity;
+      this.showNotif(message, 'positive');
+    },
+    itemsNum: function itemsNum() {
+      var items = 0;
+      this.invoiceItems.forEach(function (item) {
+        items += parseInt(item.qty);
+        return items;
+      });
+      return items;
     },
     totalPrice: function totalPrice() {
-      return this.invoice.total;
+      var total = 0;
+      this.invoiceItems.forEach(function (item) {
+        total += parseFloat(item.priceItem);
+        return total;
+      });
+      return total * this.invoice.vat / 100 + total;
+    },
+    showNotif: function showNotif(message, type) {
+      this.$q.notify({
+        message: message,
+        position: 'top',
+        type: type
+      });
+    },
+    confirm: function confirm(row) {
+      var _this = this;
+
+      this.$q.dialog({
+        title: 'Brisanje',
+        message: '<span class="text-red">Želite odstraniti artikel?</span>',
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(function () {
+        _this.invoiceItems = _this.invoiceItems.filter(function (item) {
+          return item !== row;
+        });
+
+        _this.showNotif('Artikel je odstranjen', 'positive');
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.invoiceItems = this.items;
+  },
+  watch: {
+    items: {
+      handler: function handler() {
+        this.invoiceItems = this.items;
+      }
     }
   }
 });
@@ -3913,6 +4188,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -85659,15 +85935,25 @@ var render = function() {
                       staticClass: "q-ml-md",
                       attrs: {
                         dense: "",
-                        color: "blue-10",
                         round: "",
-                        icon: "email"
+                        "text-color": "yellow",
+                        icon: "wb_sunny"
                       }
                     },
                     [
-                      _c("q-badge", { attrs: { color: "red", floating: "" } }, [
-                        _vm._v("1")
-                      ])
+                      _c(
+                        "q-badge",
+                        {
+                          attrs: {
+                            color: "red",
+                            floating: "",
+                            transparent: "",
+                            self: "bottom middle",
+                            offset: [20, 10]
+                          }
+                        },
+                        [_vm._v("25°")]
+                      )
                     ],
                     1
                   )
@@ -85915,6 +86201,7 @@ var render = function() {
       _c(
         "q-dialog",
         {
+          attrs: { persistent: "" },
           model: {
             value: _vm.medium,
             callback: function($$v) {
@@ -86541,6 +86828,11 @@ var render = function() {
       _c(
         "q-dialog",
         {
+          attrs: {
+            persistent: "",
+            "transition-show": "scale",
+            "transition-hide": "scale"
+          },
           model: {
             value: _vm.editDialog,
             callback: function($$v) {
@@ -87622,6 +87914,211 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "q-dialog",
+        {
+          attrs: {
+            persistent: "",
+            "transition-show": "scale",
+            "transition-hide": "scale"
+          },
+          model: {
+            value: _vm.addItemDialog,
+            callback: function($$v) {
+              _vm.addItemDialog = $$v
+            },
+            expression: "addItemDialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticStyle: { width: "750px", "max-width": "85vw" } },
+            [
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [_vm._v("Dodaj artikel")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                { staticClass: "q-pt-none" },
+                [
+                  _c(
+                    "q-form",
+                    {
+                      staticClass: "q-gutter-md",
+                      on: { submit: _vm.onSubmit, reset: _vm.onReset }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-12",
+                            attrs: { label: "Opis" },
+                            model: {
+                              value: _vm.item.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.item, "description", $$v)
+                              },
+                              expression: "item.description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-select", {
+                            staticClass: "col-3 input-margin",
+                            attrs: { options: _vm.units, label: "Enota mere" },
+                            model: {
+                              value: _vm.item.unit,
+                              callback: function($$v) {
+                                _vm.$set(_vm.item, "unit", $$v)
+                              },
+                              expression: "item.unit"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-3 input-margin",
+                            attrs: {
+                              label: "Cena na 2 decimalki",
+                              mask: "#.##",
+                              "fill-mask": "0",
+                              "reverse-fill-mask": "",
+                              hint: "Format: #.##",
+                              "input-class": "text-right",
+                              suffix: "€"
+                            },
+                            model: {
+                              value: _vm.item.price,
+                              callback: function($$v) {
+                                _vm.$set(_vm.item, "price", $$v)
+                              },
+                              expression: "item.price"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-2 input-margin",
+                            attrs: { label: "Količina", type: "number" },
+                            model: {
+                              value: _vm.item.qty,
+                              callback: function($$v) {
+                                _vm.$set(_vm.item, "qty", _vm._n($$v))
+                              },
+                              expression: "item.qty"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-input", {
+                            staticClass: "col-2 input-margin",
+                            attrs: {
+                              label: "Popust",
+                              type: "number",
+                              suffix: "%",
+                              rules: [
+                                function(val) {
+                                  return val < 99 || "Vrednost od 0 do 99"
+                                }
+                              ]
+                            },
+                            model: {
+                              value: _vm.item.discount,
+                              callback: function($$v) {
+                                _vm.$set(_vm.item, "discount", _vm._n($$v))
+                              },
+                              expression: "item.discount"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("q-btn", {
+                            attrs: {
+                              label: "Dodaj",
+                              type: "submit",
+                              color: "green"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-btn", {
+                            staticClass: "q-ml-sm",
+                            attrs: {
+                              label: "Počisti",
+                              type: "reset",
+                              color: "primary",
+                              flat: ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "q-card-actions",
+                {
+                  staticClass: "bg-white text-teal",
+                  attrs: { align: "right" }
+                },
+                [
+                  _c("q-btn", {
+                    attrs: { flat: "", label: "Zapri" },
+                    on: { click: _vm.closeDialog }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=template&id=5a5ba878&scoped=true&":
 /*!******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=template&id=5a5ba878&scoped=true& ***!
@@ -87734,11 +88231,15 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "text-body1" }, [
                   _vm._v("Delo opravljeno: "),
-                  _c("span", { staticClass: "text-grey-8" }, [
-                    _vm._v(
-                      _vm._s(_vm._f("moment")(_vm.invoice.workDate, "DD-MM-Y"))
-                    )
-                  ])
+                  _vm.invoice.workDate
+                    ? _c("span", { staticClass: "text-grey-8" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("moment")(_vm.invoice.workDate, "DD-MM-Y")
+                          )
+                        )
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-body1" }, [
@@ -87799,6 +88300,47 @@ var render = function() {
                   "div",
                   { staticClass: "text-center" },
                   [
+                    _c(
+                      "q-btn",
+                      {
+                        attrs: {
+                          push: "",
+                          color: "white",
+                          "text-color": "green",
+                          round: "",
+                          icon: "add"
+                        },
+                        on: { click: _vm.addItem }
+                      },
+                      [
+                        _c(
+                          "q-tooltip",
+                          {
+                            attrs: {
+                              anchor: "top middle",
+                              self: "bottom middle",
+                              offset: [10, 10]
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Dodaj artikel\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("q-card-section", [
+                _c(
+                  "div",
+                  { staticClass: "text-center" },
+                  [
                     _c("q-btn", {
                       attrs: {
                         color: "secondary",
@@ -87810,6 +88352,12 @@ var render = function() {
                   1
                 )
               ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                [_c("add-item", { on: { newItem: _vm.addNewItem } })],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "q-card-section",
@@ -87853,364 +88401,424 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "q-pa-md" },
-    [
-      _c("span", { staticClass: "text-h6 text-grey-8" }, [
-        _vm._v(_vm._s(_vm.invoice.sifra_predracuna))
-      ]),
-      _vm._v(" "),
-      _c("q-table", {
-        attrs: {
-          data: _vm.items,
-          columns: _vm.columns,
-          "row-key": "index",
-          "binary-state-sort": "",
-          filter: _vm.filter,
-          pagination: _vm.pagination
-        },
-        on: {
-          "update:pagination": function($event) {
-            _vm.pagination = $event
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "top-left",
-            fn: function() {
-              return [
-                _c(
-                  "span",
-                  { staticClass: "q-ml-xl text-subtitle1" },
-                  [
-                    _vm._v("\n               Vseh artiklov: "),
-                    _c("q-badge", { attrs: { outline: "", color: "green" } }, [
-                      _vm._v(_vm._s(_vm.invoice.totalQty))
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "span",
-                  { staticClass: "q-ml-xs text-subtitle1" },
-                  [
-                    _vm._v("\n               Skupna cena: "),
-                    _c(
-                      "q-badge",
-                      { attrs: { outline: "", color: "primary" } },
-                      [_vm._v(_vm._s(_vm._f("price")(_vm.totalPrice())) + " ")]
-                    )
-                  ],
-                  1
-                )
-              ]
+  return _vm.invoiceItems
+    ? _c(
+        "div",
+        { staticClass: "q-pa-md" },
+        [
+          _c("span", { staticClass: "text-h6 text-grey-8" }, [
+            _vm._v(_vm._s(_vm.invoice.sifra_predracuna))
+          ]),
+          _vm._v(" "),
+          _c("q-table", {
+            attrs: {
+              data: _vm.invoiceItems,
+              columns: _vm.columns,
+              "row-key": "index",
+              "binary-state-sort": "",
+              "no-data-label": "Na predračunu ni artiklov",
+              filter: _vm.filter,
+              pagination: _vm.pagination
             },
-            proxy: true
-          },
-          {
-            key: "top-right",
-            fn: function() {
-              return [
-                _c("q-input", {
-                  attrs: {
-                    borderless: "",
-                    dense: "",
-                    debounce: "300",
-                    placeholder: "Išči"
+            on: {
+              "update:pagination": function($event) {
+                _vm.pagination = $event
+              }
+            },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "top-left",
+                  fn: function() {
+                    return [
+                      _c(
+                        "span",
+                        { staticClass: "q-ml-xl text-subtitle1" },
+                        [
+                          _vm._v("\n               Vseh artiklov: "),
+                          _c("q-badge", { attrs: { color: "blue-7" } }, [
+                            _vm._v(_vm._s(_vm.itemsNum()))
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        { staticClass: "q-ml-md text-subtitle1" },
+                        [
+                          _vm._v("\n               Skupna cena: "),
+                          _c("q-badge", { attrs: { color: "blue-14" } }, [
+                            _vm._v(
+                              _vm._s(_vm._f("price")(_vm.totalPrice())) + " "
+                            )
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        { staticClass: "q-ml-md text-subtitle1" },
+                        [
+                          _vm._v("\n               DDV: "),
+                          _c("q-badge", { attrs: { color: "blue-10" } }, [
+                            _vm._v(
+                              _vm._s(_vm._f("discount")(_vm.invoice.vat)) + " "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ]
                   },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "append",
-                      fn: function() {
-                        return [_c("q-icon", { attrs: { name: "search" } })]
-                      },
-                      proxy: true
-                    }
-                  ]),
-                  model: {
-                    value: _vm.filter,
-                    callback: function($$v) {
-                      _vm.filter = $$v
-                    },
-                    expression: "filter"
+                  proxy: true
+                },
+                {
+                  key: "top-right",
+                  fn: function() {
+                    return [
+                      _c("q-input", {
+                        attrs: {
+                          borderless: "",
+                          dense: "",
+                          debounce: "300",
+                          placeholder: "Išči"
+                        },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "append",
+                              fn: function() {
+                                return [
+                                  _c("q-icon", { attrs: { name: "search" } })
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ],
+                          null,
+                          false,
+                          4009527860
+                        ),
+                        model: {
+                          value: _vm.filter,
+                          callback: function($$v) {
+                            _vm.filter = $$v
+                          },
+                          expression: "filter"
+                        }
+                      })
+                    ]
+                  },
+                  proxy: true
+                },
+                {
+                  key: "body",
+                  fn: function(props) {
+                    return [
+                      _c(
+                        "q-tr",
+                        { attrs: { props: props } },
+                        [
+                          _c("q-td", [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm.tableIndex(props.row)) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "description", attrs: { props: props } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(props.row.description) +
+                                  "\n                    "
+                              ),
+                              _c(
+                                "q-popup-edit",
+                                {
+                                  attrs: {
+                                    title: "Spremeni opis",
+                                    buttons: "",
+                                    "label-set": "Spremeni"
+                                  },
+                                  model: {
+                                    value: props.row.description,
+                                    callback: function($$v) {
+                                      _vm.$set(props.row, "description", $$v)
+                                    },
+                                    expression: "props.row.description"
+                                  }
+                                },
+                                [
+                                  _c("q-input", {
+                                    attrs: {
+                                      type: "text",
+                                      dense: "",
+                                      autofocus: ""
+                                    },
+                                    model: {
+                                      value: props.row.description,
+                                      callback: function($$v) {
+                                        _vm.$set(props.row, "description", $$v)
+                                      },
+                                      expression: "props.row.description"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "qty", attrs: { props: props } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(props.row.qty) +
+                                  "\n                    "
+                              ),
+                              _c(
+                                "q-popup-edit",
+                                {
+                                  attrs: {
+                                    title: "Spremeni količino",
+                                    buttons: "",
+                                    "label-set": "Spremeni"
+                                  },
+                                  model: {
+                                    value: props.row.qty,
+                                    callback: function($$v) {
+                                      _vm.$set(props.row, "qty", $$v)
+                                    },
+                                    expression: "props.row.qty"
+                                  }
+                                },
+                                [
+                                  _c("q-input", {
+                                    attrs: {
+                                      type: "number",
+                                      dense: "",
+                                      autofocus: "",
+                                      rules: [
+                                        function(val) {
+                                          return (
+                                            (val && val > 0) ||
+                                            "Mora biti večje od 0"
+                                          )
+                                        }
+                                      ]
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.changeItemData(
+                                          "Količina spremenjena",
+                                          props.row
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value: props.row.qty,
+                                      callback: function($$v) {
+                                        _vm.$set(props.row, "qty", $$v)
+                                      },
+                                      expression: "props.row.qty"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("q-td", { key: "unit", attrs: { props: props } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(props.row.unit) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "price", attrs: { props: props } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm._f("price")(props.row.priceItem)) +
+                                  "\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "priceItem", attrs: { props: props } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm._f("price")(props.row.price)) +
+                                  "\n                    "
+                              ),
+                              _c(
+                                "q-popup-edit",
+                                {
+                                  attrs: {
+                                    title: "Spremeni ceno/kos",
+                                    buttons: "",
+                                    "label-set": "Spremeni"
+                                  },
+                                  model: {
+                                    value: props.row.price,
+                                    callback: function($$v) {
+                                      _vm.$set(props.row, "price", $$v)
+                                    },
+                                    expression: "props.row.price"
+                                  }
+                                },
+                                [
+                                  _c("q-input", {
+                                    attrs: {
+                                      type: "number",
+                                      dense: "",
+                                      autofocus: ""
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.changeItemData(
+                                          "Cena/kos spremenjena",
+                                          props.row
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value: props.row.price,
+                                      callback: function($$v) {
+                                        _vm.$set(props.row, "price", $$v)
+                                      },
+                                      expression: "props.row.price"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "discount", attrs: { props: props } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(
+                                    _vm._f("discount")(props.row.discount)
+                                  ) +
+                                  "\n                    "
+                              ),
+                              _c(
+                                "q-popup-edit",
+                                {
+                                  attrs: {
+                                    title: "Spremeni popust",
+                                    buttons: "",
+                                    "label-set": "Spremeni"
+                                  },
+                                  model: {
+                                    value: props.row.discount,
+                                    callback: function($$v) {
+                                      _vm.$set(props.row, "discount", $$v)
+                                    },
+                                    expression: "props.row.discount"
+                                  }
+                                },
+                                [
+                                  _c("q-input", {
+                                    attrs: {
+                                      type: "number",
+                                      dense: "",
+                                      autofocus: "",
+                                      rules: [
+                                        function(val) {
+                                          return (
+                                            (val && val < 100) ||
+                                            "Mora biti manjše od 100 %"
+                                          )
+                                        }
+                                      ]
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.changeItemData(
+                                          "Popust spremenjen",
+                                          props.row
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value: props.row.discount,
+                                      callback: function($$v) {
+                                        _vm.$set(props.row, "discount", $$v)
+                                      },
+                                      expression: "props.row.discount"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("q-td", { key: "vat", attrs: { props: props } }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(_vm._f("discount")(_vm.invoice.vat)) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "q-td",
+                            { key: "edit", attrs: { props: props } },
+                            [
+                              _c("q-icon", {
+                                staticClass: "pointer text-red action-icon",
+                                attrs: { name: "delete_outline" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.confirm(props.row)
+                                  }
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
                   }
-                })
-              ]
-            },
-            proxy: true
-          },
-          {
-            key: "body",
-            fn: function(props) {
-              return [
-                _c(
-                  "q-tr",
-                  { attrs: { props: props } },
-                  [
-                    _c("q-td", [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.tableIndex(props.row)) +
-                          "\n                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "description", attrs: { props: props } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(props.row.description) +
-                            "\n                    "
-                        ),
-                        _c(
-                          "q-popup-edit",
-                          {
-                            attrs: { title: "Spremeni opis", buttons: "" },
-                            model: {
-                              value: props.row.description,
-                              callback: function($$v) {
-                                _vm.$set(props.row, "description", $$v)
-                              },
-                              expression: "props.row.description"
-                            }
-                          },
-                          [
-                            _c("q-input", {
-                              attrs: { type: "text", dense: "", autofocus: "" },
-                              model: {
-                                value: props.row.description,
-                                callback: function($$v) {
-                                  _vm.$set(props.row, "description", $$v)
-                                },
-                                expression: "props.row.description"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "qty", attrs: { props: props } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(props.row.qty) +
-                            "\n                    "
-                        ),
-                        _c(
-                          "q-popup-edit",
-                          {
-                            attrs: { title: "Spremeni količino", buttons: "" },
-                            model: {
-                              value: props.row.qty,
-                              callback: function($$v) {
-                                _vm.$set(props.row, "qty", $$v)
-                              },
-                              expression: "props.row.qty"
-                            }
-                          },
-                          [
-                            _c("q-input", {
-                              attrs: {
-                                type: "number",
-                                dense: "",
-                                autofocus: ""
-                              },
-                              model: {
-                                value: props.row.qty,
-                                callback: function($$v) {
-                                  _vm.$set(props.row, "qty", $$v)
-                                },
-                                expression: "props.row.qty"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("q-td", { key: "unit", attrs: { props: props } }, [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(props.row.unit) +
-                          "\n                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "price", attrs: { props: props } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm._f("price")(props.row.price)) +
-                            "\n                    "
-                        ),
-                        _c(
-                          "q-popup-edit",
-                          {
-                            attrs: { title: "Spremeni ceno", buttons: "" },
-                            model: {
-                              value: props.row.price,
-                              callback: function($$v) {
-                                _vm.$set(props.row, "price", $$v)
-                              },
-                              expression: "props.row.price"
-                            }
-                          },
-                          [
-                            _c("q-input", {
-                              attrs: {
-                                type: "number",
-                                dense: "",
-                                autofocus: ""
-                              },
-                              model: {
-                                value: props.row.price,
-                                callback: function($$v) {
-                                  _vm.$set(props.row, "price", $$v)
-                                },
-                                expression: "props.row.price"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "priceItem", attrs: { props: props } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm._f("price")(props.row.priceItem)) +
-                            "\n                    "
-                        ),
-                        _c(
-                          "q-popup-edit",
-                          {
-                            attrs: { title: "Spremeni ceno/kos", buttons: "" },
-                            model: {
-                              value: props.row.priceItem,
-                              callback: function($$v) {
-                                _vm.$set(props.row, "priceItem", $$v)
-                              },
-                              expression: "props.row.priceItem"
-                            }
-                          },
-                          [
-                            _c("q-input", {
-                              attrs: {
-                                type: "number",
-                                dense: "",
-                                autofocus: ""
-                              },
-                              model: {
-                                value: props.row.priceItem,
-                                callback: function($$v) {
-                                  _vm.$set(props.row, "priceItem", $$v)
-                                },
-                                expression: "props.row.priceItem"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "discount", attrs: { props: props } },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm._f("discount")(props.row.discount)) +
-                            "\n                    "
-                        ),
-                        _c(
-                          "q-popup-edit",
-                          {
-                            attrs: { title: "Spremeni popust", buttons: "" },
-                            model: {
-                              value: props.row.discount,
-                              callback: function($$v) {
-                                _vm.$set(props.row, "discount", $$v)
-                              },
-                              expression: "props.row.discount"
-                            }
-                          },
-                          [
-                            _c("q-input", {
-                              attrs: {
-                                type: "number",
-                                dense: "",
-                                autofocus: ""
-                              },
-                              model: {
-                                value: props.row.discount,
-                                callback: function($$v) {
-                                  _vm.$set(props.row, "discount", $$v)
-                                },
-                                expression: "props.row.discount"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("q-td", { key: "vat", attrs: { props: props } }, [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm._f("discount")(_vm.invoice.vat)) +
-                          "\n                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "q-td",
-                      { key: "edit", attrs: { props: props } },
-                      [
-                        _c("q-icon", {
-                          staticClass: "pointer text-red action-icon",
-                          attrs: { name: "delete_outline" },
-                          on: {
-                            click: function($event) {
-                              return _vm.confirm(props.row.id)
-                            }
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ]
-            }
-          }
-        ])
-      })
-    ],
-    1
-  )
+                }
+              ],
+              null,
+              false,
+              699859637
+            )
+          })
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -88249,6 +88857,11 @@ var render = function() {
         "q-dialog",
         {
           ref: "createModal",
+          attrs: {
+            persistent: "",
+            "transition-show": "scale",
+            "transition-hide": "scale"
+          },
           model: {
             value: _vm.medium,
             callback: function($$v) {
@@ -93948,7 +94561,7 @@ var vueMoment = {
         date = moment$$1(input);
       }
 
-      if (!input || !date.isValid()) {
+      if (input && !date.isValid()) {
         // Log a warning if moment couldn't reconcile the input. Better than throwing an error?
         console.warn('Could not build a valid `moment` object from input.');
         return input;
@@ -111274,6 +111887,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/invoices/dialogs/AddItem.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddItem.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddItem.vue?vue&type=template&id=c4af901c&scoped=true& */ "./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true&");
+/* harmony import */ var _AddItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddItem.vue?vue&type=script&lang=js& */ "./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "c4af901c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/invoices/dialogs/AddItem.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AddItem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true& ***!
+  \*********************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AddItem.vue?vue&type=template&id=c4af901c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddItem.vue?vue&type=template&id=c4af901c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddItem_vue_vue_type_template_id_c4af901c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/invoices/dialogs/EditDialog.vue":
 /*!*****************************************************************!*\
   !*** ./resources/js/components/invoices/dialogs/EditDialog.vue ***!
@@ -112099,8 +112781,9 @@ __webpack_require__.r(__webpack_exports__);
   state: {
     drawer: true,
     persistent: false,
-    editModal: false,
-    editInvoiceModal: false
+    editDialog: false,
+    editInvoiceDialog: false,
+    addItemDialog: false
   },
   mutations: {
     CHANGE_DRAWER: function CHANGE_DRAWER(state, payload) {
@@ -112110,10 +112793,13 @@ __webpack_require__.r(__webpack_exports__);
       state.persistent = payload;
     },
     CHANGE_EDIT_DIALOG: function CHANGE_EDIT_DIALOG(state, payload) {
-      state.editModal = payload;
+      state.editDialog = payload;
     },
     CHANGE_EDIT_INVOICE_DIALOG: function CHANGE_EDIT_INVOICE_DIALOG(state, payload) {
-      state.editInvoiceModal = payload;
+      state.editInvoiceDialog = payload;
+    },
+    CHANGE_ADD_ITEM_DIALOG: function CHANGE_ADD_ITEM_DIALOG(state, payload) {
+      state.addItemDialog = payload;
     }
   },
   actions: {
@@ -112132,6 +112818,10 @@ __webpack_require__.r(__webpack_exports__);
     editInvoiceDialogAction: function editInvoiceDialogAction(_ref4, modal) {
       var commit = _ref4.commit;
       commit('CHANGE_EDIT_INVOICE_DIALOG', modal);
+    },
+    addItemDialog: function addItemDialog(_ref5, modal) {
+      var commit = _ref5.commit;
+      commit('CHANGE_ADD_ITEM_DIALOG', modal);
     }
   },
   getters: {
@@ -112141,11 +112831,14 @@ __webpack_require__.r(__webpack_exports__);
     getDialog: function getDialog(state) {
       return state.persistent;
     },
-    getEditModal: function getEditModal(state) {
-      return state.editModal;
+    getEditDialog: function getEditDialog(state) {
+      return state.editDialog;
     },
-    getEditInvoiceModal: function getEditInvoiceModal(state) {
-      return state.editInvoiceModal;
+    getEditInvoiceDialog: function getEditInvoiceDialog(state) {
+      return state.editInvoiceDialog;
+    },
+    getAddItemDialog: function getAddItemDialog(state) {
+      return state.addItemDialog;
     }
   }
 });

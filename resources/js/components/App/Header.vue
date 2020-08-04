@@ -5,8 +5,13 @@
                 <q-btn flat @click="changeDrawerState" round dense icon="menu" />
                 <q-toolbar-title>{{ title }}</q-toolbar-title>
                 <span class="q-mr-md">
-                        <q-btn dense color="blue-10" round icon="email" class="q-ml-md">
-                        <q-badge color="red" floating>1</q-badge>
+                        <q-btn dense round text-color="yellow" icon="wb_sunny" class="q-ml-md">
+                        <q-badge color="red"
+                                 floating
+                                 transparent
+                                 self="bottom middle"
+                                 :offset="[20, 10]"
+                        >25&deg</q-badge>
                     </q-btn>
                     </span>
                 <span class="q-mr-md" v-if="currentUser">

@@ -2,6 +2,7 @@
     <div>
         <q-dialog
             v-model="editDialog"
+            persistent transition-show="scale" transition-hide="scale"
         >
             <q-card style="width: 700px; max-width: 80vw;">
                 <q-card-section>
@@ -201,7 +202,7 @@
         },
         computed: {
             ...mapGetters({
-                editDialog: 'general/getEditModal',
+                editDialog: 'general/getEditDialog',
                 getCustomers: 'customers/getCustomer',
                 posts: 'post/getPosts'
             }),

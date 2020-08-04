@@ -1,20 +1,24 @@
 <template>
-    <div class="q-pa-md">
+    <div class="q-pa-md" v-if="invoiceItems">
         <span class="text-h6 text-grey-8">{{ invoice.sifra_predracuna }}</span>
         <q-table
-            :data="items"
+            :data="invoiceItems"
             :columns="columns"
             row-key="index"
             binary-state-sort
+            no-data-label="Na predračunu ni artiklov"
             :filter="filter"
             :pagination.sync="pagination"
         >
              <template v-slot:top-left>
                <span class="q-ml-xl text-subtitle1">
-                   Vseh artiklov: <q-badge outline color="green">{{ invoice.totalQty }}</q-badge>
+                   Vseh artiklov: <q-badge color="blue-7">{{ itemsNum() }}</q-badge>
                </span>
-               <span class="q-ml-xs text-subtitle1">
-                   Skupna cena: <q-badge outline color="primary">{{ totalPrice() | price }} </q-badge>
+               <span class="q-ml-md text-subtitle1">
+                   Skupna cena: <q-badge color="blue-14">{{ totalPrice() | price }} </q-badge>
+               </span>
+                 <span class="q-ml-md text-subtitle1">
+                   DDV: <q-badge color="blue-10">{{ invoice.vat | discount }} </q-badge>
                </span>
            </template>
             <template v-slot:top-right>
@@ -31,42 +35,51 @@
                     </q-td>
                     <q-td key="description" :props="props">
                         {{ props.row.description }}
-                        <q-popup-edit v-model="props.row.description" title="Spremeni opis" buttons>
+                        <q-popup-edit v-model="props.row.description" title="Spremeni opis" buttons label-set="Spremeni">
                             <q-input type="text" v-model="props.row.description" dense autofocus />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="qty" :props="props">
                         {{ props.row.qty }}
-                        <q-popup-edit v-model="props.row.qty" title="Spremeni količino" buttons>
-                            <q-input type="number" v-model="props.row.qty" dense autofocus />
+                        <q-popup-edit v-model="props.row.qty" title="Spremeni količino" buttons label-set="Spremeni">
+                            <q-input type="number"
+                                     v-model="props.row.qty"
+                                     dense
+                                     autofocus
+                                     @change="changeItemData('Količina spremenjena',props.row)"
+                                     :rules="[ val => val && val > 0  || 'Mora biti večje od 0']"
+                            />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="unit" :props="props">
                         {{ props.row.unit }}
                     </q-td>
                     <q-td key="price" :props="props">
-                        {{ props.row.price | price }}
-                        <q-popup-edit v-model="props.row.price" title="Spremeni ceno" buttons>
-                            <q-input type="number" v-model="props.row.price" dense autofocus />
-                        </q-popup-edit>
+                        {{ props.row.priceItem | price }}
                     </q-td>
                     <q-td key="priceItem" :props="props">
-                        {{ props.row.priceItem | price }}
-                        <q-popup-edit v-model="props.row.priceItem" title="Spremeni ceno/kos" buttons>
-                            <q-input type="number" v-model="props.row.priceItem" dense autofocus />
+                        {{ props.row.price | price }}
+                        <q-popup-edit v-model="props.row.price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
+                            <q-input type="number" v-model="props.row.price" @change="changeItemData('Cena/kos spremenjena',props.row)" dense autofocus />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="discount" :props="props">
                         {{ props.row.discount | discount }}
-                        <q-popup-edit v-model="props.row.discount" title="Spremeni popust" buttons>
-                            <q-input type="number" v-model="props.row.discount" dense autofocus />
+                        <q-popup-edit v-model="props.row.discount" title="Spremeni popust" buttons label-set="Spremeni">
+                            <q-input type="number"
+                                     v-model="props.row.discount"
+                                     @change="changeItemData('Popust spremenjen',props.row)"
+                                     dense
+                                     autofocus
+                                     :rules="[ val => val && val < 100  || 'Mora biti manjše od 100 %']"
+                            />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="vat" :props="props">
                         {{ invoice.vat | discount }}
                     </q-td>
                     <q-td key="edit" :props="props">
-                        <q-icon name="delete_outline" @click="confirm(props.row.id)" class="pointer text-red action-icon"></q-icon>
+                        <q-icon name="delete_outline" @click="confirm(props.row)" class="pointer text-red action-icon"></q-icon>
                     </q-td>
                 </q-tr>
             </template>
@@ -81,6 +94,8 @@
         props: ['invoice', 'items'],
         data() {
             return {
+                invoiceItems: null,
+                totalItems: 0,
                 filter: '',
                 pagination: {
                     rowsPerPage: 20
@@ -119,7 +134,7 @@
                         label: 'Cena',
                         align: 'center',
                         sortable: true,
-                        field: row => row.price,
+                        field: row => row.priceItem,
                     },
                     {
                         name: 'priceItem',
@@ -127,7 +142,7 @@
                         label: 'Cena/kos',
                         align: 'center',
                         sortable: true,
-                        field: row => row.priceItem,
+                        field: row => row.price,
                     },
                     {
                         name: 'discount',
@@ -157,10 +172,66 @@
         },
         methods: {
             tableIndex(row) {
-                return this.items.indexOf(row) + 1
+                return this.invoiceItems.indexOf(row) + 1
+            },
+            changeItemData(message, row) {
+                let discount = parseInt(row.discount)
+                let price = parseFloat(row.price)
+                let quantity = parseInt(row.qty)
+
+                row.priceItem = discount > 0 ? price * quantity - (price * quantity * discount / 100) : price * quantity
+                this.showNotif(message, 'positive')
+
+            },
+            itemsNum() {
+                let items = 0
+
+                this.invoiceItems.forEach(item => {
+                    items += parseInt(item.qty)
+                    return items
+                })
+                return items
             },
             totalPrice() {
-                return this.invoice.total
+                let total = 0
+
+                this.invoiceItems.forEach(item => {
+                    total += parseFloat(item.priceItem)
+                    return total
+                })
+                return (total * this.invoice.vat / 100) + total
+            },
+            showNotif(message, type) {
+                this.$q.notify({
+                    message: message,
+                    position: 'top',
+                    type: type
+                })
+            },
+            confirm(row) {
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite odstraniti artikel?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.invoiceItems =  this.invoiceItems.filter(item => {
+                        return item !== row
+                    })
+
+                    this.showNotif('Artikel je odstranjen', 'positive')
+                })
+            }
+        },
+        mounted() {
+            this.invoiceItems = this.items
+        },
+        watch: {
+            items: {
+                handler() {
+                    this.invoiceItems = this.items
+                }
             }
         }
     }

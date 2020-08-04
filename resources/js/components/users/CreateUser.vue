@@ -6,6 +6,7 @@
    <q-dialog
        v-model="medium"
        ref="createModal"
+       persistent transition-show="scale" transition-hide="scale"
    >
        <q-card style="width: 700px; max-width: 80vw;">
            <q-card-section>

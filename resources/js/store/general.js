@@ -3,8 +3,9 @@ export default {
     state: {
         drawer: true,
         persistent: false,
-        editModal: false,
-        editInvoiceModal: false
+        editDialog: false,
+        editInvoiceDialog: false,
+        addItemDialog: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -14,10 +15,13 @@ export default {
             state.persistent = payload
         },
         CHANGE_EDIT_DIALOG(state, payload) {
-            state.editModal = payload
+            state.editDialog = payload
         },
         CHANGE_EDIT_INVOICE_DIALOG(state, payload) {
-            state.editInvoiceModal = payload
+            state.editInvoiceDialog = payload
+        },
+        CHANGE_ADD_ITEM_DIALOG(state, payload) {
+            state.addItemDialog = payload
         }
     },
     actions: {
@@ -32,6 +36,9 @@ export default {
         },
         editInvoiceDialogAction({commit}, modal) {
             commit('CHANGE_EDIT_INVOICE_DIALOG', modal)
+        },
+        addItemDialog({commit}, modal) {
+            commit('CHANGE_ADD_ITEM_DIALOG', modal)
         }
     },
     getters: {
@@ -41,11 +48,14 @@ export default {
         getDialog(state) {
             return state.persistent
         },
-        getEditModal(state) {
-            return state.editModal
+        getEditDialog(state) {
+            return state.editDialog
         },
-        getEditInvoiceModal(state) {
-            return state.editInvoiceModal
+        getEditInvoiceDialog(state) {
+            return state.editInvoiceDialog
+        },
+        getAddItemDialog(state) {
+            return state.addItemDialog
         }
     }
 }
