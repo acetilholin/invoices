@@ -12,7 +12,7 @@
         >
              <template v-slot:top-left>
                <span class="q-ml-xl text-subtitle1">
-                   Vseh artiklov: <q-badge color="blue-7">{{ itemsNum() }}</q-badge>
+                   Vseh artiklov: <q-badge color="blue-7">{{ itemsNum() | zero }}</q-badge>
                </span>
                <span class="q-ml-md text-subtitle1">
                    Skupna cena: <q-badge color="blue-14">{{ totalPrice() | price }} </q-badge>
@@ -54,14 +54,14 @@
                     <q-td key="unit" :props="props">
                         {{ props.row.unit }}
                     </q-td>
-                    <q-td key="price" :props="props">
-                        {{ props.row.priceItem | price }}
-                    </q-td>
-                    <q-td key="priceItem" :props="props">
-                        {{ props.row.price | price }}
-                        <q-popup-edit v-model="props.row.price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
-                            <q-input type="number" v-model="props.row.price" @change="changeItemData('Cena/kos spremenjena',props.row)" dense autofocus />
+                    <q-td key="item_price" :props="props">
+                        {{ props.row.item_price | price }}
+                        <q-popup-edit v-model="props.row.item_price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
+                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData('Cena/kos spremenjena',props.row)" dense autofocus />
                         </q-popup-edit>
+                    </q-td>
+                    <q-td key="total_price" :props="props">
+                        {{ props.row.total_price | price }}
                     </q-td>
                     <q-td key="discount" :props="props">
                         {{ props.row.discount | discount }}
@@ -90,7 +90,7 @@
 <script>
 
     export default {
-        name: "Edit",
+        name: "EditTable",
         props: ['invoice', 'items'],
         data() {
             return {
@@ -129,20 +129,20 @@
                         field: row => row.unit,
                     },
                     {
-                        name: 'price',
-                        required: true,
-                        label: 'Cena',
-                        align: 'center',
-                        sortable: true,
-                        field: row => row.priceItem,
-                    },
-                    {
-                        name: 'priceItem',
+                        name: 'item_price',
                         required: true,
                         label: 'Cena/kos',
                         align: 'center',
                         sortable: true,
-                        field: row => row.price,
+                        field: row => row.item_price,
+                    },
+                    {
+                        name: 'total_price',
+                        required: true,
+                        label: 'Cena',
+                        align: 'center',
+                        sortable: true,
+                        field: row => row.total_price,
                     },
                     {
                         name: 'discount',
@@ -168,6 +168,9 @@
             },
             discount(val) {
                 return val + ' %'
+            },
+            zero(val) {
+                return +val
             }
         },
         methods: {
@@ -176,30 +179,33 @@
             },
             changeItemData(message, row) {
                 let discount = parseInt(row.discount)
-                let price = parseFloat(row.price)
-                let quantity = parseInt(row.qty)
+                let price = parseFloat(row.item_price)
+                let quantity = parseFloat(row.qty)
 
-                row.priceItem = discount > 0 ? price * quantity - (price * quantity * discount / 100) : price * quantity
+                row.total_price = discount > 0 ? price * quantity - (price * quantity * discount / 100) : price * quantity
                 this.showNotif(message, 'positive')
-
             },
             itemsNum() {
-                let items = 0
+                let total = 0
+                this.invoiceItems.forEach( function(item) {
+                    total += parseFloat(item.qty);
+                });
 
-                this.invoiceItems.forEach(item => {
-                    items += parseInt(item.qty)
-                    return items
-                })
-                return items
+                this.invoice.quantity = total
+                return total
             },
             totalPrice() {
-                let total = 0
+                let total = 0.0
+                let sum = 0.0
 
                 this.invoiceItems.forEach(item => {
-                    total += parseFloat(item.priceItem)
+                    total += parseFloat(item.total_price)
                     return total
                 })
-                return (total * this.invoice.vat / 100) + total
+
+                sum = (total * this.invoice.vat / 100) + total
+                this.invoice.total = sum
+                return sum
             },
             showNotif(message, type) {
                 this.$q.notify({
@@ -222,7 +228,7 @@
 
                     this.showNotif('Artikel je odstranjen', 'positive')
                 })
-            }
+            },
         },
         mounted() {
             this.invoiceItems = this.items

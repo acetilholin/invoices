@@ -14,20 +14,17 @@ class InvoiceResource extends JsonResource
      */
     public function toArray($request)
     {
-        $predracun = unserialize($this->predracun);
         return [
             'id' => $this->id,
             'sifra_predracuna' => $this->sifra_predracuna,
             'ime_priimek' => $this->ime_priimek,
-            'total' => $predracun->totalPrice,
-            'items' => $predracun->items,
-            'vat' => $predracun->vat,
+            'total' => $this->total,
+            'vat' => $this->vat,
             'timestamp' => $this->timestamp,
             'expiration' => $this->expiration,
-            'totalQty' => $predracun->totalQuantity,
+            'quantity' => $this->quantity,
             'author' => $this->author,
-            'prejemnik' => $this->prejemnik,
-            'workDate' => $this->work_date,
+            'work_date' => $this->work_date,
             'klavzula' => $this->klavzula
         ];
     }

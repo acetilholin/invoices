@@ -1,5 +1,6 @@
 <template>
     <div class="q-pa-md">
+        <CreateInvoice class="q-mt-sm q-mb-md"></CreateInvoice>
         <q-table
             title="Predračuni"
             :data="invoices"
@@ -79,6 +80,7 @@
 <script>
 
     import EditDialog from "./dialogs/EditDialog";
+    import CreateInvoice from "./CreateInvoice";
     import {mapGetters, mapActions} from 'vuex'
 
     export default {
@@ -121,7 +123,8 @@
             }
         },
         components: {
-          EditDialog
+          EditDialog,
+          CreateInvoice
         },
         filters: {
             decimals(value) {

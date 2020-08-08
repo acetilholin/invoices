@@ -9,8 +9,8 @@ class Customer extends Model
     protected $guarded = [];
     protected $table = 'customers';
 
-    public function invoiceitems()
+    public function invoices()
     {
-        return $this->hasMany(Invoiceitems::class, 'customer_id');
+        return $this->hasMany('App\Invoice','customer_id');
     }
 }

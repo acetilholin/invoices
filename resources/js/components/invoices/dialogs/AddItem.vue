@@ -20,14 +20,16 @@
                                v-model="item.description"
                                label="Opis"
                                class="col-12"
-                           /> <!-- :rules="[ val => val && val.length > 0 || 'Vnesite opis']" -->
+                               :rules="[ val => val && val.length > 0 || 'Vnesite opis']"
+                           />
                        </div>
                        <div class="row">
                            <q-select v-model="item.unit"
                                      :options="units"
                                      class="col-3 input-margin"
                                      label="Enota mere"
-                           /> <!--  :rules="[ val => !!val || 'Izberite EM']" -->
+                                     :rules="[ val => !!val || 'Izberite EM']"
+                           />
                            <q-input
                                v-model="item.price"
                                label="Cena na 2 decimalki"
@@ -38,13 +40,15 @@
                                input-class="text-right"
                                class="col-3 input-margin"
                                suffix="€"
-                           /> <!--  :rules="[ val => !!val || 'Vnesite ceno']" -->
+                               :rules="[ val => !!val || 'Vnesite ceno']"
+                           />
                            <q-input
                                v-model.number="item.qty"
                                label="Količina"
                                type="number"
                                class="col-2 input-margin"
-                           /> <!--  :rules="[ val => !!val || 'Vnesite količino']" -->
+                               :rules="[ val => !!val || 'Vnesite količino']"
+                           />
                            <q-input
                                v-model.number="item.discount"
                                label="Popust"
@@ -82,12 +86,12 @@ export default {
             item: {
                 description: "",
                 discount: 0,
-                qty: null,
+                qty: 0,
                 price: 0,
                 priceItem: null,
                 unit: ""
             },
-            units: ['m','ura','kg','m2']
+            units: ['kos','m','ura','kg','m2']
         }
     },
     computed: {
@@ -106,25 +110,20 @@ export default {
         onSubmit() {
             let discount = parseInt(this.item.discount)
             let price = parseFloat(this.item.price)
-            let qty = parseFloat(this.item.qty)
-            let priceItem = 0
-            let key = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+            let qty = parseInt(this.item.qty)
+            let total_price = 0
 
-            priceItem = discount > 0 ? price * qty - (price * qty * discount / 100) : price * qty
+            total_price = discount > 0 ? price * qty - (price * qty * discount / 100) : price * qty
 
             let newItem = {
-                description: this.item.description,
-                discount: discount,
-                price: price,
-                priceItem: priceItem,
                 qty: qty,
-                unit: this.item.unit
+                unit: this.item.unit,
+                item_price: price,
+                discount: discount,
+                total_price: total_price,
+                description: this.item.description
             }
-
-            var data = {key:key,value: newItem}
-            var obj = { [key]: (data.value)}
-
-            this.$emit('newItem', obj);
+            this.$emit('newItem', newItem);
         },
         onReset() {
             this.item = []

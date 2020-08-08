@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Invoiceitems;
+use App\Invoice;
 use Illuminate\Http\Request;
-use App\Http\Resources\InvoiceitemsResource;
+use App\Http\Resources\InvoicesResource;
 use App\Http\Resources\InvoiceResource;
 
-class InvoicesController extends Controller
+class InvoiceController extends Controller
 {
 
     public function index()
     {
-        return InvoiceitemsResource::collection(Invoiceitems::all());
+        return InvoicesResource::collection(Invoice::all());
     }
 
     /**
@@ -40,10 +40,10 @@ class InvoicesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
-     * @return \Illuminate\Http\JsonResponse
+     * @param  InvoicesResource  $invoiceitems
+     * @return void
      */
-    public function show(InvoiceitemsResource $invoiceitems)
+    public function show(InvoicesResource $invoiceitems)
     {
 
     }
@@ -51,13 +51,20 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Invoiceitems $invoiceitems)
+    public function edit(Invoice $invoice)
     {
+        $items = $invoice->items;
+
+        foreach ($items as $item) {
+            $allItems[] = $item;
+        }
+
         return response()->json([
-            'invoice' => InvoiceResource::make($invoiceitems)
+            'invoice' => InvoiceResource::make($invoice),
+            'items' => $allItems
         ]);
     }
 
@@ -65,21 +72,23 @@ class InvoicesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InvoiceitemsResource $invoiceitems)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        $invoiceData = request(['sifra_predracuna', 'ime_priimek', 'customer_id', 'timestamp', 'expiration', 'klavzula', 'author', 'work_date', 'total', 'quantity', 'vat']);
+        $itemsData = request(['items']);
+        $invoice->update($invoiceData);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InvoiceitemsResource $invoiceitems)
+    public function destroy(Invoice $invoice)
     {
         //
     }
