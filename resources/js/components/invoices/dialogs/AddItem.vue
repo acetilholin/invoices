@@ -116,6 +116,7 @@ export default {
             total_price = discount > 0 ? price * qty - (price * qty * discount / 100) : price * qty
 
             let newItem = {
+                invoice_id: null,
                 qty: qty,
                 unit: this.item.unit,
                 item_price: price,

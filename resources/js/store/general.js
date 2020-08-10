@@ -5,7 +5,9 @@ export default {
         persistent: false,
         editDialog: false,
         editInvoiceDialog: false,
-        addItemDialog: false
+        addItemDialog: false,
+        addRecipient: false,
+        editRecipient: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -22,6 +24,12 @@ export default {
         },
         CHANGE_ADD_ITEM_DIALOG(state, payload) {
             state.addItemDialog = payload
+        },
+        CHANGE_ADD_RECIPIENT_DIALOG(state, payload) {
+            state.addRecipient = payload
+        },
+        CHANGE_EDIT_RECIPIENT_DIALOG(state, payload) {
+            state.editRecipient = payload
         }
     },
     actions: {
@@ -39,6 +47,12 @@ export default {
         },
         addItemDialog({commit}, modal) {
             commit('CHANGE_ADD_ITEM_DIALOG', modal)
+        },
+        AddRecipientDialog({commit}, modal) {
+            commit('CHANGE_ADD_RECIPIENT_DIALOG', modal)
+        },
+        editRecipientDialog({commit}, modal) {
+            commit('CHANGE_EDIT_RECIPIENT_DIALOG',modal)
         }
     },
     getters: {
@@ -56,6 +70,12 @@ export default {
         },
         getAddItemDialog(state) {
             return state.addItemDialog
+        },
+        getAddRecipientDialog(state) {
+            return state.addRecipient
+        },
+        getEditRecipientDialog(state) {
+            return state.editRecipient
         }
     }
 }

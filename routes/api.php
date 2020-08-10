@@ -23,6 +23,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('customers', 'API\CustomerController');
 
+    Route::resource('items', 'API\ItemController');
+
+    Route::resource('recipients', 'API\RecipientController');
+
     Route::resource('posts', 'API\PostController');
 
     Route::resource('klavzule', 'API\KlavzuleController');

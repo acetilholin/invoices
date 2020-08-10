@@ -21,6 +21,39 @@
                     <div class="text-body1">Datum zapadlosti: <span :class="$moment(today()).isBefore(invoice.expiration) ? 'text-green' : 'text-red'">{{ invoice.expiration | moment('DD-MM-Y') }}</span></div>
                     <div class="text-body1">Delo opravljeno: <span class="text-grey-8" v-if="invoice.work_date">{{ invoice.work_date | moment('DD-MM-Y') }}</span></div>
                     <div class="text-body1">Klavzula: <span class="text-grey-8">{{ invoice.klavzula }}</span></div>
+                    <div class="text-body1" v-if="recipient">Prejemnik: <span class="text-grey-8">{{ recipient.title }}, {{ recipient.street}}, {{ recipient.posta }}</span></div>
+                    <div class="prejemnik q-mt-xs">
+                        <q-btn-dropdown color="primary" outline label="Prejemnik">
+                            <q-list>
+                                <q-item clickable v-if="!recipient" v-close-popup @click="addPrejemnik()">
+                                    <q-item-section>
+                                        <q-item-label>
+                                            <q-icon name="add"></q-icon>
+                                            Dodaj
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+
+                                <q-item clickable v-if="recipient" v-close-popup @click="editPrejemnik()">
+                                    <q-item-section>
+                                        <q-item-label>
+                                            <q-icon name="edit"></q-icon>
+                                            Uredi
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+
+                                <q-item clickable v-if="recipient" v-close-popup @click="removePrejemnik()">
+                                    <q-item-section>
+                                        <q-item-label class="text-red">
+                                            <q-icon name="delete_outline"></q-icon>
+                                            Izbriši
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-btn-dropdown>
+                    </div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
@@ -172,15 +205,19 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
+        <add-recipient :invoice="invoice"></add-recipient>
+        <edit-recipient v-if="recipient" :recipient="recipient"></edit-recipient>
     </div>
 </template>
 
 <script>
 
     import EditTable from "../tables/EditTable";
+    import AddRecipient from "./AddRecipient";
     import Create from "../../App/Create";
     import AddItem from "./AddItem";
     import {mapActions, mapGetters} from 'vuex'
+    import EditRecipient from "./EditRecipient";
 
     export default {
         name: "EditDialog",
@@ -211,7 +248,8 @@
                 invoice: 'invoices/getInvoice',
                 items: 'invoices/getItems',
                 klavzule: 'klavzule/getKlavzule',
-                customers: 'customers/getCustomers'
+                customers: 'customers/getCustomers',
+                recipient: 'invoices/getRecipient'
             }),
             timestamp: function () {
                 return this.$moment(this.invoice.timestamp).format('DD-MM-Y')
@@ -255,7 +293,9 @@
         components: {
             AddItem,
             Create,
-            EditTable
+            EditTable,
+            AddRecipient,
+            EditRecipient
         },
         created() {
           this.$store.dispatch('klavzule/klavzuleAction')
@@ -265,11 +305,38 @@
             ...mapActions({
                closeEditDialog: 'general/editInvoiceDialogAction',
                addItemDialog: 'general/addItemDialog',
-               updateInvoice: 'invoices/update'
+               updateInvoice: 'invoices/update',
+               remove: 'invoices/removeRecipient'
             }),
             addNewItem(newItem) {
-                this.showNotif('Artikel dodan', 'positive')
+                newItem.id = null
+                newItem.invoice_id = this.invoice.id
                 this.items.push(newItem)
+                this.showNotif('Artikel dodan', 'positive')
+            },
+            addPrejemnik() {
+                this.$store.dispatch('general/AddRecipientDialog', true)
+            },
+            editPrejemnik() {
+                this.$store.dispatch('general/editRecipientDialog', true)
+            },
+            removePrejemnik() {
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.remove(this.recipient.id)
+                        .then((response) => {
+                            this.showNotif(response, 'warning')
+                        })
+                        .catch((e) => {
+                            this.showNotif(e, 'negative')
+                        })
+
+                })
             },
             addItem() {
                 this.addItemDialog(true)

@@ -3,7 +3,8 @@ export default {
     state: {
         invoices: [],
         invoice: [],
-        items: []
+        items: [],
+        recipient: []
     },
     mutations: {
         SET_INVOICES(state, payload) {
@@ -14,6 +15,9 @@ export default {
         },
         SET_ITEMS(state, payload) {
             state.items = payload
+        },
+        SET_RECIPIENT(state, payload) {
+            state.recipient = payload
         }
     },
     actions: {
@@ -23,11 +27,15 @@ export default {
                     commit('SET_INVOICES', response.data.data)
                 })
         },
+        removeItem({commit}, id) {
+            axios.delete(`/items/${id}`)
+        },
         currentInvoiceAction({commit}, id) {
             axios.get(`/invoices/${id}/edit`)
                 .then((response) => {
                     commit('SET_INVOICE', response.data.invoice)
                     commit('SET_ITEMS', response.data.items)
+                    commit('SET_RECIPIENT', response.data.recipient)
                 })
         },
         async update({commit}, invoice) {
@@ -46,7 +54,49 @@ export default {
                 'items': invoice.items
             })
                 .then((response) => {
-
+                    commit('SET_INVOICES', response.data.invoices)
+                    commit('SET_ITEMS', response.data.items)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async addRecipient({commit}, recipientData) {
+            let newRecipient = {
+                invoice_id: recipientData.id,
+                title: recipientData.recipient.title,
+                street: recipientData.recipient.street,
+                posta: recipientData.recipient.posta.posta
+            }
+            return await axios.post('/recipients', newRecipient)
+                .then((response) => {
+                    commit('SET_RECIPIENT', response.data.recipient)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async removeRecipient({commit}, id) {
+           return await axios.delete(`/recipients/${id}`)
+                .then((response) => {
+                    commit('SET_RECIPIENT', null)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async EditRecipient({commit}, recipient) {
+            return await axios.patch(`/recipients/${recipient.id}`, {
+                'id': recipient.id,
+                'title': recipient.title,
+                'street': recipient.street,
+                'posta': recipient.posta
+            })
+                .then((response) => {
+                    commit('SET_RECIPIENT', response.data.recipient)
                     return response.data.success
                 })
                 .catch((e) => {
@@ -63,6 +113,9 @@ export default {
         },
         getItems(state) {
             return state.items
+        },
+        getRecipient(state) {
+            return state.recipient
         }
     }
 }

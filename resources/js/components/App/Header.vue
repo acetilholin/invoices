@@ -11,7 +11,11 @@
                                  transparent
                                  self="bottom middle"
                                  :offset="[20, 10]"
-                        >25&deg</q-badge>
+                        >25&deg
+                        </q-badge>
+                        <q-tooltip>
+                            User Location
+                        </q-tooltip>
                     </q-btn>
                     </span>
                 <span class="q-mr-md" v-if="currentUser">

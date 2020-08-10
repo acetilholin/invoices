@@ -2352,6 +2352,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2896,7 +2900,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         persistent: true
       }).onOk(function () {
         _this.remove(id).then(function (response) {
-          _this.showNotif(response, 'positive');
+          _this.showNotif(response, 'warning');
         })["catch"](function (e) {
           _this.showNotif(e, 'negative');
         });
@@ -3736,6 +3740,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total_price = 0;
       total_price = discount > 0 ? price * qty - price * qty * discount / 100 : price * qty;
       var newItem = {
+        invoice_id: null,
         qty: qty,
         unit: this.item.unit,
         item_price: price,
@@ -3753,6 +3758,179 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "AddRecipient",
+  data: function data() {
+    return {
+      submitting: false,
+      options: this.posts,
+      recipient: {
+        title: null,
+        street: null,
+        posta: null
+      }
+    };
+  },
+  props: ['invoice'],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    dialog: 'general/getAddRecipientDialog',
+    posts: 'post/getPosts'
+  })),
+  created: function created() {
+    this.$store.dispatch('post/postAction');
+  },
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    close: 'general/AddRecipientDialog',
+    newRecipient: 'invoices/addRecipient'
+  })), {}, {
+    showNotif: function showNotif(message, type) {
+      this.$q.notify({
+        message: message,
+        position: 'top',
+        type: type
+      });
+    },
+    closeDialog: function closeDialog() {
+      this.close(false);
+    },
+    filterInput: function filterInput(val, update, abort) {
+      var _this = this;
+
+      update(function () {
+        var needle = val.toLowerCase();
+        _this.options = _this.posts.filter(function (v) {
+          return v.posta.toLowerCase().indexOf(needle) > -1;
+        });
+      });
+    },
+    onReset: function onReset() {
+      this.recipient = {};
+    },
+    onSubmit: function onSubmit() {
+      var _this2 = this;
+
+      this.submitting = true;
+      var recipientData = {
+        recipient: this.recipient,
+        id: this.invoice.id
+      };
+      this.newRecipient(recipientData).then(function (response) {
+        _this2.showNotif(response, 'positive');
+
+        setTimeout(function () {
+          _this2.submitting = false;
+        }, 500);
+      })["catch"](function (e) {
+        _this2.showNotif(e, 'negative');
+      });
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=script&lang=js& ***!
@@ -3763,9 +3941,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tables_EditTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../tables/EditTable */ "./resources/js/components/invoices/tables/EditTable.vue");
-/* harmony import */ var _App_Create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../App/Create */ "./resources/js/components/App/Create.vue");
-/* harmony import */ var _AddItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddItem */ "./resources/js/components/invoices/dialogs/AddItem.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _AddRecipient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddRecipient */ "./resources/js/components/invoices/dialogs/AddRecipient.vue");
+/* harmony import */ var _App_Create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../App/Create */ "./resources/js/components/App/Create.vue");
+/* harmony import */ var _AddItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddItem */ "./resources/js/components/invoices/dialogs/AddItem.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _EditRecipient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./EditRecipient */ "./resources/js/components/invoices/dialogs/EditRecipient.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3949,6 +4129,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -3972,12 +4189,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])({
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])({
     dialog: 'general/getEditInvoiceDialog',
     invoice: 'invoices/getInvoice',
     items: 'invoices/getItems',
     klavzule: 'klavzule/getKlavzule',
-    customers: 'customers/getCustomers'
+    customers: 'customers/getCustomers',
+    recipient: 'invoices/getRecipient'
   })), {}, {
     timestamp: function timestamp() {
       return this.$moment(this.invoice.timestamp).format('DD-MM-Y');
@@ -4019,32 +4237,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   components: {
-    AddItem: _AddItem__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Create: _App_Create__WEBPACK_IMPORTED_MODULE_1__["default"],
-    EditTable: _tables_EditTable__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AddItem: _AddItem__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Create: _App_Create__WEBPACK_IMPORTED_MODULE_2__["default"],
+    EditTable: _tables_EditTable__WEBPACK_IMPORTED_MODULE_0__["default"],
+    AddRecipient: _AddRecipient__WEBPACK_IMPORTED_MODULE_1__["default"],
+    EditRecipient: _EditRecipient__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   created: function created() {
     this.$store.dispatch('klavzule/klavzuleAction');
     this.$store.dispatch('customers/all');
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])({
     closeEditDialog: 'general/editInvoiceDialogAction',
     addItemDialog: 'general/addItemDialog',
-    updateInvoice: 'invoices/update'
+    updateInvoice: 'invoices/update',
+    remove: 'invoices/removeRecipient'
   })), {}, {
     addNewItem: function addNewItem(newItem) {
-      this.showNotif('Artikel dodan', 'positive');
+      newItem.id = null;
+      newItem.invoice_id = this.invoice.id;
       this.items.push(newItem);
+      this.showNotif('Artikel dodan', 'positive');
+    },
+    addPrejemnik: function addPrejemnik() {
+      this.$store.dispatch('general/AddRecipientDialog', true);
+    },
+    editPrejemnik: function editPrejemnik() {
+      this.$store.dispatch('general/editRecipientDialog', true);
+    },
+    removePrejemnik: function removePrejemnik() {
+      var _this = this;
+
+      this.$q.dialog({
+        title: 'Brisanje',
+        message: '<span class="text-red">Želite izbrisati vnos?</span>',
+        html: true,
+        cancel: true,
+        persistent: true
+      }).onOk(function () {
+        _this.remove(_this.recipient.id).then(function (response) {
+          _this.showNotif(response, 'warning');
+        })["catch"](function (e) {
+          _this.showNotif(e, 'negative');
+        });
+      });
     },
     addItem: function addItem() {
       this.addItemDialog(true);
     },
     filterInput: function filterInput(val, update, abort) {
-      var _this = this;
+      var _this2 = this;
 
       update(function () {
         var needle = val.toLowerCase();
-        _this.options = _this.customers.filter(function (v) {
+        _this2.options = _this2.customers.filter(function (v) {
           return v.naziv_partnerja.toLowerCase().indexOf(needle) > -1;
         });
       });
@@ -4057,7 +4303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     update: function update(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.submitting = true;
       var invoiceData = {
@@ -4066,15 +4312,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         items: this.items
       };
       this.updateInvoice(invoiceData).then(function (response) {
-        _this2.showNotif(response, 'positive');
+        _this3.showNotif(response, 'positive');
 
         setTimeout(function () {
-          _this2.submitting = false;
+          _this3.submitting = false;
         }, 500);
       })["catch"](function (e) {
-        _this2.showNotif(e, 'negative');
+        _this3.showNotif(e, 'negative');
 
-        _this2.submitting = false;
+        _this3.submitting = false;
       });
     },
     closeDialog: function closeDialog() {
@@ -4103,6 +4349,181 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     strankaChanged: function strankaChanged() {
       this.showNotif('Stranka je spremenjena', 'positive');
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "EditRecipient",
+  data: function data() {
+    return {
+      submitting: false,
+      options: this.posts
+    };
+  },
+  props: ['recipient', 'invoice'],
+  created: function created() {
+    this.$store.dispatch('post/postAction');
+  },
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    dialog: 'general/getEditRecipientDialog',
+    posts: 'post/getPosts'
+  })), {}, {
+    posta: {
+      get: function get() {
+        return this.recipient.posta;
+      },
+      set: function set(newValue) {
+        this.recipient.posta = newValue.posta;
+      }
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    close: 'general/editRecipientDialog',
+    edit: 'invoices/EditRecipient'
+  })), {}, {
+    filterInput: function filterInput(val, update, abort) {
+      var _this = this;
+
+      update(function () {
+        var needle = val.toLowerCase();
+        _this.options = _this.posts.filter(function (v) {
+          return v.posta.toLowerCase().indexOf(needle) > -1;
+        });
+      });
+    },
+    closeDialog: function closeDialog() {
+      this.close(false);
+    },
+    showNotif: function showNotif(message, type) {
+      this.$q.notify({
+        message: message,
+        position: 'top',
+        type: type
+      });
+    },
+    onReset: function onReset() {
+      this.recipient.title = '';
+      this.recipient.street = '';
+      this.recipient.posta = '';
+    },
+    onSubmit: function onSubmit() {
+      var _this2 = this;
+
+      this.submitting = true;
+      this.edit(this.recipient).then(function (response) {
+        _this2.showNotif(response, 'positive');
+
+        setTimeout(function () {
+          _this2.submitting = false;
+        }, 500);
+      })["catch"](function (e) {
+        _this2.showNotif(e, 'negative');
+      });
     }
   })
 });
@@ -4344,11 +4765,14 @@ __webpack_require__.r(__webpack_exports__);
         cancel: true,
         persistent: true
       }).onOk(function () {
+        var id = row.id;
         _this.invoiceItems = _this.invoiceItems.filter(function (item) {
           return item !== row;
         });
 
-        _this.showNotif('Artikel je odstranjen', 'positive');
+        _this.$store.dispatch('invoices/removeItem', id);
+
+        _this.showNotif('Artikel je odstranjen', 'warning');
       });
     }
   },
@@ -86092,8 +86516,14 @@ var render = function() {
                             offset: [20, 10]
                           }
                         },
-                        [_vm._v("25°")]
-                      )
+                        [_vm._v("25°\n                    ")]
+                      ),
+                      _vm._v(" "),
+                      _c("q-tooltip", [
+                        _vm._v(
+                          "\n                        User Location\n                    "
+                        )
+                      ])
                     ],
                     1
                   )
@@ -86897,14 +87327,14 @@ var render = function() {
                                   [
                                     _c(
                                       "q-item-section",
-                                      { staticClass: "text-center" },
+                                      { staticClass: "text-center text-red" },
                                       [
                                         _c(
                                           "q-item-label",
                                           [
                                             _c("q-icon", {
                                               staticClass:
-                                                "pointer text-red action-icon",
+                                                "pointer action-icon",
                                               attrs: { name: "delete_outline" }
                                             }),
                                             _vm._v(" Izbriši")
@@ -88037,14 +88467,14 @@ var render = function() {
                                   [
                                     _c(
                                       "q-item-section",
-                                      { staticClass: "text-center" },
+                                      { staticClass: "text-center text-red" },
                                       [
                                         _c(
                                           "q-item-label",
                                           [
                                             _c("q-icon", {
                                               staticClass:
-                                                "pointer text-red action-icon",
+                                                "pointer action-icon",
                                               attrs: { name: "delete_outline" }
                                             }),
                                             _vm._v(" Izbriši")
@@ -88322,6 +88752,243 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "q-dialog",
+        {
+          attrs: { persistent: "" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticStyle: { width: "700px", "max-width": "80vw" } },
+            [
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [_vm._v("Prejemnik")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                { staticClass: "q-pt-none" },
+                [
+                  _c(
+                    "q-form",
+                    {
+                      staticClass: "q-gutter-md",
+                      on: { submit: _vm.onSubmit, reset: _vm.onReset }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-11",
+                            attrs: {
+                              label: "Naziv",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) || "Vnesite naziv"
+                                  )
+                                }
+                              ]
+                            },
+                            model: {
+                              value: _vm.recipient.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipient, "title", $$v)
+                              },
+                              expression: "recipient.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-6 input-margin",
+                            attrs: {
+                              label: "Kraj/ulica",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite kraj/ulica"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "add_location" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.recipient.street,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipient, "street", $$v)
+                              },
+                              expression: "recipient.street"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-select", {
+                            staticClass: "col-4 input-margin",
+                            attrs: {
+                              "use-input": "",
+                              "hide-selected": "",
+                              "fill-input": "",
+                              "input-debounce": "0",
+                              label: "Pošta",
+                              options: _vm.options,
+                              "option-label": "posta",
+                              "option-value": "posta",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return !!val || "Vnesite pošto"
+                                }
+                              ],
+                              "map-options": ""
+                            },
+                            on: { filter: _vm.filterInput },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "mail_outline" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.recipient.posta,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipient, "posta", $$v)
+                              },
+                              expression: "recipient.posta"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("q-btn", {
+                            attrs: {
+                              label: "Shrani",
+                              type: "submit",
+                              loading: _vm.submitting,
+                              color: "green"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "loading",
+                                fn: function() {
+                                  return [
+                                    _c("q-spinner-tail", {
+                                      attrs: { color: "white" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("q-btn", {
+                            staticClass: "q-ml-sm",
+                            attrs: {
+                              label: "Počisti",
+                              type: "reset",
+                              color: "primary",
+                              flat: ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "q-card-actions",
+                {
+                  staticClass: "bg-white text-teal",
+                  attrs: { align: "right" }
+                },
+                [
+                  _c("q-btn", {
+                    attrs: { flat: "", label: "ZAPRI" },
+                    on: { click: _vm.closeDialog }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=template&id=5a5ba878&scoped=true&":
 /*!******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditDialog.vue?vue&type=template&id=5a5ba878&scoped=true& ***!
@@ -88450,7 +89117,172 @@ var render = function() {
                   _c("span", { staticClass: "text-grey-8" }, [
                     _vm._v(_vm._s(_vm.invoice.klavzula))
                   ])
-                ])
+                ]),
+                _vm._v(" "),
+                _vm.recipient
+                  ? _c("div", { staticClass: "text-body1" }, [
+                      _vm._v("Prejemnik: "),
+                      _c("span", { staticClass: "text-grey-8" }, [
+                        _vm._v(
+                          _vm._s(_vm.recipient.title) +
+                            ", " +
+                            _vm._s(_vm.recipient.street) +
+                            ", " +
+                            _vm._s(_vm.recipient.posta)
+                        )
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "prejemnik q-mt-xs" },
+                  [
+                    _c(
+                      "q-btn-dropdown",
+                      {
+                        attrs: {
+                          color: "primary",
+                          outline: "",
+                          label: "Prejemnik"
+                        }
+                      },
+                      [
+                        _c(
+                          "q-list",
+                          [
+                            !_vm.recipient
+                              ? _c(
+                                  "q-item",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "close-popup",
+                                        rawName: "v-close-popup"
+                                      }
+                                    ],
+                                    attrs: { clickable: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.addPrejemnik()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "q-item-section",
+                                      [
+                                        _c(
+                                          "q-item-label",
+                                          [
+                                            _c("q-icon", {
+                                              attrs: { name: "add" }
+                                            }),
+                                            _vm._v(
+                                              "\n                                        Dodaj\n                                    "
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.recipient
+                              ? _c(
+                                  "q-item",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "close-popup",
+                                        rawName: "v-close-popup"
+                                      }
+                                    ],
+                                    attrs: { clickable: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editPrejemnik()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "q-item-section",
+                                      [
+                                        _c(
+                                          "q-item-label",
+                                          [
+                                            _c("q-icon", {
+                                              attrs: { name: "edit" }
+                                            }),
+                                            _vm._v(
+                                              "\n                                        Uredi\n                                    "
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.recipient
+                              ? _c(
+                                  "q-item",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "close-popup",
+                                        rawName: "v-close-popup"
+                                      }
+                                    ],
+                                    attrs: { clickable: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removePrejemnik()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "q-item-section",
+                                      [
+                                        _c(
+                                          "q-item-label",
+                                          { staticClass: "text-red" },
+                                          [
+                                            _c("q-icon", {
+                                              attrs: { name: "delete_outline" }
+                                            }),
+                                            _vm._v(
+                                              "\n                                        Izbriši\n                                    "
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
               _c("q-card-section", { staticClass: "q-pt-none" }, [
@@ -88803,6 +89635,251 @@ var render = function() {
                 [
                   _c("edit-table", {
                     attrs: { invoice: _vm.invoice, items: _vm.items }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("add-recipient", { attrs: { invoice: _vm.invoice } }),
+      _vm._v(" "),
+      _vm.recipient
+        ? _c("edit-recipient", { attrs: { recipient: _vm.recipient } })
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "q-dialog",
+        {
+          attrs: { persistent: "" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "q-card",
+            { staticStyle: { width: "700px", "max-width": "80vw" } },
+            [
+              _c("q-card-section", [
+                _c("div", { staticClass: "text-h6" }, [
+                  _vm._v("Urejanje prejemnika")
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "q-card-section",
+                { staticClass: "q-pt-none" },
+                [
+                  _c(
+                    "q-form",
+                    {
+                      staticClass: "q-gutter-md",
+                      on: { submit: _vm.onSubmit, reset: _vm.onReset }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-11",
+                            attrs: {
+                              label: "Naziv",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) || "Vnesite naziv"
+                                  )
+                                }
+                              ]
+                            },
+                            model: {
+                              value: _vm.recipient.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipient, "title", $$v)
+                              },
+                              expression: "recipient.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "row" },
+                        [
+                          _c("q-input", {
+                            staticClass: "col-6 input-margin",
+                            attrs: {
+                              label: "Kraj/ulica",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return (
+                                    (val && val.length > 0) ||
+                                    "Vnesite kraj/ulica"
+                                  )
+                                }
+                              ]
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "add_location" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.recipient.street,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipient, "street", $$v)
+                              },
+                              expression: "recipient.street"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("q-select", {
+                            staticClass: "col-5 input-margin",
+                            attrs: {
+                              "use-input": "",
+                              "hide-selected": "",
+                              "fill-input": "",
+                              "input-debounce": "0",
+                              label: "Pošta",
+                              options: _vm.options,
+                              "option-label": "posta",
+                              "option-value": "posta",
+                              type: "text",
+                              rules: [
+                                function(val) {
+                                  return !!val || "Vnesite pošto"
+                                }
+                              ],
+                              "map-options": ""
+                            },
+                            on: { filter: _vm.filterInput },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "prepend",
+                                fn: function() {
+                                  return [
+                                    _c("q-icon", {
+                                      attrs: { name: "mail_outline" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ]),
+                            model: {
+                              value: _vm.posta,
+                              callback: function($$v) {
+                                _vm.posta = $$v
+                              },
+                              expression: "posta"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c("q-btn", {
+                            attrs: {
+                              label: "Spremeni",
+                              type: "submit",
+                              loading: _vm.submitting,
+                              color: "green"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "loading",
+                                fn: function() {
+                                  return [
+                                    _c("q-spinner-tail", {
+                                      attrs: { color: "white" }
+                                    })
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("q-btn", {
+                            staticClass: "q-ml-sm",
+                            attrs: {
+                              label: "Počisti",
+                              type: "reset",
+                              color: "primary",
+                              flat: ""
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "q-card-actions",
+                {
+                  staticClass: "bg-white text-teal",
+                  attrs: { align: "right" }
+                },
+                [
+                  _c("q-btn", {
+                    attrs: { flat: "", label: "ZAPRI" },
+                    on: { click: _vm.closeDialog }
                   })
                 ],
                 1
@@ -112456,6 +113533,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/invoices/dialogs/AddRecipient.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddRecipient.vue ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true& */ "./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true&");
+/* harmony import */ var _AddRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddRecipient.vue?vue&type=script&lang=js& */ "./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "5c7e2e6c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/invoices/dialogs/AddRecipient.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AddRecipient.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true& ***!
+  \**************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/AddRecipient.vue?vue&type=template&id=5c7e2e6c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddRecipient_vue_vue_type_template_id_5c7e2e6c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/invoices/dialogs/EditDialog.vue":
 /*!*****************************************************************!*\
   !*** ./resources/js/components/invoices/dialogs/EditDialog.vue ***!
@@ -112520,6 +113666,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditDialog_vue_vue_type_template_id_5a5ba878_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditDialog_vue_vue_type_template_id_5a5ba878_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/EditRecipient.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/EditRecipient.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true& */ "./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true&");
+/* harmony import */ var _EditRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditRecipient.vue?vue&type=script&lang=js& */ "./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "64d555cd",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/invoices/dialogs/EditRecipient.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./EditRecipient.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditRecipient_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true& ***!
+  \***************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/invoices/dialogs/EditRecipient.vue?vue&type=template&id=64d555cd&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditRecipient_vue_vue_type_template_id_64d555cd_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -113283,7 +114498,9 @@ __webpack_require__.r(__webpack_exports__);
     persistent: false,
     editDialog: false,
     editInvoiceDialog: false,
-    addItemDialog: false
+    addItemDialog: false,
+    addRecipient: false,
+    editRecipient: false
   },
   mutations: {
     CHANGE_DRAWER: function CHANGE_DRAWER(state, payload) {
@@ -113300,6 +114517,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     CHANGE_ADD_ITEM_DIALOG: function CHANGE_ADD_ITEM_DIALOG(state, payload) {
       state.addItemDialog = payload;
+    },
+    CHANGE_ADD_RECIPIENT_DIALOG: function CHANGE_ADD_RECIPIENT_DIALOG(state, payload) {
+      state.addRecipient = payload;
+    },
+    CHANGE_EDIT_RECIPIENT_DIALOG: function CHANGE_EDIT_RECIPIENT_DIALOG(state, payload) {
+      state.editRecipient = payload;
     }
   },
   actions: {
@@ -113322,6 +114545,14 @@ __webpack_require__.r(__webpack_exports__);
     addItemDialog: function addItemDialog(_ref5, modal) {
       var commit = _ref5.commit;
       commit('CHANGE_ADD_ITEM_DIALOG', modal);
+    },
+    AddRecipientDialog: function AddRecipientDialog(_ref6, modal) {
+      var commit = _ref6.commit;
+      commit('CHANGE_ADD_RECIPIENT_DIALOG', modal);
+    },
+    editRecipientDialog: function editRecipientDialog(_ref7, modal) {
+      var commit = _ref7.commit;
+      commit('CHANGE_EDIT_RECIPIENT_DIALOG', modal);
     }
   },
   getters: {
@@ -113339,6 +114570,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     getAddItemDialog: function getAddItemDialog(state) {
       return state.addItemDialog;
+    },
+    getAddRecipientDialog: function getAddRecipientDialog(state) {
+      return state.addRecipient;
+    },
+    getEditRecipientDialog: function getEditRecipientDialog(state) {
+      return state.editRecipient;
     }
   }
 });
@@ -113367,7 +114604,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   state: {
     invoices: [],
     invoice: [],
-    items: []
+    items: [],
+    recipient: []
   },
   mutations: {
     SET_INVOICES: function SET_INVOICES(state, payload) {
@@ -113378,6 +114616,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     SET_ITEMS: function SET_ITEMS(state, payload) {
       state.items = payload;
+    },
+    SET_RECIPIENT: function SET_RECIPIENT(state, payload) {
+      state.recipient = payload;
     }
   },
   actions: {
@@ -113387,21 +114628,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         commit('SET_INVOICES', response.data.data);
       });
     },
-    currentInvoiceAction: function currentInvoiceAction(_ref2, id) {
+    removeItem: function removeItem(_ref2, id) {
       var commit = _ref2.commit;
+      axios["delete"]("/items/".concat(id));
+    },
+    currentInvoiceAction: function currentInvoiceAction(_ref3, id) {
+      var commit = _ref3.commit;
       axios.get("/invoices/".concat(id, "/edit")).then(function (response) {
         commit('SET_INVOICE', response.data.invoice);
         commit('SET_ITEMS', response.data.items);
+        commit('SET_RECIPIENT', response.data.recipient);
       });
     },
-    update: function update(_ref3, invoice) {
+    update: function update(_ref4, invoice) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref3.commit;
+                commit = _ref4.commit;
                 _context.next = 3;
                 return axios.patch("/invoices/".concat(invoice.id), {
                   'sifra_predracuna': invoice.invoice.sifra_predracuna,
@@ -113417,6 +114663,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   'vat': invoice.invoice.vat,
                   'items': invoice.items
                 }).then(function (response) {
+                  commit('SET_INVOICES', response.data.invoices);
+                  commit('SET_ITEMS', response.data.items);
                   return response.data.success;
                 })["catch"](function (e) {
                   throw e.response.data.error;
@@ -113432,6 +114680,98 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    addRecipient: function addRecipient(_ref5, recipientData) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var commit, newRecipient;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref5.commit;
+                newRecipient = {
+                  invoice_id: recipientData.id,
+                  title: recipientData.recipient.title,
+                  street: recipientData.recipient.street,
+                  posta: recipientData.recipient.posta.posta
+                };
+                _context2.next = 4;
+                return axios.post('/recipients', newRecipient).then(function (response) {
+                  commit('SET_RECIPIENT', response.data.recipient);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 4:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    removeRecipient: function removeRecipient(_ref6, id) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref6.commit;
+                _context3.next = 3;
+                return axios["delete"]("/recipients/".concat(id)).then(function (response) {
+                  commit('SET_RECIPIENT', null);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 3:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    EditRecipient: function EditRecipient(_ref7, recipient) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                commit = _ref7.commit;
+                _context4.next = 3;
+                return axios.patch("/recipients/".concat(recipient.id), {
+                  'id': recipient.id,
+                  'title': recipient.title,
+                  'street': recipient.street,
+                  'posta': recipient.posta
+                }).then(function (response) {
+                  commit('SET_RECIPIENT', response.data.recipient);
+                  return response.data.success;
+                })["catch"](function (e) {
+                  throw e.response.data.error;
+                });
+
+              case 3:
+                return _context4.abrupt("return", _context4.sent);
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   getters: {
@@ -113443,6 +114783,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getItems: function getItems(state) {
       return state.items;
+    },
+    getRecipient: function getRecipient(state) {
+      return state.recipient;
     }
   }
 });

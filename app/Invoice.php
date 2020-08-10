@@ -12,4 +12,9 @@ class Invoice extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public function recipient()
+    {
+        return $this->hasOne(Recipient::class);
+    }
 }

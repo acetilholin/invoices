@@ -222,11 +222,13 @@
                     cancel: true,
                     persistent: true
                 }).onOk(() => {
+                    let id = row.id
                     this.invoiceItems =  this.invoiceItems.filter(item => {
                         return item !== row
                     })
 
-                    this.showNotif('Artikel je odstranjen', 'positive')
+                    this.$store.dispatch('invoices/removeItem', id)
+                    this.showNotif('Artikel je odstranjen', 'warning')
                 })
             },
         },

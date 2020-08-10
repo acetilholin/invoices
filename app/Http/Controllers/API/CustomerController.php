@@ -91,7 +91,6 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
-
         $customer->update($customerData);
         $customers = Customer::all();
         return response()->json([
@@ -109,7 +108,7 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        $customers = $this->index();
+        $customers = Customer::all();
         return response()->json([
             'success' => trans('customer.customerDeleted'),
             'customers' => $customers
