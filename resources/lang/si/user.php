@@ -2,7 +2,7 @@
 
 return [
     'cannotCreate' => 'Uporabnika ni mogoče ustvariti',
-    'userCreated' => 'Uporabnik ustvarjen',
+    'userCreated' => 'Uporabnik je ustvarjen',
     'userDetailChanged' => 'Spremenjeno',
     'cannotDeleteAdmin' => 'Skrbnika ni mogoče izbrisati',
     'cannotChangeAdmin' => 'Skrbniku ni mogoče spreminjati nastavitev',
@@ -12,5 +12,6 @@ return [
     'cannotPerformOperation' => 'Operacija ni izvedljiva',
     'notEnoughRights' => 'Nimate dovolj pravic',
     'preventAutoDelete' => 'Ne morete se izbrisati',
-    'pictureUpdated' => 'Slika je posodobljena'
+    'pictureUpdated' => 'Slika je posodobljena',
+    'noPicture' => 'Izberite sliko'
 ];

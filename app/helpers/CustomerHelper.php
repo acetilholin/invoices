@@ -21,7 +21,7 @@ class CustomerHelper
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return $messages;
         } else {
             return null;

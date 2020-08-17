@@ -50,10 +50,8 @@ class CustomerController extends Controller
         $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
 
         Customer::create($customerData)->save();
-        $customers = Customer::all();
         return response()->json([
-            'success' => trans('customer.customerCreated'),
-            'customers' => $customers
+            'success' => trans('customer.customerCreated')
         ], 200);
     }
 
@@ -91,12 +89,9 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $customerData = request(['naziv_partnerja', 'kraj_ulica', 'posta', 'email', 'telefon', 'id_ddv', 'sklic_st']);
-
         $customer->update($customerData);
-        $customers = Customer::all();
         return response()->json([
-            'success' => trans('customer.customerEdited'),
-            'customers' => $customers
+            'success' => trans('customer.customerEdited')
         ], 200);
     }
 
@@ -109,10 +104,8 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        $customers = $this->index();
         return response()->json([
-            'success' => trans('customer.customerDeleted'),
-            'customers' => $customers
+            'success' => trans('customer.customerDeleted')
         ], 200);
     }
 }

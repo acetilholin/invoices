@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Invoiceitems;
+use App\Item;
 use Illuminate\Http\Request;
-use App\Http\Resources\InvoiceitemsResource;
 
-class InvoicesController extends Controller
+class ItemController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return InvoiceitemsResource::collection(Invoiceitems::all());
+        //
     }
 
     /**
@@ -39,10 +42,10 @@ class InvoicesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(InvoiceitemsResource $invoiceitems)
+    public function show(Item $item)
     {
         //
     }
@@ -50,10 +53,10 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(InvoiceitemsResource $invoiceitems)
+    public function edit(Item $item)
     {
         //
     }
@@ -62,10 +65,10 @@ class InvoicesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InvoiceitemsResource $invoiceitems)
+    public function update(Request $request, Item $item)
     {
         //
     }
@@ -73,11 +76,11 @@ class InvoicesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoiceitems  $invoiceitems
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InvoiceitemsResource $invoiceitems)
+    public function destroy(Item $item)
     {
-        //
+        $item->delete();
     }
 }

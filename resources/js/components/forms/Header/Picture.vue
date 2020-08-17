@@ -13,6 +13,7 @@
                      v-model="file"
                      accept=".jpg, .jpeg, .png"
                      @rejected="showNotif('Dovoljeni formati so .jpg, .jpeg, .png','negative')"
+                     :rules="[val => !!val || 'Izberite sliko']"
                      label="Datoteka">
                  <template v-slot:prepend>
                      <q-icon name="attach_file" />
@@ -55,6 +56,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },
@@ -73,6 +75,7 @@
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')
+                        this.submitting = false
                     })
             },
             userImage(img) {

@@ -19,17 +19,17 @@ export default {
                     commit('SET_CUSTOMERS', response.data.data)
                 })
         },
-        async remove({commit}, id) {
+        async remove({commit, dispatch}, id) {
             return await axios.delete(`/customers/${id}`)
                 .then((response) => {
-                    commit('SET_CUSTOMERS', response.data.customers)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
         },
-        async create({commit}, customer) {
+        async create({commit, dispatch}, customer) {
             let newCustomer = {
                 'naziv_partnerja': customer.company,
                 'kraj_ulica': customer.street,
@@ -41,14 +41,14 @@ export default {
             }
             return await axios.post('/customers', newCustomer)
                 .then((response) => {
-                    commit('SET_CUSTOMERS', response.data.customers)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
         },
-        async edit({commit}, customer) {
+        async edit({commit, dispatch}, customer) {
             let posta = typeof customer.posta.posta === 'undefined' ? customer.posta : customer.posta.posta
             return await axios.patch(`/customers/${customer.id}`, {
                 'naziv_partnerja': customer.naziv_partnerja,
@@ -60,7 +60,7 @@ export default {
                 'sklic_st': customer.sklic_st
             })
                 .then((response) => {
-                    commit('SET_CUSTOMERS', response.data.customers)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {

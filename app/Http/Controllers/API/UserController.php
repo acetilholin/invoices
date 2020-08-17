@@ -53,7 +53,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return response()->json(['error' => $messages], 401);
         } else {
             $notEncrypted = Str::random(20);
@@ -61,14 +61,13 @@ class UserController extends Controller
 
             $userData['password'] = $password;
             $userData['enabled'] = 1;
+            $userData['last_seen'] =  date("Y-m-d");
 
             try {
                 User::create($userData)->save();
                 \Mail::to($userData['email'])->send(new NewUser($userData['email'], $notEncrypted));
-                $users = $this->index();
                 return response()->json([
-                    'success' => trans('user.userCreated'),
-                    'users' => $users
+                    'success' => trans('user.userCreated')
                 ], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => trans('user.cannotCreate')], 401);
@@ -107,10 +106,8 @@ class UserController extends Controller
 
         $userHelper->editSingleAttr($request);
 
-        $users = $this->index();
         return response()->json([
-            'success' => trans('user.userDetailChanged'),
-            'users' => $users
+            'success' => trans('user.userDetailChanged')
         ], 200);
     }
 
@@ -141,7 +138,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return response()->json(['error' => $messages], 401);
         }
 
@@ -179,6 +176,10 @@ class UserController extends Controller
      */
     public function photo(Request $request)
     {
+        if (!$request->hasFile('file')) {
+            return response()->json(['error' => trans('user.noPicture')], 401);
+        }
+
         $userHelper = new UserHelper();
         $user = $userHelper->updatePhoto($request);
 
@@ -205,10 +206,8 @@ class UserController extends Controller
 
         try {
             $user->delete();
-            $users = $this->index();
             return response()->json([
                 'success' => trans('user.userDeleted'),
-                'users' => $users
             ], 200);
         } catch (\Exception $exception) {
             return response()->json(['error' => trans('user.cannotDelete')], 401);

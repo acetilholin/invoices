@@ -3,17 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::post('logout', 'Auth\AuthController@logout');
@@ -24,17 +13,24 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('reset', 'Auth\AuthController@reset');
     Route::get('me', 'Auth\AuthController@me');
 
-    Route::resource('invoices', 'API\InvoicesController');
+    Route::resource('invoices', 'API\InvoiceController');
+    Route::post('invoice/interval', 'API\InvoiceController@interval');
 
     Route::resource('users', 'API\UserController');
 
-    Route::get('users/{id}/edit/{attr}/{data}','API\UserController@edit');
-    Route::post('users/edit/password','API\UserController@newPassword');
-    Route::post('users/photo','API\UserController@photo');
+    Route::get('users/{id}/edit/{attr}/{data}', 'API\UserController@edit');
+    Route::post('users/edit/password', 'API\UserController@newPassword');
+    Route::post('users/photo', 'API\UserController@photo');
 
     Route::resource('customers', 'API\CustomerController');
 
+    Route::resource('items', 'API\ItemController');
+
+    Route::resource('recipients', 'API\RecipientController');
+
     Route::resource('posts', 'API\PostController');
+
+    Route::resource('klavzule', 'API\KlavzuleController');
 });
 
 

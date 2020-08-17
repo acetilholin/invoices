@@ -1,9 +1,6 @@
 <template>
     <div class="home-view">
-        <div class="text-center q-pt-md">
-            <q-btn push color="white" text-color="green" title="Nov predračun" round icon="article" />
-            <invoices-list class="q-mt-md"></invoices-list>
-        </div>
+        <invoices-list></invoices-list>
     </div>
 </template>
 
@@ -20,7 +17,5 @@
 </script>
 
 <style scoped>
-    .text-black {
-        text-decoration: none;
-    }
+
 </style>

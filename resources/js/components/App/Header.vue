@@ -3,10 +3,19 @@
         <q-header elevated class="bg-primary text-white" v-show="authenticated">
             <q-toolbar>
                 <q-btn flat @click="changeDrawerState" round dense icon="menu" />
-                <q-toolbar-title>Predračuni</q-toolbar-title>
+                <q-toolbar-title>{{ title }}</q-toolbar-title>
                 <span class="q-mr-md">
-                        <q-btn dense color="blue-10" round icon="email" class="q-ml-md">
-                        <q-badge color="red" floating>1</q-badge>
+                        <q-btn dense round text-color="yellow" icon="wb_sunny" class="q-ml-md">
+                        <q-badge color="red"
+                                 floating
+                                 transparent
+                                 self="bottom middle"
+                                 :offset="[20, 10]"
+                        >25&deg
+                        </q-badge>
+                        <q-tooltip>
+                            User Location
+                        </q-tooltip>
                     </q-btn>
                     </span>
                 <span class="q-mr-md" v-if="currentUser">
@@ -25,11 +34,17 @@
 </template>
 
 <script>
+    import { appName } from '../../global/variables.js'
     import {mapGetters, mapActions} from "vuex";
     import HeaderDialog from "./HeaderDialog";
 
     export default {
         name: "Header",
+        data() {
+            return {
+                title: appName
+            }
+        },
         components: {
           HeaderDialog
         },

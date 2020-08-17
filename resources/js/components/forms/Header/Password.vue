@@ -96,6 +96,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },
@@ -116,6 +117,7 @@
                     })
                     .catch((e) => {
                         this.showNotif(e,'negative')
+                        this.submitting = false
                     })
             },
             onReset() {

@@ -5,7 +5,7 @@
             title="Stranke"
             :data="customers"
             :columns="columns"
-            row-key="name"
+            row-key="index"
             :filter="filter"
             :pagination.sync="pagination"
         >
@@ -45,8 +45,8 @@
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="confirm(props.row.id)">
-                                    <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="delete_outline" class="pointer text-red action-icon"></q-icon> Izbriši</q-item-label>
+                                    <q-item-section class="text-center text-red">
+                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> Izbriši</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -117,6 +117,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },
@@ -133,7 +134,7 @@
                 }).onOk(() => {
                     this.remove(id)
                         .then((response) => {
-                            this.showNotif(response, 'positive')
+                            this.showNotif(response, 'warning')
                         })
                         .catch((e) => {
                             this.showNotif(e, 'negative')

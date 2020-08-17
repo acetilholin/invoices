@@ -6,6 +6,7 @@ import invoices from "./invoices";
 import users from "./users";
 import customers from "./customers";
 import post from "./post";
+import klavzule from "./klavzule";
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
         invoices,
         users,
         customers,
-        post
+        post,
+        klavzule
     }
 })
 

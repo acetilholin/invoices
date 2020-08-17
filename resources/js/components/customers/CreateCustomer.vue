@@ -5,6 +5,7 @@
         </div>
         <q-dialog
             v-model="medium"
+            persistent
         >
             <q-card style="width: 750px; max-width: 85vw;">
                 <q-card-section>
@@ -195,6 +196,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },

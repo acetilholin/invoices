@@ -1,13 +1,23 @@
 <template>
     <div class="q-pa-md">
+        <CreateInvoice class="q-mt-sm q-mb-md"></CreateInvoice>
+        <filter-dates @interval="filterDataByInterval"></filter-dates>
         <q-table
             title="Predračuni"
             :data="invoices"
             :columns="columns"
             row-key="index"
             color="primary"
+            :filter="filter"
             :pagination.sync="pagination"
         >
+            <template v-slot:top-right>
+                <q-input borderless dense debounce="300" v-model="filter" placeholder="Išči">
+                    <template v-slot:append>
+                        <q-icon name="search" />
+                    </template>
+                </q-input>
+            </template>
             <template v-slot:body="props">
                 <q-tr :props="props">
                     <q-td>
@@ -30,23 +40,60 @@
                             {{ props.row.expiration | moment('DD-MM-Y') }}
                         </q-badge>
                     </q-td>
+                    <q-td key="edit" :props="props">
+                        <q-btn-dropdown color="primary" outline icon="settings">
+                            <q-list>
+                                <q-item clickable v-close-popup @click="editInvoice(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-item clickable v-close-popup @click="copyInvoice(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="content_copy" class="pointer text-black action-icon"></q-icon> Kopiraj</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-item clickable v-close-popup @click="viewInvoice(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="pageview" class="pointer text-black action-icon"></q-icon> Ogled</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-item clickable v-close-popup @click="exportInvoice(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="input" class="pointer text-black action-icon"></q-icon> Izvozi</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <q-item clickable v-close-popup @click="confirm(props.row.id)">
+                                    <q-item-section class="text-center text-red">
+                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> Izbriši</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                        </q-btn-dropdown>
+                    </q-td>
                 </q-tr>
             </template>
         </q-table>
+        <edit-dialog></edit-dialog>
     </div>
 </template>
 
 <script>
 
-    import {mapGetters} from 'vuex'
+    import EditDialog from "./dialogs/EditDialog";
+    import CreateInvoice from "./dialogs/CreateInvoice";
+    import FilterDates from "./filter/FilterDates";
+    import {mapGetters, mapActions} from 'vuex'
 
     export default {
         name: "InvoicesList",
         data() {
             return {
+                id: null,
                 pagination: {
                     rowsPerPage: 50
                 },
+                filter: '',
                 columns: [
                     {
                         name: 'index',
@@ -62,7 +109,7 @@
                         format: val => `${val}`,
                         sortable: true
                     },
-                    {name: 'ime_priimek', align: 'center', label: 'Ime in priimek', field: 'ime_priimek'},
+                    {name: 'ime_priimek', align: 'center', label: 'Ime in priimek / naziv', field: 'ime_priimek'},
                     {
                         name: 'timestamp',
                         align: 'center',
@@ -72,9 +119,15 @@
                         format: val => `${val}`
                     },
                     {name: 'total', label: 'Znesek', field: 'total', sortable: true,  align: 'center'},
-                    {name: 'expiration', label: 'Zapadlost', field: 'expiration', sortable: true,  align: 'center'}
+                    {name: 'expiration', label: 'Zapadlost', field: 'expiration', sortable: true,  align: 'center'},
+                    {name: 'edit', label: 'Uredi', align: 'center'}
                 ]
             }
+        },
+        components: {
+          EditDialog,
+          CreateInvoice,
+          FilterDates
         },
         filters: {
             decimals(value) {
@@ -82,15 +135,54 @@
             }
         },
         methods: {
+            ...mapActions({
+                filterData: 'invoices/filterByInterval',
+                removeInvoice: 'invoices/remove'
+            }),
+            showNotif(message, type) {
+                this.$q.notify({
+                    message: message,
+                    position: 'top',
+                    timeout: 1500,
+                    type: type
+                })
+            },
             tableIndex(row) {
                 return this.invoices.indexOf(row) + 1
             },
             today() {
                 return this.$moment().format('Y-MM-DD')
             },
+            editInvoice(id) {
+                this.$store.dispatch('general/editInvoiceDialogAction', true)
+                this.$store.dispatch('invoices/currentInvoiceAction', id)
+            },
+            confirm(id) {
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.removeInvoice(id)
+                        .then((response) => {
+                            this.showNotif(response, 'warning')
+                        })
+                        .catch((e) => {
+                            this.showNotif(e, 'negative')
+                        })
+                })
+            },
+            copyInvoice(id) {
+
+            },
+            filterDataByInterval(interval) {
+                this.filterData(interval)
+            }
         },
         mounted() {
-            this.$store.dispatch('invoices/invoicesAction')
+            this.$store.dispatch('invoices/allInvoices')
         },
         computed: {
             ...mapGetters({
