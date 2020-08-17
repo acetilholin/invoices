@@ -15,30 +15,30 @@ export default {
                     commit('SET_USERS', response.data.data)
                 })
         },
-        async addUser({commit}, user) {
+        async addUser({commit, dispatch}, user) {
             return await axios.post('/users', user)
                 .then(response => {
-                    commit('SET_USERS', response.data.users)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
         },
-        async changeSingleDetail({commit}, details) {
+        async changeSingleDetail({commit, dispatch}, details) {
             return await axios.get(`users/${details.id}/edit/${details.attr}/${details.data}`)
                 .then((response) => {
-                    commit('SET_USERS', response.data.users)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
                 })
         },
-        async removeUser({commit}, id) {
+        async removeUser({commit, dispatch}, id) {
             return await axios.delete(`/users/${id}`)
                 .then((response) => {
-                    commit('SET_USERS', response.data.users)
+                    dispatch('all')
                     return response.data.success
                 })
                 .catch((e) => {

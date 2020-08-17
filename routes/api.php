@@ -14,12 +14,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::get('me', 'Auth\AuthController@me');
 
     Route::resource('invoices', 'API\InvoiceController');
+    Route::post('invoice/interval', 'API\InvoiceController@interval');
 
     Route::resource('users', 'API\UserController');
 
-    Route::get('users/{id}/edit/{attr}/{data}','API\UserController@edit');
-    Route::post('users/edit/password','API\UserController@newPassword');
-    Route::post('users/photo','API\UserController@photo');
+    Route::get('users/{id}/edit/{attr}/{data}', 'API\UserController@edit');
+    Route::post('users/edit/password', 'API\UserController@newPassword');
+    Route::post('users/photo', 'API\UserController@photo');
 
     Route::resource('customers', 'API\CustomerController');
 

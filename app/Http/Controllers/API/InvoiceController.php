@@ -6,9 +6,11 @@ use App\helpers\InvoiceHelper;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Item;
+use App\Recipient;
 use Illuminate\Http\Request;
 use App\Http\Resources\InvoicesResource;
 use App\Http\Resources\InvoiceResource;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -32,11 +34,28 @@ class InvoiceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $invoice = request(['invoice']);
+        $items = request(['items']);
+        $recipient = request(['recipient']);
+
+        $invoiceData = $invoice['invoice'];
+        $items = $items['items'];
+        $recipientData = $recipient['recipient'];
+
+        $helper = new InvoiceHelper();
+        $sifra_predracuna = $helper->sifraPredracuna();
+        $invoiceData['sifra_predracuna'] = $sifra_predracuna;
+        $invoiceData['timestamp'] = date("Y-m-d");
+
+        $helper->insertAllData($invoiceData, $recipientData, $items);
+
+        return response()->json([
+            'success' => trans('invoice.invoiceSaved')
+        ], 200);
     }
 
     /**
@@ -51,6 +70,30 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Display the specified resource for interval.
+     *
+     * @param  InvoicesResource  $invoiceitems
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function interval(Request $request)
+    {
+        $from = $request->from;
+        $to = $request->to;
+
+        $invoices = DB::table('invoices')
+            ->whereBetween('timestamp', [$from, $to])
+            ->get();
+
+        foreach ($invoices as $invoice) {
+            $allInvoices[] = $invoice;
+        }
+
+        return response()->json([
+            'invoices' => $allInvoices,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Invoice  $invoice
@@ -58,6 +101,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        $allItems = [];
         $items = $invoice->items;
         $recipient = $invoice->recipient;
 
@@ -93,8 +137,8 @@ class InvoiceController extends Controller
         $items = $itemsData['items'];
         $helper = new InvoiceHelper();
         $helper->insertData($items);
+        $allItems = [];
 
-        $invoices = Invoice::all();
         $items = $invoice->items;
 
         foreach ($items as $item) {
@@ -103,7 +147,6 @@ class InvoiceController extends Controller
 
         return response()->json([
             'success' => trans('invoice.invoiceUpdated'),
-            'invoices' => $invoices,
             'items' => $allItems
         ], 200);
     }
@@ -112,10 +155,13 @@ class InvoiceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete();
+        return response()->json([
+            'success' => trans('invoice.invoiceRemoved'),
+        ], 200);
     }
 }

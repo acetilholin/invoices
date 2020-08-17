@@ -196,6 +196,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },

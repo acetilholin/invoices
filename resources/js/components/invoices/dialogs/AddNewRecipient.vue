@@ -84,26 +84,24 @@
 </template>
 
 <script>
-
-import {mapActions,mapGetters} from 'vuex'
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-    name: "AddRecipient",
+    name: "AddNewRecipient",
     data() {
         return {
             submitting: false,
             options: this.posts,
             recipient: {
-                title: null,
-                street: null,
-                posta: null
+                title: '',
+                street: '',
+                posta: ''
             }
         }
     },
-    props: ['invoice'],
     computed: {
         ...mapGetters({
-            dialog: 'general/getAddRecipientDialog',
+            dialog: 'general/getAddNewRecipient',
             posts: 'post/getPosts'
         }),
     },
@@ -112,20 +110,8 @@ export default {
     },
     methods: {
         ...mapActions({
-           close: 'general/AddRecipientDialog',
-           newRecipient: 'invoices/addRecipient'
+            close: 'general/AddNewRecipientDialog'
         }),
-        showNotif(message, type) {
-            this.$q.notify({
-                message: message,
-                position: 'top',
-                timeout: 1500,
-                type: type
-            })
-        },
-        closeDialog() {
-            this.close(false)
-        },
         filterInput(val, update, abort) {
             update(() => {
                 const needle = val.toLowerCase()
@@ -134,25 +120,27 @@ export default {
                 )
             })
         },
+        closeDialog() {
+            this.close(false)
+        },
+        showNotif(message, type) {
+            this.$q.notify({
+                message: message,
+                position: 'top',
+                timeout: 1500,
+                type: type
+            })
+        },
         onReset() {
             this.recipient = {}
         },
         onSubmit() {
             this.submitting = true
-            let recipientData = {
-                recipient: this.recipient,
-                id: this.invoice.id
-            }
-            this.newRecipient(recipientData)
-                .then((response) => {
-                    this.showNotif(response, 'positive')
-                    setTimeout(() => {
-                        this.submitting = false
-                    }, 500)
-                })
-                .catch((e) => {
-                    this.showNotif(e, 'negative')
-                })
+            this.$emit('addRecipient', this.recipient)
+            setTimeout(() => {
+                this.submitting = false
+            }, 500)
+            this.showNotif('Prejemnik je dodan', 'positive')
         }
     }
 }

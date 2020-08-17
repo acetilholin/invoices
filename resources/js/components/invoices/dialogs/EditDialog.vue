@@ -17,7 +17,7 @@
 
                 <q-card-section>
                     <div class="text-h5">Urejanje predračuna: <span class="text-primary">{{ invoice.ime_priimek }}</span></div>
-                    <div class="text-body1">Ustvaril: <span class="text-grey-8">{{ invoice.author}}, dne: {{ invoice.timestamp | moment('DD-MM-Y') }}</span></div>
+                    <div class="text-body1">Ustvarjeno dne: <span class="text-grey-8">{{ invoice.timestamp | moment('DD-MM-Y') }}</span></div>
                     <div class="text-body1">Datum zapadlosti: <span :class="$moment(today()).isBefore(invoice.expiration) ? 'text-green' : 'text-red'">{{ invoice.expiration | moment('DD-MM-Y') }}</span></div>
                     <div class="text-body1">Delo opravljeno: <span class="text-grey-8" v-if="invoice.work_date">{{ invoice.work_date | moment('DD-MM-Y') }}</span></div>
                     <div class="text-body1">Klavzula: <span class="text-grey-8">{{ invoice.klavzula }}</span></div>
@@ -201,7 +201,7 @@
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
-                    <edit-table :invoice="invoice" :items="items"></edit-table>
+                    <items-table :invoice="invoice" :items="items" @removeItem="removeFromItems"></items-table>
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -212,7 +212,7 @@
 
 <script>
 
-    import EditTable from "../tables/EditTable";
+    import ItemsTable from "../tables/ItemsTable";
     import AddRecipient from "./AddRecipient";
     import Create from "../../App/Create";
     import AddItem from "./AddItem";
@@ -293,7 +293,7 @@
         components: {
             AddItem,
             Create,
-            EditTable,
+            ItemsTable,
             AddRecipient,
             EditRecipient
         },
@@ -306,12 +306,14 @@
                closeEditDialog: 'general/editInvoiceDialogAction',
                addItemDialog: 'general/addItemDialog',
                updateInvoice: 'invoices/update',
-               remove: 'invoices/removeRecipient'
+               remove: 'invoices/removeRecipient',
+               addInvoiceItem: 'invoices/addItem',
+               removeInvoiceItem: 'invoices/removeItemFromInvoice'
             }),
             addNewItem(newItem) {
                 newItem.id = null
                 newItem.invoice_id = this.invoice.id
-                this.items.push(newItem)
+                this.addInvoiceItem(newItem)
                 this.showNotif('Artikel dodan', 'positive')
             },
             addPrejemnik() {
@@ -319,6 +321,9 @@
             },
             editPrejemnik() {
                 this.$store.dispatch('general/editRecipientDialog', true)
+            },
+            removeFromItems(item) {
+                this.removeInvoiceItem(item)
             },
             removePrejemnik() {
                 this.$q.dialog({
@@ -335,7 +340,6 @@
                         .catch((e) => {
                             this.showNotif(e, 'negative')
                         })
-
                 })
             },
             addItem() {
@@ -353,6 +357,7 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                    timeout: 1500,
                     type: type
                 })
             },
@@ -383,22 +388,22 @@
                 return this.$moment().format('Y-MM-DD')
             },
             kChanged() {
-                this.showNotif('Klavzula spremenjena', 'positive')
+                this.showNotif('Klavzula je spremenjena', 'positive')
             },
             vChanged() {
-                this.showNotif('Davek spremenjen', 'positive')
+                this.showNotif('Davek je spremenjen', 'positive')
             },
             timestampChanged() {
                 this.$refs.qDateTimestamp.hide()
-                this.showNotif('Ustvarjen dne spremenjen', 'positive')
+                this.showNotif('Ustvarjen dne je spremenjen', 'positive')
             },
             expirationChanged() {
                 this.$refs.qDateExpiration.hide()
-                this.showNotif('Datum zapadlosti spremenjen', 'positive')
+                this.showNotif('Datum zapadlosti je spremenjen', 'positive')
             },
             workDateChanged() {
                 this.$refs.qDateWorkDate.hide()
-                this.showNotif('Delo opravljeno spremenjeno', 'positive')
+                this.showNotif('Opravljeno dne je spremenjeno', 'positive')
             },
             strankaChanged() {
                 this.showNotif('Stranka je spremenjena', 'positive')

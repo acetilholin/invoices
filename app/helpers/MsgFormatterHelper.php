@@ -5,7 +5,7 @@ namespace App\helpers;
 
 class MsgFormatterHelper
 {
-    public function formatt($erorrs)
+    public function format($erorrs)
     {
         $data = [];
         for ($i = 0; $i < sizeof($erorrs); $i++) {

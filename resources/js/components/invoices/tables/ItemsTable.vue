@@ -51,8 +51,16 @@
                             />
                         </q-popup-edit>
                     </q-td>
-                    <q-td key="unit" :props="props">
-                        {{ props.row.unit }}
+                    <q-td key="unit" :props="props">{{ props.row.unit }}
+                      <q-popup-edit v-model="props.row.unit" title="Spremeni EM" buttons label-set="Spremeni">
+                        <q-select v-model="props.row.unit"
+                                  :options="units"
+                                  label="Enota mere"
+                                  dense
+                                  autofocus
+                                  @input="changeItemData('Enota mere je spremenjena',props.row)"
+                        />
+                      </q-popup-edit>
                     </q-td>
                     <q-td key="item_price" :props="props">
                         {{ props.row.item_price | price }}
@@ -90,7 +98,7 @@
 <script>
 
     export default {
-        name: "EditTable",
+        name: "ItemsTable",
         props: ['invoice', 'items'],
         data() {
             return {
@@ -100,6 +108,7 @@
                 pagination: {
                     rowsPerPage: 20
                 },
+                units: ['kos','m','ura','kg','m2'],
                 columns: [
                     {
                         name: 'index',
@@ -211,26 +220,31 @@
                 this.$q.notify({
                     message: message,
                     position: 'top',
+                  timeout: 1500,
                     type: type
                 })
             },
-            confirm(row) {
-                this.$q.dialog({
-                    title: 'Brisanje',
-                    message: '<span class="text-red">Želite odstraniti artikel?</span>',
-                    html: true,
-                    cancel: true,
-                    persistent: true
-                }).onOk(() => {
-                    let id = row.id
-                    this.invoiceItems =  this.invoiceItems.filter(item => {
-                        return item !== row
-                    })
+          confirm(row) {
+            this.$q.dialog({
+              title: 'Brisanje',
+              message: '<span class="text-red">Želite odstraniti artikel?</span>',
+              html: true,
+              cancel: true,
+              persistent: true
+            }).onOk(() => {
+                let id = row.id
+                this.$emit('removeItem', row)
+               /* this.invoiceItems = this.invoiceItems.filter(item => {
+                    return item !== row
+                })*/
 
+                if (id !== null) {
                     this.$store.dispatch('invoices/removeItem', id)
-                    this.showNotif('Artikel je odstranjen', 'warning')
-                })
-            },
+                }
+
+                this.showNotif('Artikel je odstranjen', 'warning')
+            })
+          },
         },
         mounted() {
             this.invoiceItems = this.items

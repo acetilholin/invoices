@@ -2,7 +2,7 @@
 
 return [
     'cannotCreate' => 'Uporabnika ni mogoče ustvariti',
-    'userCreated' => 'Uporabnik ustvarjen',
+    'userCreated' => 'Uporabnik je ustvarjen',
     'userDetailChanged' => 'Spremenjeno',
     'cannotDeleteAdmin' => 'Skrbnika ni mogoče izbrisati',
     'cannotChangeAdmin' => 'Skrbniku ni mogoče spreminjati nastavitev',

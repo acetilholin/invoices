@@ -1,6 +1,7 @@
 <template>
     <div class="q-pa-md">
         <CreateInvoice class="q-mt-sm q-mb-md"></CreateInvoice>
+        <filter-dates @interval="filterDataByInterval"></filter-dates>
         <q-table
             title="Predračuni"
             :data="invoices"
@@ -80,7 +81,8 @@
 <script>
 
     import EditDialog from "./dialogs/EditDialog";
-    import CreateInvoice from "./CreateInvoice";
+    import CreateInvoice from "./dialogs/CreateInvoice";
+    import FilterDates from "./filter/FilterDates";
     import {mapGetters, mapActions} from 'vuex'
 
     export default {
@@ -107,7 +109,7 @@
                         format: val => `${val}`,
                         sortable: true
                     },
-                    {name: 'ime_priimek', align: 'center', label: 'Ime in priimek', field: 'ime_priimek'},
+                    {name: 'ime_priimek', align: 'center', label: 'Ime in priimek / naziv', field: 'ime_priimek'},
                     {
                         name: 'timestamp',
                         align: 'center',
@@ -124,7 +126,8 @@
         },
         components: {
           EditDialog,
-          CreateInvoice
+          CreateInvoice,
+          FilterDates
         },
         filters: {
             decimals(value) {
@@ -132,6 +135,18 @@
             }
         },
         methods: {
+            ...mapActions({
+                filterData: 'invoices/filterByInterval',
+                removeInvoice: 'invoices/remove'
+            }),
+            showNotif(message, type) {
+                this.$q.notify({
+                    message: message,
+                    position: 'top',
+                    timeout: 1500,
+                    type: type
+                })
+            },
             tableIndex(row) {
                 return this.invoices.indexOf(row) + 1
             },
@@ -143,14 +158,31 @@
                 this.$store.dispatch('invoices/currentInvoiceAction', id)
             },
             confirm(id) {
-
+                this.$q.dialog({
+                    title: 'Brisanje',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    html: true,
+                    cancel: true,
+                    persistent: true
+                }).onOk(() => {
+                    this.removeInvoice(id)
+                        .then((response) => {
+                            this.showNotif(response, 'warning')
+                        })
+                        .catch((e) => {
+                            this.showNotif(e, 'negative')
+                        })
+                })
             },
             copyInvoice(id) {
 
+            },
+            filterDataByInterval(interval) {
+                this.filterData(interval)
             }
         },
         mounted() {
-            this.$store.dispatch('invoices/invoicesAction')
+            this.$store.dispatch('invoices/allInvoices')
         },
         computed: {
             ...mapGetters({

@@ -18,14 +18,29 @@ export default {
         },
         SET_RECIPIENT(state, payload) {
             state.recipient = payload
+        },
+        ADD_TO_ITEMS(state, payload) {
+            state.items.push(payload)
+        },
+        REMOVE_FROM_ITEMS(state, payload) {
+            state.items = state.items.filter(item => {
+                return item !== payload
+            })
         }
     },
     actions: {
-        invoicesAction({commit}) {
+        allInvoices({commit}) {
             axios.get('/invoices')
                 .then((response) => {
                     commit('SET_INVOICES', response.data.data)
                 })
+        },
+        addItem({commit}, item) {
+            commit('ADD_TO_ITEMS', item)
+        },
+        removeItemFromInvoice({commit, dispatch}, item) {
+            commit('REMOVE_FROM_ITEMS', item)
+            dispatch('allInvoices')
         },
         removeItem({commit}, id) {
             axios.delete(`/items/${id}`)
@@ -38,7 +53,7 @@ export default {
                     commit('SET_RECIPIENT', response.data.recipient)
                 })
         },
-        async update({commit}, invoice) {
+        async update({commit, dispatch}, invoice) {
             return await axios.patch(`/invoices/${invoice.id}`, {
                 'sifra_predracuna': invoice.invoice.sifra_predracuna,
                 'ime_priimek': invoice.invoice.ime_priimek,
@@ -54,7 +69,7 @@ export default {
                 'items': invoice.items
             })
                 .then((response) => {
-                    commit('SET_INVOICES', response.data.invoices)
+                    dispatch('allInvoices')
                     commit('SET_ITEMS', response.data.items)
                     return response.data.success
                 })
@@ -78,8 +93,33 @@ export default {
                     throw (e.response.data.error);
                 })
         },
+        filterByInterval({commit}, interval) {
+            axios.post('invoice/interval', {
+                from: interval.from,
+                to: interval.to
+            })
+                .then((response) => {
+                    commit('SET_INVOICES', response.data.invoices)
+                })
+        },
+        async create({commit, dispatch}, newInvoice) {
+            let items = Object.keys(newInvoice.items).length === 0 ? null : newInvoice.items
+            let recipient = Object.keys(newInvoice.recipient).length === 0 ? null : newInvoice.recipient
+            return await axios.post('/invoices', {
+                invoice: newInvoice.invoice,
+                items: items,
+                recipient: recipient
+            })
+                .then((response) => {
+                    dispatch('allInvoices')
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
         async removeRecipient({commit}, id) {
-           return await axios.delete(`/recipients/${id}`)
+            return await axios.delete(`/recipients/${id}`)
                 .then((response) => {
                     commit('SET_RECIPIENT', null)
                     return response.data.success
@@ -97,6 +137,16 @@ export default {
             })
                 .then((response) => {
                     commit('SET_RECIPIENT', response.data.recipient)
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async remove({commit, dispatch}, id) {
+            return await axios.delete(`/invoices/${id}`)
+                .then((response) => {
+                    dispatch('allInvoices')
                     return response.data.success
                 })
                 .catch((e) => {
