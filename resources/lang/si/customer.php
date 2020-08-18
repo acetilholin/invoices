@@ -7,6 +7,6 @@ return [
     'postRequired' => 'Posta je obvezna',
     'streetRequired' => 'Ulica je obvezna',
     'customerCreated' => 'Stranka je ustvarjena',
-    'companyExists' => 'Podjetje/oseba že obstaja',
+    'companyExists' => 'Stranka že obstaja',
     'customerEdited' => 'Stranka je posodobljena'
 ];

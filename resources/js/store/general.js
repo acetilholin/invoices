@@ -8,7 +8,8 @@ export default {
         addItemDialog: false,
         addRecipient: false,
         editRecipient: false,
-        addNewRecipient: false
+        addNewRecipient: false,
+        customerTotal: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -34,6 +35,9 @@ export default {
         },
         ADD_NEW_RECIPIENT_DIALOG(state, payload) {
             state.addNewRecipient = payload
+        },
+        CHANGE_CUSTOMER_TOTAL_DIALOG(state, payload) {
+            state.customerTotal = payload
         }
     },
     actions: {
@@ -56,10 +60,13 @@ export default {
             commit('CHANGE_ADD_RECIPIENT_DIALOG', modal)
         },
         editRecipientDialog({commit}, modal) {
-            commit('CHANGE_EDIT_RECIPIENT_DIALOG',modal)
+            commit('CHANGE_EDIT_RECIPIENT_DIALOG', modal)
         },
         AddNewRecipientDialog({commit}, modal) {
             commit('ADD_NEW_RECIPIENT_DIALOG', modal)
+        },
+        customerTotalDialog({commit}, modal) {
+            commit('CHANGE_CUSTOMER_TOTAL_DIALOG', modal)
         }
     },
     getters: {
@@ -86,6 +93,9 @@ export default {
         },
         getAddNewRecipient(state) {
             return state.addNewRecipient
+        },
+        getCustomerTotalDialog(state) {
+            return state.customerTotal
         }
     }
 }

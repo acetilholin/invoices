@@ -15,7 +15,8 @@ class CreateRecipientsTable extends Migration
     {
         Schema::create('recipients', function (Blueprint $table) {
             $table->id();
-            $table->integer('invoice_id');
+            $table->bigInteger('invoice_id')->unsigned();
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->text('title');
             $table->text('street');
             $table->text('posta');

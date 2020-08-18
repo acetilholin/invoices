@@ -2,7 +2,8 @@ export default {
     namespaced: true,
     state: {
         customers: [],
-        currentCustomer: []
+        currentCustomer: [],
+        customerTotal: []
     },
     mutations: {
         SET_CUSTOMERS(state, payload) {
@@ -10,6 +11,9 @@ export default {
         },
         SET_CURRENT_CUSTOMER(state, payload) {
             state.currentCustomer = payload
+        },
+        SET_CUSTOMER_TOTAL(state, payload) {
+            state.customerTotal = payload
         }
     },
     actions: {
@@ -67,6 +71,12 @@ export default {
                     throw (e.response.data.error);
                 })
         },
+        total({commit}, id) {
+            axios.get(`/customers/${id}`)
+                .then((response) => {
+                    commit('SET_CUSTOMER_TOTAL', response.data.invoices)
+                })
+        },
         show({commit}, id) {
             axios.get(`/customers/${id}/edit`)
                 .then((response) => {
@@ -80,6 +90,9 @@ export default {
         },
         getCustomer(state) {
             return state.currentCustomer
+        },
+        getCustomerTotal(state) {
+            return state.customerTotal;
         }
     }
 }

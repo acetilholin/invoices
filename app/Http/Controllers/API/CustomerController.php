@@ -63,7 +63,16 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        $allInvoices = [];
+        $invoices = $customer->invoices;
 
+        foreach ($invoices as $invoice) {
+            $allInvoices[] = $invoice->getAttributes();
+        }
+
+        return response()->json([
+            'invoices' => $allInvoices
+        ]);
     }
 
     /**
