@@ -44,6 +44,11 @@
                                         <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
                                     </q-item-section>
                                 </q-item>
+                                <q-item clickable v-close-popup @click="customerTotal(props.row.id)">
+                                    <q-item-section class="text-center">
+                                        <q-item-label><q-icon name="euro_symbol" class="pointer text-black action-icon"></q-icon> Promet</q-item-label>
+                                    </q-item-section>
+                                </q-item>
                                 <q-item clickable v-close-popup @click="confirm(props.row.id)">
                                     <q-item-section class="text-center text-red">
                                         <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> Izbriši</q-item-label>
@@ -56,13 +61,15 @@
             </template>
         </q-table>
         <edit-customer></edit-customer>
+        <customer-total></customer-total>
     </div>
 </template>
 
 <script>
 
-    import CreateCustomer from "./CreateCustomer";
-    import EditCustomer from "./EditCustomer";
+    import CreateCustomer from "./dialogs/CreateCustomer";
+    import CustomerTotal from "./dialogs/CustomerTotal";
+    import EditCustomer from "./dialogs/EditCustomer";
     import {mapGetters, mapActions} from "vuex";
 
     export default {
@@ -99,7 +106,8 @@
         },
         components: {
             CreateCustomer,
-            EditCustomer
+            EditCustomer,
+            CustomerTotal
         },
         created() {
             this.$store.dispatch('customers/all')
@@ -127,7 +135,7 @@
             confirm(id) {
                 this.$q.dialog({
                     title: 'Brisanje',
-                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    message: '<span class="text-red">Želite izbrisati vnos?</span><br>Izbrisani bodo vsi strankini predračuni in računi!',
                     html: true,
                     cancel: true,
                     persistent: true
@@ -143,6 +151,11 @@
             },
             editCustomer(id) {
                 this.$store.dispatch('general/editCustomerModal', true)
+                this.$store.dispatch('customers/show', id)
+            },
+            customerTotal(id) {
+                this.$store.dispatch('general/customerTotalDialog', true)
+                this.$store.dispatch('customers/total', id)
                 this.$store.dispatch('customers/show', id)
             }
         }

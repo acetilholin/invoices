@@ -14,7 +14,7 @@
                 <q-bar>
                     <q-space />
                     <q-btn dense flat icon="close" v-close-popup>
-                        <q-tooltip content-class="bg-white text-primary">Zapri</q-tooltip>
+                        <q-tooltip>Zapri</q-tooltip>
                     </q-btn>
                 </q-bar>
 

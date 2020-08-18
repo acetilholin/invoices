@@ -137,7 +137,7 @@
 <script>
 
     import {mapGetters, mapActions} from 'vuex'
-    import Create from "../App/Create";
+    import Create from "../../App/Create";
 
     export default {
         name: "CreateCustomer",

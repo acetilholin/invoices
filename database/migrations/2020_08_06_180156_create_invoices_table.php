@@ -17,12 +17,12 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->string('sifra_predracuna');
             $table->string('ime_priimek');
-            $table->unsignedInteger('customer_id');
+            $table->bigInteger('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->date('timestamp');
             $table->date('expiration');
             $table->string('klavzula');
             $table->string('author')->nullable();
-            $table->string('invoice_id');
             $table->date('work_date')->nullable();
             $table->float('total');
             $table->float('quantity');
