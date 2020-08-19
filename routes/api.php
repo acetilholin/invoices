@@ -15,6 +15,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('invoices', 'API\InvoiceController');
     Route::post('invoice/interval', 'API\InvoiceController@interval');
+    Route::get('invoice/{id}/view', 'API\InvoiceController@view');
 
     Route::resource('users', 'API\UserController');
 

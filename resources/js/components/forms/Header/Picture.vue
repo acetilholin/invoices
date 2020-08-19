@@ -12,8 +12,8 @@
              <q-file color="primary"
                      v-model="file"
                      accept=".jpg, .jpeg, .png"
-                     @rejected="showNotif('Dovoljeni formati so .jpg, .jpeg, .png','negative')"
-                     :rules="[val => !!val || 'Izberite sliko']"
+                     @rejected="showNotif(`${this.$t('general.pictureFormats')}`,'negative')"
+                     :rules="[val => !!val || `${this.$t('general.choosePicture')}`]"
                      label="Datoteka">
                  <template v-slot:prepend>
                      <q-icon name="attach_file" />

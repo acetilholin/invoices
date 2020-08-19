@@ -6,7 +6,7 @@
         >
             <q-card style="width: 700px; max-width: 80vw;">
                 <q-card-section>
-                    <div class="text-h6">Prejemnik</div>
+                    <div class="text-h6">{{ $t("general.recipient") }}</div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
@@ -20,7 +20,7 @@
                                 v-model="recipient.title"
                                 label="Naziv"
                                 class="col-11"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite naziv']"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterTitle')}`]"
                             />
                         </div>
                         <div class="row">
@@ -29,7 +29,7 @@
                                 label="Kraj/ulica"
                                 class="col-6 input-margin"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite kraj/ulica']"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterCityStreet')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="add_location" />
@@ -48,7 +48,7 @@
                                 option-label="posta"
                                 option-value="posta"
                                 type="text"
-                                :rules="[val => !!val || 'Vnesite pošto']"
+                                :rules="[val => !!val || `${this.$t('general.enterPost')}`]"
                                 map-options
                             >
                                 <template v-slot:prepend>

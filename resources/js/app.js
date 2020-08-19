@@ -3,6 +3,7 @@ import Quasar from 'quasar'
 import App from "./main/App";
 import router from "./routes/routes";
 import store from "./store/store";
+import i18n  from './trans/translations'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import langSl from 'quasar/lang/sl'
@@ -39,6 +40,7 @@ store.dispatch('auth/loginAttempt', localStorage.getItem('token'))
     .then(() => {
         const app = new Vue({
             el: '#app',
+            i18n,
             router,
             store,
             components: {

@@ -6,7 +6,7 @@
         >
             <q-card style="width: 700px; max-width: 80vw;">
                 <q-card-section>
-                    <div class="text-h6">Uredi stranko</div>
+                    <div class="text-h6">{{ $t("customers.editCustomer") }}</div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
@@ -21,7 +21,7 @@
                                 label="Podjetje / ime in priimek"
                                 class="col-12"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite podjetje / ime priimek']"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterCustomer')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="business_center" />
@@ -34,7 +34,7 @@
                                 label="Kraj/ulica"
                                 class="col-6 input-margin"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite kraj/ulica']"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterCityStreet')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="add_location" />
@@ -52,7 +52,7 @@
                                 @filter="filterInput"
                                 option-label="posta"
                                 type="text"
-                                :rules="[val => !!val || 'Vnesite pošto']"
+                                :rules="[val => !!val || `${this.$t('general.enterPost')}`]"
                                 map-options
                             >
                                 <template v-slot:prepend>
@@ -157,7 +157,7 @@
                 if (val) {
                     if (val.length > 0) {
                         const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-                        return emailPattern.test(val) || 'Neveljaven email';
+                        return emailPattern.test(val) || `${this.$t("general.wrongEmail")}`;
                     }
                 }
             },

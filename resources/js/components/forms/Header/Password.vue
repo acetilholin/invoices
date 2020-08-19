@@ -8,7 +8,7 @@
                 v-model="newPass.password_old"
                 label="Trenutno geslo"
                 :type="isPwd1 ? 'password' : 'text'"
-                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
+                :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
             >
                 <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -18,7 +18,7 @@
                         :name="isPwd1 ? 'visibility_off' : 'visibility'"
                         class="cursor-pointer"
                         @click="isPwd1 = !isPwd1"
-                        :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
+                        :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
                     />
                 </template>
             </q-input>
@@ -26,7 +26,7 @@
                 v-model="newPass.password"
                 label="Novo geslo"
                 :type="isPwd2 ? 'password' : 'text'"
-                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
+                :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
             >
                 <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -44,8 +44,8 @@
                 label="Ponovite geslo"
                 type="password"
                 :rules="[
-                                        val => val && val.length > 0 || 'Ponovite geslo',
-                                        val => val === this.newPass.password || 'Gesli se ne ujemata']"
+                                        val => val && val.length > 0 || `${this.$t('general.repeatPassword')}`,
+                                        val => val === this.newPass.password || `${this.$t('general.passMissmatch')}`]"
             >
                 <template v-slot:prepend>
                     <q-icon name="lock" />

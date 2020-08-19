@@ -45,27 +45,27 @@
                             <q-list>
                                 <q-item clickable v-close-popup @click="editInvoice(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
+                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> {{ $t("general.edit") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="copyInvoice(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="content_copy" class="pointer text-black action-icon"></q-icon> Kopiraj</q-item-label>
+                                        <q-item-label><q-icon name="content_copy" class="pointer text-black action-icon"></q-icon> {{ $t("general.copy") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="viewInvoice(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="pageview" class="pointer text-black action-icon"></q-icon> Ogled</q-item-label>
+                                        <q-item-label><q-icon name="pageview" target="_blank" class="pointer text-black action-icon"></q-icon> {{ $t("general.view") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="exportInvoice(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="input" class="pointer text-black action-icon"></q-icon> Izvozi</q-item-label>
+                                        <q-item-label><q-icon name="input" class="pointer text-black action-icon"></q-icon> {{ $t("general.export") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="confirm(props.row.id)">
                                     <q-item-section class="text-center text-red">
-                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> Izbriši</q-item-label>
+                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> {{ $t("general.delete") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -159,8 +159,8 @@
             },
             confirm(id) {
                 this.$q.dialog({
-                    title: 'Brisanje',
-                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    title: `${this.$t("general.deleteTitle")}`,
+                    message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span>`,
                     html: true,
                     cancel: true,
                     persistent: true
@@ -173,6 +173,9 @@
                             this.showNotif(e, 'negative')
                         })
                 })
+            },
+            viewInvoice(id) {
+                this.$store.dispatch('invoices/viewInvoice', id)
             },
             copyInvoice(id) {
 

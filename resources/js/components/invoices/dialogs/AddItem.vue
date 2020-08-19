@@ -20,7 +20,7 @@
                                v-model="item.description"
                                label="Opis"
                                class="col-12"
-                               :rules="[ val => val && val.length > 0 || 'Vnesite opis']"
+                               :rules="[ val => val && val.length > 0 || `${this.$t('general.enterDescription')}`]"
                            />
                        </div>
                        <div class="row">
@@ -28,7 +28,7 @@
                                      :options="units"
                                      class="col-3 input-margin"
                                      label="Enota mere"
-                                     :rules="[ val => !!val || 'Izberite EM']"
+                                     :rules="[ val => !!val || `${this.$t('general.enterEM')}`]"
                            />
                            <q-input
                                v-model="item.price"
@@ -40,14 +40,14 @@
                                input-class="text-right"
                                class="col-3 input-margin"
                                suffix="€"
-                               :rules="[ val => !!val || 'Vnesite ceno']"
+                               :rules="[ val => !!val || `${this.$t('general.enterPrice')}`]"
                            />
                            <q-input
                                v-model.number="item.qty"
                                label="Količina"
                                type="number"
                                class="col-2 input-margin"
-                               :rules="[ val => !!val || 'Vnesite količino']"
+                               :rules="[ val => !!val || `${this.$t('general.enterQty')}`]"
                            />
                            <q-input
                                v-model.number="item.discount"
@@ -55,7 +55,7 @@
                                type="number"
                                suffix="%"
                                class="col-2 input-margin"
-                               :rules="[ val => val < 99 || 'Vrednost od 0 do 99']"
+                               :rules="[ val => val < 99 || `${this.$t('general.val0to99')}`]"
                            />
 
                        </div>

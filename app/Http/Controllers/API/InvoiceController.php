@@ -59,6 +59,24 @@ class InvoiceController extends Controller
     }
 
     /**
+     * View invoice for printing
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * return view
+     */
+    public function view(Request $request)
+    {
+        $id = $request->id;
+        $invoice = Invoice::where('id', $id)->first();
+        $items = $invoice->items()->get();
+        $allItems = [];
+
+        foreach ($items as $item) {
+            $allItems[] = $item->getAttributes();
+        }
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  InvoicesResource  $invoiceitems

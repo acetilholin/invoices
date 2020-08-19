@@ -306,7 +306,7 @@ export default {
         addNewItem(newItem) {
             newItem.id = null
             this.items.push(newItem)
-            this.showNotif('Artikel dodan', 'positive')
+            this.showNotif(`${this.$t('general.itemAdded')}`, 'positive')
         },
         filterInput(val, update, abort) {
             update(() => {
@@ -327,16 +327,16 @@ export default {
         mandytoryFields() {
             switch(true) {
                 case !this.invoice.ime_priimek:
-                    this.showNotif('Vnesite stranko','warning');
+                    this.showNotif(`${this.$t('general.enterCustomerInvoice')}`,'warning');
                     return true
                 case !this.invoice.expiration:
-                    this.showNotif('Izberite datum zapadlosti','warning');
+                    this.showNotif(`${this.$t('general.chooseExpDate')}`,'warning');
                     return true
                 case !this.invoice.work_date:
-                    this.showNotif('Izberite opravljeno dne ','warning');
+                    this.showNotif(`${this.$t('general.chooseWorkDate')}`, 'warning');
                     return true
                 case !this.invoice.klavzula:
-                    this.showNotif('Izberite klavzulo ','warning');
+                    this.showNotif(`${this.$t('general.chooseKlavzula')}`,'warning');
                     return true
                 default:
                     return false
@@ -374,8 +374,8 @@ export default {
         },
         removePrejemnik() {
             this.$q.dialog({
-                title: 'Brisanje',
-                message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                title: `${this.$t("general.deleteTitle")}`,
+                message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span>`,
                 html: true,
                 cancel: true,
                 persistent: true
@@ -385,25 +385,25 @@ export default {
                     street: '',
                     title: ''
                 }
-                this.showNotif('Prejemnik je odstranjen', 'warning')
+                this.showNotif(`${this.$t('general.recipientRemoved')}`, 'warning')
             })
         },
         kChanged() {
-            this.showNotif('Klavzula je dodana', 'positive')
+            this.showNotif(`${this.$t('general.klavzulaAdded')}`, 'positive')
         },
         vChanged() {
-            this.showNotif('Davek je dodan', 'positive')
+            this.showNotif(`${this.$t('general.VATadded')}`, 'positive')
         },
         expirationChanged() {
             this.$refs.qDateExpiration.hide()
-            this.showNotif('Datum zapadlosti je dodan', 'positive')
+            this.showNotif(`${this.$t('general.expidationDateAdded')}`, 'positive')
         },
         workDateChanged() {
             this.$refs.qDateWorkDate.hide()
-            this.showNotif('Opravljeno dne je dodano', 'positive')
+            this.showNotif(`${this.$t('general.workDateAdded')}`, 'positive')
         },
         strankaChanged() {
-            this.showNotif('Stranka je dodana', 'positive')
+            this.showNotif(`${this.$t('general.customerAdded')}`, 'positive')
         }
     },
     watch: {

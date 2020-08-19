@@ -314,7 +314,7 @@
                 newItem.id = null
                 newItem.invoice_id = this.invoice.id
                 this.addInvoiceItem(newItem)
-                this.showNotif('Artikel dodan', 'positive')
+                this.showNotif(`${this.$t('general.itemAdded')}`, 'positive')
             },
             addPrejemnik() {
                 this.$store.dispatch('general/AddRecipientDialog', true)
@@ -327,8 +327,8 @@
             },
             removePrejemnik() {
                 this.$q.dialog({
-                    title: 'Brisanje',
-                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    title: `${this.$t("general.deleteTitle")}`,
+                    message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span>`,
                     html: true,
                     cancel: true,
                     persistent: true
@@ -388,25 +388,25 @@
                 return this.$moment().format('Y-MM-DD')
             },
             kChanged() {
-                this.showNotif('Klavzula je spremenjena', 'positive')
+                this.showNotif(`${this.$t('general.klavzulaChanged')}`, 'positive')
             },
             vChanged() {
-                this.showNotif('Davek je spremenjen', 'positive')
+                this.showNotif(`${this.$t('general.VATChanged')}`, 'positive')
             },
             timestampChanged() {
                 this.$refs.qDateTimestamp.hide()
-                this.showNotif('Ustvarjen dne je spremenjen', 'positive')
+                this.showNotif(`${this.$t('general.createdChanged')}`, 'positive')
             },
             expirationChanged() {
                 this.$refs.qDateExpiration.hide()
-                this.showNotif('Datum zapadlosti je spremenjen', 'positive')
+                this.showNotif(`${this.$t('general.expirationChanged')}`, 'positive')
             },
             workDateChanged() {
                 this.$refs.qDateWorkDate.hide()
-                this.showNotif('Opravljeno dne je spremenjeno', 'positive')
+                this.showNotif(`${this.$t('general.workDateChanged')}`, 'positive')
             },
             strankaChanged() {
-                this.showNotif('Stranka je spremenjena', 'positive')
+                this.showNotif(`${this.$t('general.customerChanged')}`, 'positive')
             }
         }
     }

@@ -46,8 +46,8 @@
                                      v-model="props.row.qty"
                                      dense
                                      autofocus
-                                     @change="changeItemData('Količina spremenjena',props.row)"
-                                     :rules="[ val => val && val > 0  || 'Mora biti večje od 0']"
+                                     @change="changeItemData(`${this.$t('general.QTYChanged')}`,props.row)"
+                                     :rules="[ val => val && val > 0  || `${this.$t('general.biggerThan0')}`]"
                             />
                         </q-popup-edit>
                     </q-td>
@@ -58,14 +58,14 @@
                                   label="Enota mere"
                                   dense
                                   autofocus
-                                  @input="changeItemData('Enota mere je spremenjena',props.row)"
+                                  @input="changeItemData(`${this.$t('general.EMChanged')}`,props.row)"
                         />
                       </q-popup-edit>
                     </q-td>
                     <q-td key="item_price" :props="props">
                         {{ props.row.item_price | price }}
                         <q-popup-edit v-model="props.row.item_price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
-                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData('Cena/kos spremenjena',props.row)" dense autofocus />
+                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData(`${this.$t('general.pricePerItemChanged')}`,props.row)" dense autofocus />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="total_price" :props="props">
@@ -76,10 +76,10 @@
                         <q-popup-edit v-model="props.row.discount" title="Spremeni popust" buttons label-set="Spremeni">
                             <q-input type="number"
                                      v-model="props.row.discount"
-                                     @change="changeItemData('Popust spremenjen',props.row)"
+                                     @change="changeItemData(`${this.$t('general.discountChanged')}`,props.row)"
                                      dense
                                      autofocus
-                                     :rules="[ val => val && val < 100  || 'Mora biti manjše od 100 %']"
+                                     :rules="[ val => val && val < 100  || `${this.$t('general.lessThan100prc')}`]"
                             />
                         </q-popup-edit>
                     </q-td>
@@ -226,23 +226,20 @@
             },
           confirm(row) {
             this.$q.dialog({
-              title: 'Brisanje',
-              message: '<span class="text-red">Želite odstraniti artikel?</span>',
-              html: true,
-              cancel: true,
-              persistent: true
+                title: `${this.$t("general.deleteTitle")}`,
+                message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span>`,
+                html: true,
+                cancel: true,
+                persistent: true
             }).onOk(() => {
                 let id = row.id
                 this.$emit('removeItem', row)
-               /* this.invoiceItems = this.invoiceItems.filter(item => {
-                    return item !== row
-                })*/
 
                 if (id !== null) {
                     this.$store.dispatch('invoices/removeItem', id)
                 }
 
-                this.showNotif('Artikel je odstranjen', 'warning')
+                this.showNotif(`${this.$t('general.itemRemoved')}`, 'warning')
             })
           },
         },

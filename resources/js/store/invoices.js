@@ -102,6 +102,9 @@ export default {
                     commit('SET_INVOICES', response.data.invoices)
                 })
         },
+        viewInvoice({commit}, id) {
+            axios.get(`/invoice/${id}/view`)
+        },
         async create({commit, dispatch}, newInvoice) {
             let items = Object.keys(newInvoice.items).length === 0 ? null : newInvoice.items
             let recipient = Object.keys(newInvoice.recipient).length === 0 ? null : newInvoice.recipient

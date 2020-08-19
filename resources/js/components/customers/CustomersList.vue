@@ -41,17 +41,17 @@
                             <q-list>
                                 <q-item clickable v-close-popup @click="editCustomer(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> Uredi</q-item-label>
+                                        <q-item-label><q-icon name="create" class="pointer text-black action-icon"></q-icon> {{ $t("general.edit") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="customerTotal(props.row.id)">
                                     <q-item-section class="text-center">
-                                        <q-item-label><q-icon name="euro_symbol" class="pointer text-black action-icon"></q-icon> Promet</q-item-label>
+                                        <q-item-label><q-icon name="euro_symbol" class="pointer text-black action-icon"></q-icon>  {{ $t("general.total") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                                 <q-item clickable v-close-popup @click="confirm(props.row.id)">
                                     <q-item-section class="text-center text-red">
-                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> Izbriši</q-item-label>
+                                        <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> {{ $t("general.delete") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
                             </q-list>
@@ -134,8 +134,8 @@
             },
             confirm(id) {
                 this.$q.dialog({
-                    title: 'Brisanje',
-                    message: '<span class="text-red">Želite izbrisati vnos?</span><br>Izbrisani bodo vsi strankini predračuni in računi!',
+                    title: `${this.$t("general.deleteTitle")}`,
+                    message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span><br>${this.$t("general.deleteMessageWarning")}`,
                     html: true,
                     cancel: true,
                     persistent: true

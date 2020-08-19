@@ -65,7 +65,7 @@ export default {
         dateChanged() {
             if (this.fromDate && this.toDate) {
                 if (this.fromDate > this.toDate) {
-                    this.showNotif('Datum od je večji od datuma do','warning');
+                    this.showNotif(`${this.$t('general.dateFromTo')}`,'warning');
                 } else {
                     this.filterDataByDates()
                 }
