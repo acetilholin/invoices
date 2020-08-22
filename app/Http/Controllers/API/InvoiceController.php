@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\helpers\FinalInvoiceHelper;
 use App\helpers\InvoiceHelper;
 use App\Http\Controllers\Controller;
 use App\Invoice;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\InvoicesResource;
 use App\Http\Resources\InvoiceResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
@@ -49,6 +51,7 @@ class InvoiceController extends Controller
         $helper = new InvoiceHelper();
         $sifra_predracuna = $helper->sifraPredracuna();
         $invoiceData['sifra_predracuna'] = $sifra_predracuna;
+        $invoiceData['iid'] = Str::random(5);
         $invoiceData['timestamp'] = date("Y-m-d");
 
         $helper->insertAllData($invoiceData, $recipientData, $items);
@@ -73,6 +76,49 @@ class InvoiceController extends Controller
 
         foreach ($items as $item) {
             $allItems[] = $item->getAttributes();
+        }
+
+        return response()->json([
+            'items' => $allItems,
+            'invoice' => $invoice
+        ]);
+    }
+
+    /**
+     * Copying invoice
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * return view
+     */
+    public function copy(Request $request)
+    {
+        $id = $request->id;
+        $invoice = Invoice::where('id', $id)->first();
+        $items = $invoice->items;
+        $invoiceData = $invoice->getAttributes();
+
+        $helper = new InvoiceHelper();
+        $helper->copyInvoice($invoiceData, $items);
+
+        return response()->json([
+            'success' => trans('invoice.invoiceCopied'),
+        ]);
+    }
+
+    public function export(Request $request)
+    {
+        $id = $request->id;
+        $invoice = Invoice::where('id', $id)->first();
+        $invoiceData = $invoice->getAttributes();
+
+        $helper = new FinalInvoiceHelper();
+        try {
+            $helper->exportToFinalInvoices($invoiceData);
+            return response()->json([
+                'success' => trans('invoice.invoiceExportedToFinal'),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 

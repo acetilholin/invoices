@@ -27,11 +27,27 @@ class UserHelper
             ->update([$attr => $data]);
     }
 
+    public function getUserIpAndCountry()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $country = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+        $userCountry = $country->geoplugin_countryName;
+        return $ipAndCountry = array(
+            'ip' => $ip,
+            'country' => $userCountry
+        );
+    }
+
     public function lastSeen($user)
     {
         $id = $user->id;
+        $country = $this->getUserIpAndCountry()['country'];
+        $country = $country !== null ? $country : 'si';
         User::where('id', $id)
-            ->update(['last_seen' => date("Y-m-d H:i")]);
+            ->update([
+                'last_seen' => date("Y-m-d H:i"),
+                'country' => $country
+            ]);
     }
 
     public function checkPassword($id, $password)
@@ -52,10 +68,19 @@ class UserHelper
         $uid = session()->get('uid');
         $currentUser = User::find($uid);
 
-        if ($user->email == env('ADMIN')) return trans('user.cannotChangeAdmin');
-        else if($currentUser->role === 'user') return trans('user.notEnoughRights');
-        else if ($user->id === $uid && $operation == 'delete') return trans('user.preventAutoDelete');
-        else return null;
+        if ($user->email == env('ADMIN')) {
+            return trans('user.cannotChangeAdmin');
+        } else {
+            if ($currentUser->role === 'user') {
+                return trans('user.notEnoughRights');
+            } else {
+                if ($user->id === $uid && $operation == 'delete') {
+                    return trans('user.preventAutoDelete');
+                } else {
+                    return null;
+                }
+            }
+        }
     }
 
     public function updatePhoto($request)

@@ -74,7 +74,11 @@ export default {
         getAll() {
             this.fromDate = null
             this.toDate = null
-            this.$store.dispatch('invoices/allInvoices')
+            if (this.$router.currentRoute.fullPath === '/') {
+                this.$store.dispatch('invoices/allInvoices')
+            } else {
+                this.$store.dispatch('final/all')
+            }
         },
         filterDataByDates() {
            let interval = {

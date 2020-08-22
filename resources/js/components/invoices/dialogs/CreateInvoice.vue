@@ -13,7 +13,7 @@
             <q-card class="bg-white text-black">
                 <q-bar>
                     <q-space />
-                    <q-btn dense flat icon="close" v-close-popup>
+                    <q-btn dense flat icon="close" @click="closeDialog" v-close-popup>
                         <q-tooltip>Zapri</q-tooltip>
                     </q-btn>
                 </q-bar>
@@ -200,6 +200,7 @@ export default {
     name: "CreateInvoice",
     data() {
         return {
+            saved: false,
             submitting: false,
             maximizedToggle: true,
             dialog: false,
@@ -209,7 +210,7 @@ export default {
                 expiration: '',
                 work_date: '',
                 klavzula: '',
-                vat: 0,
+                vat: 0.0,
                 customer_id: ''
             },
             recipient: {
@@ -353,6 +354,7 @@ export default {
                 this.createInvoice(newInvoice)
                     .then((response) => {
                         this.showNotif(response, 'positive')
+                        this.saved = true
                         setTimeout(() => {
                             this.submitting = false
                         }, 500)
@@ -362,6 +364,12 @@ export default {
                         this.submitting = false
                     })
             }
+        },
+        closeDialog() {
+          if (this.saved) {
+            this.invoice = []
+            this.items = []
+          }
         },
         addItem() {
             this.addItemDialog(true)

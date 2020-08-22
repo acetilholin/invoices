@@ -55,7 +55,9 @@ const general = {
             expirationChanged: 'Datum zapadlosti je spremenjen',
             workDateChanged: 'Opravljeno dne je spremenjeno',
             customerChanged: 'Stranka je spremenjena',
-            QTYChanged: 'Količina je spremenjena'
+            QTYChanged: 'Količina je spremenjena',
+            update: 'Osveži',
+            settings: 'Nastavitve'
         },
         customers: {
             editCustomer: 'Uredi stranko',
@@ -68,7 +70,9 @@ const general = {
             finalInvoices: 'Računi',
             total: 'Promet',
             website: 'Web stran',
-            users: 'Uporabniki'
+            users: 'Uporabniki',
+            klavzule: 'Klavzule',
+            company: 'Podjetje'
         },
         header: {
             user: 'Uporabnik'

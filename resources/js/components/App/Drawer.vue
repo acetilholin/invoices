@@ -63,7 +63,22 @@
                         <router-link to="/users" class="text-subtitle1">{{ $t("drawer.users") }}</router-link>
                     </q-item-section>
                 </q-item>
-
+                <q-item clickable v-ripple v-if="company">
+                    <q-item-section avatar>
+                        <q-icon :class="{'icon-active' : currentPage === '/company'}" name="corporate_fare" />
+                    </q-item-section>
+                    <q-item-section>
+                        <router-link to="/company" class="text-subtitle1">{{ $t("drawer.company") }}</router-link>
+                    </q-item-section>
+                </q-item>
+                <q-item clickable v-ripple v-if="klavzule">
+                    <q-item-section avatar>
+                        <q-icon :class="{'icon-active' : currentPage === '/klavzule'}" name="list" />
+                    </q-item-section>
+                    <q-item-section>
+                        <router-link to="/klavzule" class="text-subtitle1">{{ $t("drawer.klavzule") }}</router-link>
+                    </q-item-section>
+                </q-item>
             </q-list>
         </q-scroll-area>
     </q-drawer>
@@ -84,11 +99,16 @@
             ...mapGetters({
                 currentUser: 'auth/user',
                 authenticated: 'auth/authenticated',
-                drawer: 'general/getDrawer'
+                drawer: 'general/getDrawer',
+                company: 'general/getCompany',
+                klavzule: 'general/getKlavzule'
             }),
             currentPage() {
                 return this.$route.path
             }
+        },
+        created() {
+            this.$store.dispatch('general/settings')
         }
     }
 </script>

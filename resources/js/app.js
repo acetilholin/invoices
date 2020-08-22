@@ -7,6 +7,7 @@ import i18n  from './trans/translations'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import langSl from 'quasar/lang/sl'
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 
 require('./store/subscriber')
@@ -15,6 +16,19 @@ require('./bootstrap');
 Vue.use(Quasar, {
     lang: langSl
 })
+
+const options = {
+    name: '_blank',
+    specs: [
+        'fullscreen=yes',
+        'titlebar=yes',
+        'scrollbars=yes'
+    ],
+    styles: [
+        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+    ]
+}
+Vue.use(VueHtmlToPaper, options);
 
 Vue.use(VueAxios, axios)
 Vue.use(require('vue-moment'));

@@ -13,4 +13,9 @@ class Customer extends Model
     {
         return $this->hasMany('App\Invoice','customer_id');
     }
+
+    public function finalInvoices()
+    {
+        return $this->hasMany('App\FinalInvoice','customer_id');
+    }
 }

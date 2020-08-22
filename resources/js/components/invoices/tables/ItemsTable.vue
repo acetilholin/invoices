@@ -46,8 +46,8 @@
                                      v-model="props.row.qty"
                                      dense
                                      autofocus
-                                     @change="changeItemData(`${this.$t('general.QTYChanged')}`,props.row)"
-                                     :rules="[ val => val && val > 0  || `${this.$t('general.biggerThan0')}`]"
+                                     @change="changeItemData(`${$t('general.QTYChanged')}`,props.row)"
+                                     :rules="[ val => val && val > 0  || `${$t('general.biggerThan0')}`]"
                             />
                         </q-popup-edit>
                     </q-td>
@@ -58,14 +58,14 @@
                                   label="Enota mere"
                                   dense
                                   autofocus
-                                  @input="changeItemData(`${this.$t('general.EMChanged')}`,props.row)"
+                                  @input="changeItemData(`${$t('general.EMChanged')}`,props.row)"
                         />
                       </q-popup-edit>
                     </q-td>
                     <q-td key="item_price" :props="props">
                         {{ props.row.item_price | price }}
                         <q-popup-edit v-model="props.row.item_price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
-                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData(`${this.$t('general.pricePerItemChanged')}`,props.row)" dense autofocus />
+                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData(`${$t('general.pricePerItemChanged')}`,props.row)" dense autofocus />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="total_price" :props="props">
@@ -76,7 +76,7 @@
                         <q-popup-edit v-model="props.row.discount" title="Spremeni popust" buttons label-set="Spremeni">
                             <q-input type="number"
                                      v-model="props.row.discount"
-                                     @change="changeItemData(`${this.$t('general.discountChanged')}`,props.row)"
+                                     @change="changeItemData(`${$t('general.discountChanged')}`,props.row)"
                                      dense
                                      autofocus
                                      :rules="[ val => val && val < 100  || `${this.$t('general.lessThan100prc')}`]"
@@ -96,8 +96,7 @@
 </template>
 
 <script>
-
-    export default {
+ export default {
         name: "ItemsTable",
         props: ['invoice', 'items'],
         data() {

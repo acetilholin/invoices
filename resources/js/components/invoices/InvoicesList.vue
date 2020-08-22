@@ -75,6 +75,7 @@
             </template>
         </q-table>
         <edit-dialog></edit-dialog>
+        <print-invoice></print-invoice>
     </div>
 </template>
 
@@ -83,6 +84,7 @@
     import EditDialog from "./dialogs/EditDialog";
     import CreateInvoice from "./dialogs/CreateInvoice";
     import FilterDates from "./filter/FilterDates";
+    import PrintInvoice from "./dialogs/PrintInvoice";
     import {mapGetters, mapActions} from 'vuex'
 
     export default {
@@ -127,7 +129,8 @@
         components: {
           EditDialog,
           CreateInvoice,
-          FilterDates
+          FilterDates,
+          PrintInvoice
         },
         filters: {
             decimals(value) {
@@ -137,7 +140,9 @@
         methods: {
             ...mapActions({
                 filterData: 'invoices/filterByInterval',
-                removeInvoice: 'invoices/remove'
+                removeInvoice: 'invoices/remove',
+                copy: 'invoices/copy',
+                export: 'invoices/export'
             }),
             showNotif(message, type) {
                 this.$q.notify({
@@ -175,13 +180,30 @@
                 })
             },
             viewInvoice(id) {
+                this.$store.dispatch('general/printInvoiceDialog', true)
                 this.$store.dispatch('invoices/viewInvoice', id)
             },
             copyInvoice(id) {
+                this.copy(id)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
 
             },
             filterDataByInterval(interval) {
                 this.filterData(interval)
+            },
+            exportInvoice(id) {
+                this.export(id)
+                    .then((response) => {
+                        this.showNotif(response, 'positive')
+                    })
+                    .catch((e) => {
+                        this.showNotif(e, 'negative')
+                    })
             }
         },
         mounted() {
