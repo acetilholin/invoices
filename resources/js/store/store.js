@@ -8,6 +8,7 @@ import customers from "./customers";
 import post from "./post";
 import klavzule from "./klavzule";
 import final from "./final";
+import company from "./company";
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
         customers,
         post,
         klavzule,
-        final
+        final,
+        company
     }
 })
 

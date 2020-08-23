@@ -38,7 +38,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('posts', 'API\PostController');
 
-    Route::resource('klavzule', 'API\KlavzuleController');
+    Route::resource('klavzulas', 'API\KlavzulaController');
+
+    Route::resource('companies', 'API\CompanyController');
 });
 
 

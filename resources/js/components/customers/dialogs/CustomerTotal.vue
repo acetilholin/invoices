@@ -63,14 +63,14 @@ export default {
             predracuni: 'Predračuni',
             racuni: 'Računi',
             maximizedToggle: true,
-            tab: 'invoicesTotal',
-            final: []
+            tab: 'invoicesTotal'
         }
     },
     computed: {
         ...mapGetters({
             dialog: 'general/getCustomerTotalDialog',
-            invoices: 'customers/getCustomerTotal',
+            invoices: 'customers/getCustomerTotalInvoices',
+            final: 'customers/getCustomerTotalFinal',
             customer: 'customers/getCustomer'
         })
     },

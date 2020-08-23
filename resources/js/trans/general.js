@@ -59,6 +59,12 @@ const general = {
             update: 'Osveži',
             settings: 'Nastavitve'
         },
+        klavzule: {
+            newKlavzula: 'Nova klavzula',
+            klavzulaShort: 'Vnesite kratico',
+            klavzulaDesc: 'Vnesite Opis',
+            editKlavzula: 'Uredi klavzulo'
+        },
         customers: {
             editCustomer: 'Uredi stranko',
             newUser: 'Nov uporabnik',

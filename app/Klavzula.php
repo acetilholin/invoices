@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Klavzule extends Model
+class Klavzula extends Model
 {
-    protected $table = 'klavzule';
+    protected $guarded = [];
+
 }

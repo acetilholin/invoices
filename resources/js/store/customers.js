@@ -3,7 +3,8 @@ export default {
     state: {
         customers: [],
         currentCustomer: [],
-        customerTotal: []
+        customerTotalInvoices: [],
+        customerTotalFinal: []
     },
     mutations: {
         SET_CUSTOMERS(state, payload) {
@@ -12,8 +13,11 @@ export default {
         SET_CURRENT_CUSTOMER(state, payload) {
             state.currentCustomer = payload
         },
-        SET_CUSTOMER_TOTAL(state, payload) {
-            state.customerTotal = payload
+        SET_CUSTOMER_TOTAL_INVOICES(state, payload) {
+            state.customerTotalInvoices = payload
+        },
+        SET_CUSTOMER_TOTAL_FINAL(state, payload) {
+            state.customerTotalFinal = payload
         }
     },
     actions: {
@@ -74,7 +78,8 @@ export default {
         total({commit}, id) {
             axios.get(`/customers/${id}`)
                 .then((response) => {
-                    commit('SET_CUSTOMER_TOTAL', response.data.invoices)
+                    commit('SET_CUSTOMER_TOTAL_INVOICES', response.data.invoices)
+                    commit('SET_CUSTOMER_TOTAL_FINAL', response.data.final)
                 })
         },
         show({commit}, id) {
@@ -91,8 +96,11 @@ export default {
         getCustomer(state) {
             return state.currentCustomer
         },
-        getCustomerTotal(state) {
-            return state.customerTotal;
+        getCustomerTotalInvoices(state) {
+            return state.customerTotalInvoices;
+        },
+        getCustomerTotalFinal(state) {
+            return state.customerTotalFinal
         }
     }
 }

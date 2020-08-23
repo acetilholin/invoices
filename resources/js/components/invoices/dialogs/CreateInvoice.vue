@@ -279,7 +279,7 @@ export default {
         },
     },
     created() {
-        this.$store.dispatch('klavzule/klavzuleAction')
+        this.$store.dispatch('klavzule/all')
         this.$store.dispatch('customers/all')
     },
     methods: {

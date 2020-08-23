@@ -22,7 +22,7 @@ class CreateItemsTable extends Migration
             $table->float('item_price');
             $table->float('discount');
             $table->float('total_price');
-            $table->text('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }
