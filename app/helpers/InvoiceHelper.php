@@ -3,9 +3,11 @@
 
 namespace App\helpers;
 
+use App\FinalInvoice;
 use App\Invoice;
 use App\Item;
 use App\Recipient;
+use Illuminate\Support\Str;
 
 class InvoiceHelper
 {
@@ -39,7 +41,7 @@ class InvoiceHelper
             $num = $match[0];
             $max = $num > $max ? $num : $max;
         }
-        return $max.'/'.date("Y");
+        return ($max + 1).'/'.date("Y");
     }
 
     public function insertAllData($invoiceData, $recipientData, $items)
@@ -57,6 +59,24 @@ class InvoiceHelper
             foreach ($items as $item) {
                 $item['invoice_id'] = $id;
                 Item::create($item);
+            }
+        }
+    }
+
+    public function copyInvoice($invoiceData, $items)
+    {
+        unset($invoiceData['id']);
+        $invoice = Invoice::create($invoiceData);
+        $invoice = $invoice->getAttributes();
+        $id = $invoice['id'];
+
+        if ($items) {
+            foreach ($items as $item) {
+                $data = $item->getAttributes();
+                unset($data['id']);
+                $data['iid'] = Str::random(6);
+                $data['invoice_id'] = $id;
+                Item::create($data);
             }
         }
     }

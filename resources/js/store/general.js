@@ -9,7 +9,11 @@ export default {
         addRecipient: false,
         editRecipient: false,
         addNewRecipient: false,
-        customerTotal: false
+        customerTotal: false,
+        printInvoice: false,
+        company: false,
+        klavzule: false,
+        editKlavzula: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -38,6 +42,18 @@ export default {
         },
         CHANGE_CUSTOMER_TOTAL_DIALOG(state, payload) {
             state.customerTotal = payload
+        },
+        CHANGE_PRINT_INVOICE_DIALOG(state, payload) {
+            state.printInvoice = payload
+        },
+        CHANGE_COMPANY(state, payload) {
+            state.company = payload
+        },
+        CHANGE_KLAVZULE(state, payload) {
+            state.klavzule = payload
+        },
+        CHANGE_EDIT_KLAVZULA_DIALOG(state, payload) {
+            state.editKlavzula = payload
         }
     },
     actions: {
@@ -67,6 +83,29 @@ export default {
         },
         customerTotalDialog({commit}, modal) {
             commit('CHANGE_CUSTOMER_TOTAL_DIALOG', modal)
+        },
+        printInvoiceDialog({commit}, modal) {
+            commit('CHANGE_PRINT_INVOICE_DIALOG', modal)
+        },
+        settings({commit}) {
+            axios.get('/settings')
+                .then((response) => {
+                    commit('CHANGE_COMPANY', !!response.data.company.visible)
+                    commit('CHANGE_KLAVZULE', !!response.data.klavzule.visible)
+                })
+        },
+        changeSetting({commit, dispatch}, settings) {
+            return axios.post(`/setting/update`, {
+                visible: settings.status,
+                data: settings.setting
+            })
+                .then((response) => {
+                    dispatch('settings')
+                    return response.data.success
+                })
+        },
+        editKlavzulaDialog({commit}, modal) {
+            commit('CHANGE_EDIT_KLAVZULA_DIALOG', modal)
         }
     },
     getters: {
@@ -96,6 +135,18 @@ export default {
         },
         getCustomerTotalDialog(state) {
             return state.customerTotal
+        },
+        getPrintInvoiceDialog(state) {
+            return state.printInvoice
+        },
+        getCompany(state) {
+            return state.company
+        },
+        getKlavzule(state) {
+            return state.klavzule
+        },
+        getEditKlavzulaDialog(state) {
+            return state.editKlavzula
         }
     }
 }

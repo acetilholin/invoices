@@ -1,12 +1,18 @@
 <template>
     <div class="final-invoices">
-       računi
+        <final-list></final-list>
     </div>
 </template>
 
 <script>
+
+    import FinalList from "../components/finalInvoices/tables/FinalList";
+
     export default {
-        name: "FinalInvoices"
+        name: "FinalInvoices",
+        components: {
+            FinalList
+        }
     }
 </script>
 

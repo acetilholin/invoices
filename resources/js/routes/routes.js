@@ -11,6 +11,8 @@ import FinalInvoices from "../views/FinalInvoices";
 import Statistics from "../views/Statistics";
 import Website from "../views/Website";
 import Users from "../views/Users";
+import Company from "../views/Company";
+import Klavzule from "../views/Klavzule";
 
 const routes = [
     {
@@ -52,6 +54,14 @@ const routes = [
     {
         path: '/new-password',
         component: NewPassword
+    },
+    {
+        path: '/company',
+        component: Company
+    },
+    {
+        path: '/klavzule',
+        component: Klavzule
     }
 ]
 

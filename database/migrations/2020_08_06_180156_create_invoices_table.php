@@ -24,6 +24,7 @@ class CreateInvoicesTable extends Migration
             $table->string('klavzula');
             $table->string('author')->nullable();
             $table->date('work_date')->nullable();
+            $table->string('iid');
             $table->float('total');
             $table->float('quantity');
             $table->float('vat');

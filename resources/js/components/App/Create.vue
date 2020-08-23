@@ -28,6 +28,15 @@
                           label="Nov predračun"
                           v-show="routeInvoices()"
             />
+            <q-fab-action external-label
+                          label-position="top"
+                          color="teal-9"
+                          text-color="white"
+                          @click="trigger"
+                          icon="list"
+                          label="Nova klavzula"
+                          v-show="routeKlavzule()"
+            />
         </q-fab>
     </div>
 </template>
@@ -41,6 +50,9 @@
             },
             routeCustomers() {
                 return this.$router.currentRoute.fullPath === '/customers'
+            },
+            routeKlavzule() {
+                return this.$router.currentRoute.fullPath === '/klavzule'
             },
             routeInvoices() {
                 return this.$router.currentRoute.fullPath === '/'

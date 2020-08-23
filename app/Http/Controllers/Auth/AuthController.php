@@ -58,6 +58,7 @@ class AuthController extends Controller
 
         $userHelper = new UserHelper();
         $userHelper->lastSeen($user);
+
         session()->put('uid', $user->id);
 
         if (!$token = auth()->attempt($credentials)) {

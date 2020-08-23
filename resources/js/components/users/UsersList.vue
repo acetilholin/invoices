@@ -166,8 +166,8 @@
             },
             confirm(id) {
                 this.$q.dialog({
-                    title: 'Brisanje',
-                    message: '<span class="text-red">Želite izbrisati vnos?</span>',
+                    title: `${this.$t("general.deleteTitle")}`,
+                    message: `<span class='text-red'> ${this.$t("general.deleteMessage")}</span>`,
                     html: true,
                     cancel: true,
                     persistent: true

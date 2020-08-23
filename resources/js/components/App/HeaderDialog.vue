@@ -3,7 +3,7 @@
         <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
             <q-card style="width: 600px; max-width: 70vw;">
                 <q-card-section>
-                    <div class="text-h6">Uporabnik</div>
+                    <div class="text-h6">{{ $t("header.user") }}</div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">

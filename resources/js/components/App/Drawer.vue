@@ -20,7 +20,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/'}" name="article" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/" class="text-subtitle1">Predračuni</router-link>
+                        <router-link to="/" class="text-subtitle1">{{ $t("drawer.invoices") }}</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
@@ -28,7 +28,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/customers'}" name="business_center" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/customers" class="text-subtitle1">Stranke</router-link>
+                        <router-link to="/customers" class="text-subtitle1">{{ $t("drawer.customers") }}</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
@@ -36,7 +36,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/final-invoices'}" name="description" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/final-invoices" class="text-subtitle1">Računi</router-link>
+                        <router-link to="/final-invoices" class="text-subtitle1">{{ $t("drawer.finalInvoices") }}</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
@@ -44,7 +44,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/statistics'}" name="timeline" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/statistics" class="text-subtitle1">Promet</router-link>
+                        <router-link to="/statistics" class="text-subtitle1">{{ $t("drawer.total") }}</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
@@ -52,7 +52,7 @@
                         <q-icon :class="{'icon-active' : currentPage === '/website'}" name="public" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/website" class="text-subtitle1">Web stran</router-link>
+                        <router-link to="/website" class="text-subtitle1">{{ $t("drawer.website") }}</router-link>
                     </q-item-section>
                 </q-item>
                 <q-item clickable v-ripple>
@@ -60,10 +60,25 @@
                         <q-icon :class="{'icon-active' : currentPage === '/users'}" name="people_outline" />
                     </q-item-section>
                     <q-item-section>
-                        <router-link to="/users" class="text-subtitle1">Uporabniki</router-link>
+                        <router-link to="/users" class="text-subtitle1">{{ $t("drawer.users") }}</router-link>
                     </q-item-section>
                 </q-item>
-
+                <q-item clickable v-ripple v-if="company">
+                    <q-item-section avatar>
+                        <q-icon :class="{'icon-active' : currentPage === '/company'}" name="corporate_fare" />
+                    </q-item-section>
+                    <q-item-section>
+                        <router-link to="/company" class="text-subtitle1">{{ $t("drawer.company") }}</router-link>
+                    </q-item-section>
+                </q-item>
+                <q-item clickable v-ripple v-if="klavzule">
+                    <q-item-section avatar>
+                        <q-icon :class="{'icon-active' : currentPage === '/klavzule'}" name="list" />
+                    </q-item-section>
+                    <q-item-section>
+                        <router-link to="/klavzule" class="text-subtitle1">{{ $t("drawer.klavzule") }}</router-link>
+                    </q-item-section>
+                </q-item>
             </q-list>
         </q-scroll-area>
     </q-drawer>
@@ -84,11 +99,16 @@
             ...mapGetters({
                 currentUser: 'auth/user',
                 authenticated: 'auth/authenticated',
-                drawer: 'general/getDrawer'
+                drawer: 'general/getDrawer',
+                company: 'general/getCompany',
+                klavzule: 'general/getKlavzule'
             }),
             currentPage() {
                 return this.$route.path
             }
+        },
+        created() {
+            this.$store.dispatch('general/settings')
         }
     }
 </script>

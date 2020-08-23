@@ -102,6 +102,33 @@ export default {
                     commit('SET_INVOICES', response.data.invoices)
                 })
         },
+        async export({commit, dispatch}, id) {
+            return await axios.get(`invoice/${id}/export`)
+                .then((response) => {
+                    return response.data.success
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        /* TODO Finish  */
+        viewInvoice({commit}, id) {
+            axios.get(`/invoice/${id}/view`)
+                .then((response) => {
+                    commit('SET_INVOICE', response.data.invoice)
+                    commit('SET_ITEMS', response.data.items)
+                })
+                .catch((e) => {
+                    throw (e.response.data.error);
+                })
+        },
+        async copy({commit, dispatch}, id) {
+            return await axios.get(`invoice/${id}/copy`)
+                .then((response) => {
+                    dispatch('allInvoices')
+                    return response.data.success
+                })
+        },
         async create({commit, dispatch}, newInvoice) {
             let items = Object.keys(newInvoice.items).length === 0 ? null : newInvoice.items
             let recipient = Object.keys(newInvoice.recipient).length === 0 ? null : newInvoice.recipient

@@ -10,7 +10,7 @@
    >
        <q-card style="width: 700px; max-width: 80vw;">
            <q-card-section>
-               <div class="text-h6">Nov uporabnik</div>
+               <div class="text-h6">{{ $t("customers.newUser") }}</div>
            </q-card-section>
 
            <q-card-section class="q-pt-none">
@@ -23,7 +23,7 @@
                        v-model="user.email"
                        label="Email"
                        type="text"
-                       :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                       :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                    >
                        <template v-slot:prepend>
                            <q-icon name="alternate_email" />
@@ -34,7 +34,7 @@
                        v-model="user.username"
                        label="Uporabniško ime"
                        type="text"
-                       :rules="[ val => val && val.length > 3  || 'Vnesite uporabniško ime']"
+                       :rules="[ val => val && val.length > 3  || `${this.$t('general.enterUsername')}`]"
                    >
                        <template v-slot:prepend>
                            <q-icon name="person" />
@@ -98,7 +98,7 @@
             },
             isValidEmail (val) {
                 const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-                return emailPattern.test(val) || 'Neveljaven email';
+                return emailPattern.test(val) || `${this.$t("general.wrongEmail")}`;
             },
             showNotif(message, type) {
                 this.$q.notify({

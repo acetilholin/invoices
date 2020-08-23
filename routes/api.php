@@ -15,12 +15,20 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('invoices', 'API\InvoiceController');
     Route::post('invoice/interval', 'API\InvoiceController@interval');
+    Route::get('invoice/{id}/view', 'API\InvoiceController@view');
+    Route::get('invoice/{id}/copy', 'API\InvoiceController@copy');
+    Route::get('invoice/{id}/export', 'API\InvoiceController@export');
+
+    Route::resource('finalInvoices', 'API\FinalInvoiceController');
+    Route::post('finalInvoice/interval', 'API\FinalInvoiceController@interval');
 
     Route::resource('users', 'API\UserController');
-
     Route::get('users/{id}/edit/{attr}/{data}', 'API\UserController@edit');
     Route::post('users/edit/password', 'API\UserController@newPassword');
     Route::post('users/photo', 'API\UserController@photo');
+
+    Route::resource('settings', 'API\SettingController');
+    Route::post('setting/update', 'API\SettingController@update');
 
     Route::resource('customers', 'API\CustomerController');
 
@@ -30,7 +38,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('posts', 'API\PostController');
 
-    Route::resource('klavzule', 'API\KlavzuleController');
+    Route::resource('klavzulas', 'API\KlavzulaController');
+
+    Route::resource('companies', 'API\CompanyController');
 });
 
 

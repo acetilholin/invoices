@@ -17,4 +17,9 @@ class Invoice extends Model
     {
         return $this->hasOne(Recipient::class);
     }
+
+    public function finalInvoice()
+    {
+        return $this->hasOne(FinalInvoice::class);
+    }
 }

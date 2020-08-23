@@ -1,9 +1,14 @@
 <template>
     <div>
         <div class="text-center mb-2" v-if="currentUser">
-            <q-avatar size="100px">
-                <img :src="userImage(currentUser.picture)">
-            </q-avatar>
+            <q-img :src="userImage(currentUser.picture)"
+                   class="rounded-borders"
+                   style="height: 140px; max-width: 150px"
+            >
+                <template v-slot:loading>
+                    <q-spinner-gears color="secondary" />
+                </template>
+            </q-img>
             <br>
             <span class="text-h6">{{ currentUser.username }}</span>
         </div>
@@ -12,8 +17,8 @@
              <q-file color="primary"
                      v-model="file"
                      accept=".jpg, .jpeg, .png"
-                     @rejected="showNotif('Dovoljeni formati so .jpg, .jpeg, .png','negative')"
-                     :rules="[val => !!val || 'Izberite sliko']"
+                     @rejected="showNotif(`${this.$t('general.pictureFormats')}`,'negative')"
+                     :rules="[val => !!val || `${this.$t('general.choosePicture')}`]"
                      label="Datoteka">
                  <template v-slot:prepend>
                      <q-icon name="attach_file" />
@@ -21,15 +26,9 @@
              </q-file>
              <div class="q-mt-md">
                  <q-btn label="Spremeni"
-                        :loading="submitting"
                         type="submit"
                         color="secondary"
                  >
-                     <template v-slot:loading>
-                         <q-spinner-tail
-                             color="white"
-                         />
-                     </template>
                  </q-btn>
              </div>
          </q-form>
@@ -43,8 +42,7 @@
         name: "Picture",
         data() {
             return {
-                file: null,
-                submitting: false
+                file: null
             }
         },
         props: ['currentUser'],
@@ -61,7 +59,6 @@
                 })
             },
             changePicture() {
-                this.submitting = true
                 let photoData = {
                     'id': this.currentUser.id,
                     'file': this.file
@@ -70,12 +67,10 @@
                     .then((response) => {
                         setTimeout(() => {
                             this.showNotif(response,'positive')
-                            this.submitting = false
                         }, 500)
                     })
                     .catch((e) => {
                         this.showNotif(e, 'negative')
-                        this.submitting = false
                     })
             },
             userImage(img) {
@@ -86,5 +81,7 @@
 </script>
 
 <style scoped>
-
+    .rounded-borders {
+        border-radius: 50% !important;
+    }
 </style>

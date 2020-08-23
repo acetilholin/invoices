@@ -4,6 +4,9 @@
             <q-toolbar>
                 <q-btn flat @click="changeDrawerState" round dense icon="menu" />
                 <q-toolbar-title>{{ title }}</q-toolbar-title>
+                <span v-if="role">
+                    <settings></settings>
+                </span>
                 <span class="q-mr-md">
                         <q-btn dense round text-color="yellow" icon="wb_sunny" class="q-ml-md">
                         <q-badge color="red"
@@ -36,6 +39,7 @@
 <script>
     import { appName } from '../../global/variables.js'
     import {mapGetters, mapActions} from "vuex";
+    import Settings from "./Settings";
     import HeaderDialog from "./HeaderDialog";
 
     export default {
@@ -46,7 +50,8 @@
             }
         },
         components: {
-          HeaderDialog
+            HeaderDialog,
+            Settings
         },
         computed: {
             ...mapGetters({
@@ -69,6 +74,9 @@
             },
             modal() {
                 this.triggerModal(true)
+            },
+            role() {
+                return this.currentUser.role === 'admin'
             },
             signOut() {
                 this.signoutAction()
