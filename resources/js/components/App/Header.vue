@@ -4,23 +4,9 @@
             <q-toolbar>
                 <q-btn flat @click="changeDrawerState" round dense icon="menu" />
                 <q-toolbar-title>{{ title }}</q-toolbar-title>
-                <span v-if="role">
+                <span v-if="role" class="q-mr-sm">
                     <settings></settings>
                 </span>
-                <span class="q-mr-md">
-                        <q-btn dense round text-color="yellow" icon="wb_sunny" class="q-ml-md">
-                        <q-badge color="red"
-                                 floating
-                                 transparent
-                                 self="bottom middle"
-                                 :offset="[20, 10]"
-                        >25&deg
-                        </q-badge>
-                        <q-tooltip>
-                            User Location
-                        </q-tooltip>
-                    </q-btn>
-                    </span>
                 <span class="q-mr-md" v-if="currentUser">
                         <q-chip>
                             <q-avatar class="bg-white">
