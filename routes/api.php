@@ -41,6 +41,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::resource('klavzulas', 'API\KlavzulaController');
 
     Route::resource('companies', 'API\CompanyController');
+
+    Route::get('visits', 'API\StatisticController@pageVisits');
+    Route::post('interval', 'API\StatisticController@interval');
 });
 
 

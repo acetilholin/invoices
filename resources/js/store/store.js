@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import auth from "./auth";
 import general from "./general";
 import invoices from "./invoices";
@@ -9,6 +10,7 @@ import post from "./post";
 import klavzule from "./klavzule";
 import final from "./final";
 import company from "./company";
+import statistics from "./statistics";
 
 Vue.use(Vuex)
 
@@ -22,7 +24,8 @@ const store = new Vuex.Store({
         post,
         klavzule,
         final,
-        company
+        company,
+        statistics
     }
 })
 

@@ -57,7 +57,10 @@ const general = {
             customerChanged: 'Stranka je spremenjena',
             QTYChanged: 'Količina je spremenjena',
             update: 'Osveži',
-            settings: 'Nastavitve'
+            settings: 'Nastavitve',
+            day: 'dan',
+            visitsOnPage: 'Obiskov na strani v obdobju',
+            days: 'dni'
         },
         klavzule: {
             newKlavzula: 'Nova klavzula',
@@ -69,6 +72,10 @@ const general = {
             editCustomer: 'Uredi stranko',
             newUser: 'Nov uporabnik',
             create: 'Nova stranka'
+        },
+        statistics: {
+            allVisits: 'Vseh obiskov',
+            avg: 'Povprečno'
         },
         drawer: {
             invoices: 'Predračuni',

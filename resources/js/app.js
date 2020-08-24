@@ -8,6 +8,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import langSl from 'quasar/lang/sl'
 import VueHtmlToPaper from 'vue-html-to-paper';
+import VueCharts from 'vue-chartjs'
 
 
 require('./store/subscriber')
@@ -29,6 +30,8 @@ const options = {
     ]
 }
 Vue.use(VueHtmlToPaper, options);
+
+Vue.use(VueCharts)
 
 Vue.use(VueAxios, axios)
 Vue.use(require('vue-moment'));
