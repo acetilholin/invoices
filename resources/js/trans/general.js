@@ -60,7 +60,8 @@ const general = {
             settings: 'Nastavitve',
             day: 'dan',
             visitsOnPage: 'Obiskov na strani v obdobju',
-            days: 'dni'
+            days: 'dni',
+            totalPerMonth: 'Promet po mesecih'
         },
         klavzule: {
             newKlavzula: 'Nova klavzula',
@@ -75,7 +76,8 @@ const general = {
         },
         statistics: {
             allVisits: 'Vseh obiskov',
-            avg: 'Povprečno'
+            avg: 'Povprečno',
+            totalEarnings: 'Promet za obdobje'
         },
         drawer: {
             invoices: 'Predračuni',

@@ -91,6 +91,7 @@ class FinalInvoiceController extends Controller
 
         $finalInvoices = DB::table('final_invoices')
             ->whereBetween('timestamp', [$from, $to])
+            ->orderBy('timestamp', 'asc')
             ->get();
 
         foreach ($finalInvoices as $invoice) {

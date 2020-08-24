@@ -1,7 +1,7 @@
 <template>
     <div class="website">
         <filter-dates class="q-mt-md q-mb-md" @interval="dataInterval"></filter-dates>
-        <div class="text-center">
+        <div class="text-center text-subtitle1">
             {{ $t("statistics.allVisits") }}: <span class="text-blue-8">{{ data.totalVisitors }}</span> <br>
             {{ $t("statistics.avg") }}: {{ data.avg }} /{{ $t("general.day") }}
         </div>
@@ -24,7 +24,7 @@ import FilterDates from "../components/invoices/filter/FilterDates";
             FilterDates
         },
         mounted() {
-            this.$store.dispatch('statistics/data')
+            this.$store.dispatch('statistics/visits')
         },
         computed: {
             ...mapGetters({
@@ -45,5 +45,6 @@ import FilterDates from "../components/invoices/filter/FilterDates";
 <style scoped>
 .small {
     max-height: 250px;
+    max-width: 95%;
 }
 </style>
