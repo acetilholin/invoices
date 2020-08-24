@@ -2,15 +2,19 @@ export default {
     namespaced: true,
     state: {
         data: [],
-        interval: []
+        interval: [],
+        total: []
     },
     mutations: {
         SET_DATA(state, payload) {
             state.data = payload
+        },
+        SET_TOTAL(state, payload) {
+            state.total = payload
         }
     },
     actions: {
-        data({commit}) {
+        visits({commit}) {
             axios.get('/visits')
                 .then(response => {
                     commit('SET_DATA', response.data)
@@ -24,11 +28,20 @@ export default {
                 .then(response => {
                     commit('SET_DATA', response.data)
                 })
+        },
+        total({commit}) {
+            axios.get('total')
+                .then(response => {
+                    commit('SET_TOTAL', response.data)
+                })
         }
     },
     getters: {
         getData(state) {
             return state.data
+        },
+        getTotal(state) {
+            return state.total
         }
     }
 }

@@ -44,6 +44,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::get('visits', 'API\StatisticController@pageVisits');
     Route::post('interval', 'API\StatisticController@interval');
+    Route::get('total', 'API\TotalController@totalPerMonth');
 });
 
 
