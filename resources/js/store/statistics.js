@@ -15,6 +15,15 @@ export default {
                 .then(response => {
                     commit('SET_DATA', response.data)
                 })
+        },
+        interval({commit}, interval) {
+            axios.post(`/interval`, {
+                datefrom: interval.from,
+                dateto: interval.to
+            })
+                .then(response => {
+                    commit('SET_DATA', response.data)
+                })
         }
     },
     getters: {

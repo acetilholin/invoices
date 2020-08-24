@@ -1,6 +1,6 @@
 <template>
     <div class="website">
-        <filter-dates @interval="dataInterval"></filter-dates>
+        <filter-dates class="q-mt-md q-mb-md" @interval="dataInterval"></filter-dates>
         <div class="text-center">
             {{ $t("statistics.allVisits") }}: <span class="text-blue-8">{{ data.totalVisitors }}</span> <br>
             {{ $t("statistics.avg") }}: {{ data.avg }} /{{ $t("general.day") }}
@@ -32,8 +32,11 @@ import FilterDates from "../components/invoices/filter/FilterDates";
             })
         },
         methods: {
+            ...mapActions({
+                dateInterval: 'statistics/interval'
+            }),
             dataInterval(interval) {
-
+                this.dateInterval(interval)
             }
         }
     }

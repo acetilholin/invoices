@@ -74,10 +74,16 @@ export default {
         getAll() {
             this.fromDate = null
             this.toDate = null
-            if (this.$router.currentRoute.fullPath === '/') {
-                this.$store.dispatch('invoices/allInvoices')
-            } else {
-                this.$store.dispatch('final/all')
+
+            switch (true) {
+                case this.$router.currentRoute.fullPath === '/':
+                    this.$store.dispatch('invoices/allInvoices')
+                    break
+                case this.$router.currentRoute.fullPath === '/final-invoices':
+                    this.$store.dispatch('final/all')
+                    break
+                default:
+                    this.$store.dispatch('statistics/data')
             }
         },
         filterDataByDates() {

@@ -37,7 +37,7 @@ class StatisticController extends Controller
         ], 200);
     }
 
-    public function loadVisits(Request $request)
+    public function interval(Request $request)
     {
         $dateFrom = $request->datefrom;
         $dateTo = $request->dateto;
