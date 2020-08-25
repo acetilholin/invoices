@@ -44,7 +44,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\LogLastUserActivity::class,
         ],
     ];
 
