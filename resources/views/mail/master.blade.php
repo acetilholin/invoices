@@ -12,7 +12,7 @@
     <div class="row">
         <div class="center">
              <span>
-                <img src="" class="img-spacing" style="height: 60px">
+                <img src="{{ asset('pictures/Logo.png') }}" class="img-spacing" style="height: 60px">
              </span>
             @yield('content')
         </div>

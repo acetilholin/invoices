@@ -8,7 +8,4 @@
     <p>
         Geslo si spremenite ob prvi prijavi!
     </p>
-    <div class="text-center">
-        <a href="#" class="custom-red">Prijava</a>
-    </div>
 @endsection
