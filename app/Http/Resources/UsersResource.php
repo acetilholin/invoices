@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\helpers\UserHelper;
 
 class UsersResource extends JsonResource
 {
@@ -14,6 +15,7 @@ class UsersResource extends JsonResource
      */
     public function toArray($request)
     {
+        $helper = new UserHelper();
         return [
             'id' => $this->id,
             'username' => $this->username,
@@ -21,7 +23,7 @@ class UsersResource extends JsonResource
             'enabled' => $this->enabled,
             'role' => $this->role,
             'picture' => $this->picture,
-            'online' => true, /* TODO remove */
+            'online' => $helper->online($this->id),
             'last_seen' => $this->last_seen,
             'country' => $this->country
         ];

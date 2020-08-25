@@ -40,8 +40,8 @@
                         </q-avatar>
                     </q-td>
                     <q-td key="online" :props="props">
-                        <span class="text-green text-weight-bold" v-if="props.row.online">
-                             {{ props.row.online | online }}
+                        <span class="text-weight-bold text-green" v-if="props.row.online">
+                            {{ props.row.online | online }}
                         </span>
                     </q-td>
                     <q-td key="last_seen" :props="props">
@@ -103,7 +103,7 @@
                 return value === 1 ? 'done' : 'clear'
             },
             online(value) {
-                return 'online'
+               return value === 'online' ? 'online' : ''
             },
             role(value) {
                 return value === 'admin' ? 'administrator' : 'uporabnik'
@@ -194,5 +194,11 @@
 </script>
 
 <style scoped>
-
+.online{
+    height: 10px;
+    width: 10px;
+    background-color: darkgreen;
+    border-radius: 50%;
+    display: inline-block;
+}
 </style>

@@ -4,6 +4,7 @@
 namespace App\helpers;
 
 use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class UserHelper
@@ -36,6 +37,11 @@ class UserHelper
             'ip' => $ip,
             'country' => $userCountry
         );
+    }
+
+    public function online($id)
+    {
+        return Cache::has('user-is-online-'.$id) ? 'online' :'offline';
     }
 
     public function lastSeen($user)
