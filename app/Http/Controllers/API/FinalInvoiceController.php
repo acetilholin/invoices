@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Customer;
 use App\FinalInvoice;
 use App\Http\Controllers\Controller;
 use App\Invoice;
+use App\Item;
+use App\Klavzula;
+use App\Recipient;
 use Illuminate\Http\Request;
 use App\Http\Resources\FinalInvoiceResource;
 use Illuminate\Support\Facades\DB;
@@ -46,11 +50,40 @@ class FinalInvoiceController extends Controller
      * Display the specified resource.
      *
      * @param  \App\FinalInvoice  $finalInvoice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(FinalInvoice $finalInvoice)
     {
-        //
+        $finalInvoice = collect($finalInvoice);
+        $id = $finalInvoice->get('id');
+        $customerId = $finalInvoice->get('customer_id');
+        $klavzulaShort = $finalInvoice->get('klavzula');
+
+        $customerData = Customer::where('id', $customerId)->first();
+        $customer = $customerData->getAttributes();
+        $items = Item::where('invoice_id', $id)->get();
+
+        $recipientData = Recipient::where('invoice_id', $id)->first();
+        $recipient = $recipientData !== null ? $recipientData->getAttributes() : null;
+
+        $allItems = [];
+
+        foreach ($items as $item) {
+            $allItems[] = $item->getAttributes();
+        }
+
+        $klavzulaData = Klavzula::where('short_name', $klavzulaShort)->first();
+        $klavzula = $klavzulaData->getAttributes();
+
+        $finalInvoice = $finalInvoice->all();
+
+        return response()->json([
+            'items' => $allItems,
+            'invoice' => $finalInvoice,
+            'customer' => $customer,
+            'recipient' => $recipient,
+            'klavzula' => $klavzula
+        ]);
     }
 
     /**

@@ -4,7 +4,9 @@ export default {
         invoices: [],
         invoice: [],
         items: [],
-        recipient: []
+        recipient: [],
+        customer: [],
+        klavzula: null
     },
     mutations: {
         SET_INVOICES(state, payload) {
@@ -26,6 +28,12 @@ export default {
             state.items = state.items.filter(item => {
                 return item !== payload
             })
+        },
+        SET_INVOICE_CUSTOMER(state, payload) {
+            state.customer = payload
+        },
+        SET_KLAVZULA(state, payload) {
+            state.klavzula = payload
         }
     },
     actions: {
@@ -55,17 +63,7 @@ export default {
         },
         async update({commit, dispatch}, invoice) {
             return await axios.patch(`/invoices/${invoice.id}`, {
-                'sifra_predracuna': invoice.invoice.sifra_predracuna,
-                'ime_priimek': invoice.invoice.ime_priimek,
-                'customer_id': invoice.invoice.customer_id,
-                'timestamp': invoice.invoice.timestamp,
-                'expiration': invoice.invoice.expiration,
-                'klavzula': invoice.invoice.klavzula,
-                'author': invoice.invoice.author,
-                'work_date': invoice.invoice.work_date,
-                'total': invoice.invoice.total,
-                'quantity': invoice.invoice.quantity,
-                'vat': invoice.invoice.vat,
+                'invoice': invoice.invoice,
                 'items': invoice.items
             })
                 .then((response) => {
@@ -111,12 +109,14 @@ export default {
                     throw (e.response.data.error);
                 })
         },
-        /* TODO Finish  */
         viewInvoice({commit}, id) {
-            axios.get(`/invoice/${id}/view`)
+            axios.get(`/invoices/${id}`)
                 .then((response) => {
                     commit('SET_INVOICE', response.data.invoice)
                     commit('SET_ITEMS', response.data.items)
+                    commit('SET_INVOICE_CUSTOMER', response.data.customer)
+                    commit('SET_RECIPIENT', response.data.recipient)
+                    commit('SET_KLAVZULA', response.data.klavzula)
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
@@ -193,6 +193,12 @@ export default {
         },
         getRecipient(state) {
             return state.recipient
+        },
+        getInvoiceCustomer(state) {
+            return state.customer
+        },
+        getKlavzula(state) {
+            return state.klavzula
         }
     }
 }

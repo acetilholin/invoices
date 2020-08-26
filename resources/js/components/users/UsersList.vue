@@ -40,9 +40,9 @@
                         </q-avatar>
                     </q-td>
                     <q-td key="online" :props="props">
-                        <span class="text-weight-bold text-green" v-if="props.row.online">
-                            {{ props.row.online | online }}
-                        </span>
+                        <q-badge color="green" v-if="props.row.online === 'online'">
+                            {{ props.row.online }}
+                        </q-badge>
                     </q-td>
                     <q-td key="last_seen" :props="props">
                         {{ props.row.last_seen | moment('hh:mm DD-MM-Y') }}
@@ -101,9 +101,6 @@
         filters: {
             enabled(value) {
                 return value === 1 ? 'done' : 'clear'
-            },
-            online(value) {
-               return value === 'online' ? 'online' : ''
             },
             role(value) {
                 return value === 'admin' ? 'administrator' : 'uporabnik'
@@ -174,7 +171,7 @@
                 }).onOk(() => {
                     this.remove(id)
                         .then((response) => {
-                            this.showNotif(response, 'positive')
+                            this.showNotif(response, 'warning')
                         })
                         .catch((e) => {
                             this.showNotif(e, 'negative')

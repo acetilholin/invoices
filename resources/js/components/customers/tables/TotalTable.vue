@@ -8,7 +8,7 @@
         >
             <template v-slot:top-left>
                 <span class="q-ml-md text-subtitle1">
-                   Skupno prometa: <q-badge color="blue-14">{{ totalPrice() | price }} </q-badge>
+                   &Sigma; : <q-badge color="blue-14">{{ totalPrice() | price }} </q-badge>
                </span>
             </template>
             <template v-slot:body="props">

@@ -9,6 +9,7 @@
             row-key="index"
             color="primary"
             :filter="filter"
+            :loading="loading"
             :pagination.sync="pagination"
         >
             <template v-slot:top-right>
@@ -91,6 +92,7 @@
         name: "InvoicesList",
         data() {
             return {
+                loading: false,
                 id: null,
                 pagination: {
                     rowsPerPage: 50

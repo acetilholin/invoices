@@ -11,6 +11,7 @@ export default {
         addNewRecipient: false,
         customerTotal: false,
         printInvoice: false,
+        printFinal: false,
         company: false,
         klavzule: false,
         editKlavzula: false
@@ -54,6 +55,9 @@ export default {
         },
         CHANGE_EDIT_KLAVZULA_DIALOG(state, payload) {
             state.editKlavzula = payload
+        },
+        CHANGE_PRINT_FINAL_INVOICE_DIALOG(state, payload) {
+            state.printFinal = payload
         }
     },
     actions: {
@@ -106,7 +110,10 @@ export default {
         },
         editKlavzulaDialog({commit}, modal) {
             commit('CHANGE_EDIT_KLAVZULA_DIALOG', modal)
-        }
+        },
+        printFinalInvoiceDialog({commit}, modal) {
+            commit('CHANGE_PRINT_FINAL_INVOICE_DIALOG', modal)
+        },
     },
     getters: {
         getDrawer(state) {
@@ -147,6 +154,9 @@ export default {
         },
         getEditKlavzulaDialog(state) {
             return state.editKlavzula
+        },
+        getPrintFinal(state) {
+            return state.printFinal
         }
     }
 }

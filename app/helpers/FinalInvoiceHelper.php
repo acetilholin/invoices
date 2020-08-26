@@ -28,7 +28,7 @@ class FinalInvoiceHelper
 
         if (!$finalInvoice) {
             $sifraPredracuna = $this->sifraPredracuna();
-            unset($invoiceData['id']);
+            $invoiceData['sifra_predracuna'] = $sifraPredracuna;
             FinalInvoice::create($invoiceData);
         } else {
             throw new \Exception(trans('final.alreadyExists'));

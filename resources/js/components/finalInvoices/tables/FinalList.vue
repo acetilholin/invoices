@@ -68,6 +68,7 @@
                 </q-tr>
             </template>
         </q-table>
+        <print-final-invoice></print-final-invoice>
     </div>
 </template>
 
@@ -75,6 +76,7 @@
 
 import {mapGetters, mapActions} from 'vuex'
 import FilterDates from "../../invoices/filter/FilterDates";
+import PrintFinalInvoice from "../dialogs/PrintFinalInvoice";
 
 export default {
     name: "FinalList",
@@ -118,7 +120,8 @@ export default {
         this.$store.dispatch('final/all')
     },
     components: {
-      FilterDates
+      FilterDates,
+      PrintFinalInvoice
     },
     computed: {
         ...mapGetters({
@@ -154,7 +157,8 @@ export default {
             return this.$moment().format('Y-MM-DD')
         },
         viewInvoice(id) {
-
+            this.$store.dispatch('general/printFinalInvoiceDialog', true)
+            this.$store.dispatch('final/view', id)
         },
         update(id) {
             this.updateFinal(id)
