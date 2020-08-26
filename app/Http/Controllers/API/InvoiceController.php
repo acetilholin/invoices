@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Customer;
 use App\helpers\FinalInvoiceHelper;
 use App\helpers\InvoiceHelper;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Item;
+use App\Klavzula;
 use App\Recipient;
 use Illuminate\Http\Request;
 use App\Http\Resources\InvoicesResource;
@@ -62,29 +64,6 @@ class InvoiceController extends Controller
     }
 
     /**
-     * View invoice for printing
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * return view
-     */
-    public function view(Request $request)
-    {
-        $id = $request->id;
-        $invoice = Invoice::where('id', $id)->first();
-        $items = $invoice->items()->get();
-        $allItems = [];
-
-        foreach ($items as $item) {
-            $allItems[] = $item->getAttributes();
-        }
-
-        return response()->json([
-            'items' => $allItems,
-            'invoice' => $invoice
-        ]);
-    }
-
-    /**
      * Copying invoice
      *
      * @param  \Illuminate\Http\Request  $request
@@ -125,12 +104,42 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  InvoicesResource  $invoiceitems
-     * @return void
+     * @param  \App\Invoice  $invoice
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(InvoicesResource $invoiceitems)
+    public function show(Invoice $invoice)
     {
+        $items = $invoice->items()->get();
+        $invoice = collect($invoice);
+        $id = $invoice->get('id');
+        $customerId = $invoice->get('customer_id');
+        $klavzula = $invoice->get('klavzula');
 
+        $invoice = $invoice->all();
+
+        $customerData = Customer::where('id', $customerId)->first();
+        $customer = $customerData->getAttributes();
+
+        $klavzulaData = Klavzula::where('short_name', $klavzula)->first();
+        $klavzula = $klavzulaData->getAttributes();
+
+        $recipientData = Recipient::where('invoice_id', $id)->first();
+
+        $recipient = $recipientData !== null ? $recipientData->getAttributes() : null;
+
+        $allItems = [];
+
+        foreach ($items as $item) {
+            $allItems[] = $item->getAttributes();
+        }
+
+        return response()->json([
+            'items' => $allItems,
+            'invoice' => $invoice,
+            'customer' => $customer,
+            'recipient' => $recipient,
+            'klavzula' => $klavzula
+        ]);
     }
 
     /**
@@ -192,12 +201,9 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        $invoiceData = request([
-            'sifra_predracuna', 'ime_priimek', 'customer_id', 'timestamp', 'expiration', 'klavzula', 'author',
-            'work_date', 'total', 'quantity', 'vat'
-        ]);
+        $invoiceData = request(['invoice']);
         $itemsData = request(['items']);
-        $invoice->update($invoiceData);
+        $invoice->update($invoiceData['invoice']);
 
         $items = $itemsData['items'];
         $helper = new InvoiceHelper();

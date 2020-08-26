@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return response()->json(['error' => $messages], 401);
         }
 
@@ -87,7 +87,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return response()->json(['error' => $messages], 401);
         }
 
@@ -137,7 +137,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $formatter = new MsgFormatterHelper();
-            $messages = $formatter->formatt($validator->errors()->all());
+            $messages = $formatter->format($validator->errors()->all());
             return response()->json(['error' => $messages], 401);
         }
 

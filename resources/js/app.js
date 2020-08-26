@@ -10,7 +10,6 @@ import langSl from 'quasar/lang/sl'
 import VueHtmlToPaper from 'vue-html-to-paper';
 import VueCharts from 'vue-chartjs'
 
-
 require('./store/subscriber')
 require('./bootstrap');
 
@@ -26,7 +25,8 @@ const options = {
         'scrollbars=yes'
     ],
     styles: [
-        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+        '/css/invoice.css'
     ]
 }
 Vue.use(VueHtmlToPaper, options);

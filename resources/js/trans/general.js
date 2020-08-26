@@ -91,6 +91,34 @@ const general = {
         },
         header: {
             user: 'Uporabnik'
+        },
+        invoices: {
+            predracun: 'Ogled predračuna',
+            racun: 'Ogled računa',
+            iban: 'IBAN',
+            swift: 'SWIFT',
+            sklicevanje_stev: 'Sklicevanje na štev.',
+            invoice: 'Predračun',
+            final: 'Račun',
+            place: 'Prosenjakovci',
+            validity: 'Veljavnost',
+            work_done: 'Delo opravljeno',
+            id_ddv: 'ID za DDV',
+            id_ddv_customer: 'ID za DDV kupca',
+            recipient: 'Prejemnik',
+            description: 'Opis blaga',
+            em: 'EM',
+            qty: 'Količina',
+            price: 'Cena',
+            discount: 'Popust',
+            ddv: 'DDV',
+            vrednost: 'Vrednost',
+            skupaj: 'Skupaj',
+            osnova: 'osnova',
+            zeroEUR: '0,00 EUR',
+            forPayment: 'ZA PLAČILO',
+            author: 'Janjić Andželko',
+            total76A: 'Skupaj 76.A člen'
         }
     }
 }
