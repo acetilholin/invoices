@@ -119,6 +119,12 @@ const general = {
             forPayment: 'ZA PLAČILO',
             author: 'Janjić Andželko',
             total76A: 'Skupaj 76.A člen'
+        },
+        report: {
+            book: 'KNJIGA IZDANIH RAČUNOV - promet blaga in storitev za obdobje',
+            noData: 'Ni dosegljivih podatkov',
+            from: 'od',
+            to: 'do'
         }
     }
 }

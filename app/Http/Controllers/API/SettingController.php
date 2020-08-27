@@ -15,9 +15,11 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::all();
-        $klavzule = $settings[0]->getAttributes();
-        $company = $settings[1]->getAttributes();
+        $klavzuleData = Setting::where('data', 'klavzule')->first();
+        $companyData = Setting::where('data', 'company')->first();
+
+        $klavzule = $klavzuleData->getAttributes();
+        $company = $companyData->getAttributes();
 
         return response()->json([
             'klavzule' => $klavzule,

@@ -54,8 +54,8 @@
                         </table>
                         <div class="float-right mt-2">
                             <b>{{ $t("invoices.invoice").toUpperCase() }}: </b>{{ invoice.sifra_predracuna }}<br>
-                            {{ $t("invoices.place") }}, {{ invoice.timestamp }}<br>
-                            <b>{{ $t("invoices.validity") }}:</b> {{ invoice.expiration }}<br>
+                            {{ $t("invoices.place") }}, {{ invoice.timestamp | moment('DD-MM-Y') }}<br>
+                            <b>{{ $t("invoices.validity") }}:</b> {{ invoice.expiration | moment('DD-MM-Y') }}<br>
 
                             <span v-if="invoice.work_date">
                                  <b>{{ $t("invoices.work_done") }}:</b> {{ invoice.work_date }}<br>
@@ -100,25 +100,25 @@
                                     <td>{{ item.description }}</td>
                                     <td>{{ item.unit }}</td>
                                     <td>{{ item.qty }}</td>
-                                    <td>{{ item.item_price | formatNum }}</td>
+                                    <td>{{ item.item_price | reformat }}</td>
                                     <td>{{ item.discount }}</td>
                                     <td>{{ vat() }}</td>
-                                    <td>{{ item.total_price | formatNum }}</td>
+                                    <td>{{ item.total_price | reformat }}</td>
                                 </tr>
                                 </tbody>
                             </table>
                             <hr style="background: black;" class="margin-line">
                             <div class="float-right">
-                                {{ $t("invoices.skupaj") }}: {{ subTotal() | formatNum | eur }}
+                                {{ $t("invoices.skupaj") }}: {{ subTotal() | reformat | eur }}
                             </div>
                             <br>
                             <div class="float-right">
-                                {{ $t("invoices.ddv") }}: {{ invoice.vat | procent }}   {{ $t("invoices.osnova") }}  {{ subTotal() | formatNum }} : &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{ $t("invoices.ddv") }}: {{ invoice.vat | procent }}   {{ $t("invoices.osnova") }}  {{ subTotal() | reformat }} : &nbsp;&nbsp;&nbsp;&nbsp;
                                 <span v-if="invoice.klavzula === '76A'">
                                     {{ $t("invoices.zeroEUR") }}
                                 </span>
                                 <span v-else>
-                                    {{ vatDifference() | formatNum | eur }}
+                                    {{ vatDifference() | reformat | eur }}
                                 </span>
                             </div>
                             <br>
@@ -126,10 +126,10 @@
                             <div class="float-right">
                                 <b>{{ $t("invoices.forPayment") }}</b>:
                                 <span v-if="invoice.klavzula === '76A'">
-                                {{ subTotal() | formatNum }}
+                                {{ subTotal() | reformat }}
                                 </span>
                                 <span v-else>
-                                    {{ invoice.total | formatNum | eur }}
+                                    {{ invoice.total | reformat | eur }}
                                 </span>
                             </div>
                         </div>
@@ -145,9 +145,8 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $t("invoices.total76A") }}</td>
-                                    <td>{{ subTotal() | formatNum | eur }}</td>
-
-                                    <td>{{ vatDifference76() | formatNum | eur }}</td>
+                                    <td>{{ subTotal() | reformat | eur }}</td>
+                                    <td>{{ vatDifference76() | reformat | eur }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -200,6 +199,11 @@ export default {
             }
             return !isNaN(val) ? val.toFixed(2) : val
         },
+        reformat(val) {
+            if (!isNaN(val)) {
+                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+            }
+        },
         titleShort(val) {
             return val.substring(31,51)
         },
@@ -245,10 +249,10 @@ export default {
         },
         vatDifference() {
             let total = 0
+            let diff = 0
             total = this.subTotal()
-            let difference = 0;
-            difference = (this.invoice.vat / 100) * total
-            return difference
+            diff = this.invoice.vat * 0.01 * total
+            return diff.toFixed(2)
         },
         vatDifference76() {
             let subtotal = this.subTotal()

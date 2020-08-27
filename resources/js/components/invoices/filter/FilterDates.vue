@@ -39,7 +39,18 @@
             </template>
         </q-input>
         <div class="q-pa-md q-gutter-sm">
-            <q-btn color="primary" outline label="Reset" @click="getAll"/>
+            <q-btn color="primary" outline label="Reset" @click="getAll">
+                <q-tooltip>
+                    Ponastavi filter za izpis vseh
+                </q-tooltip>
+            </q-btn>
+        </div>
+        <div class="q-pb-md q-pt-md q-gutter-sm" v-if="finalRoute()">
+            <q-btn color="secondary" outline icon="assessment" @click="report">
+                <q-tooltip>
+                    Knjiga izdanih računov
+                </q-tooltip>
+            </q-btn>
         </div>
     </div>
 </template>
@@ -84,6 +95,23 @@ export default {
                     break
                 default:
                     this.$store.dispatch('statistics/data')
+            }
+        },
+        finalRoute() {
+            return this.$router.currentRoute.fullPath === '/final-invoices'
+        },
+        report() {
+            if (this.fromDate && this.toDate) {
+                if (this.fromDate > this.toDate) {
+                    this.showNotif(`${this.$t('general.dateFromTo')}`,'warning');
+                } else {
+                    let interval = {
+                        from: this.fromDate,
+                        to: this.toDate
+                    }
+                    this.$store.dispatch('final/report', interval)
+                    this.$store.dispatch('general/reportDialog', true)
+                }
             }
         },
         filterDataByDates() {

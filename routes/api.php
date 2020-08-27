@@ -20,6 +20,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
     Route::resource('finalInvoices', 'API\FinalInvoiceController');
     Route::post('finalInvoice/interval', 'API\FinalInvoiceController@interval');
+    Route::post('finalInvoice/report', 'API\FinalInvoiceController@report');
 
     Route::resource('users', 'API\UserController');
     Route::get('users/{id}/edit/{attr}/{data}', 'API\UserController@edit');

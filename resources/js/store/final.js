@@ -6,7 +6,8 @@ export default {
         items: [],
         customer: [],
         recipient: [],
-        klavzula: []
+        klavzula: [],
+        report: []
     },
     mutations: {
         SET_FINAL_INVOICES(state, payload) {
@@ -26,6 +27,9 @@ export default {
         },
         SET_KLAVZULA(state, payload) {
             state.klavzula = payload
+        },
+        SET_REPORT(state, payload) {
+            state.report = payload
         }
     },
     actions: {
@@ -53,6 +57,15 @@ export default {
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
+                })
+        },
+        report({commit}, interval) {
+            axios.post('finalInvoice/report', {
+                from: interval.from,
+                to: interval.to
+            })
+                .then((response) => {
+                    commit('SET_REPORT', response.data)
                 })
         },
         filterByInterval({commit}, interval) {
@@ -93,6 +106,9 @@ export default {
         },
         getKlavzula(state) {
             return state.klavzula
+        },
+        getReport(state) {
+            return state.report
         }
     }
 }

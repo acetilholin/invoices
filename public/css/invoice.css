@@ -11,19 +11,19 @@
     width: 35%;
 }
 .text-right {
-    text-align: right
+    text-align: right;
 }
 .c-mt {
-    margin-top: 10px
+    margin-top: 10px;
 }
 .column img {
-    vertical-align: middle
+    vertical-align: middle;
 }
 .margin-line {
     margin-bottom: 2rem;
 }
 .font-size-body {
-    font-size: 19px
+    font-size: 19px;
 }
 .table-font {
     font-size: 14px;
@@ -37,4 +37,8 @@
 }
 .clen {
     width: 80%;
+}
+.table-report {
+    width: 150%;
+    font-size: 12.5px;
 }
