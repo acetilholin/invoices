@@ -14,7 +14,8 @@ export default {
         printFinal: false,
         company: false,
         klavzule: false,
-        editKlavzula: false
+        editKlavzula: false,
+        reportDialog: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -58,6 +59,9 @@ export default {
         },
         CHANGE_PRINT_FINAL_INVOICE_DIALOG(state, payload) {
             state.printFinal = payload
+        },
+        CHANGE_REPORT_DIALOG(state, payload) {
+            state.reportDialog = payload
         }
     },
     actions: {
@@ -114,6 +118,9 @@ export default {
         printFinalInvoiceDialog({commit}, modal) {
             commit('CHANGE_PRINT_FINAL_INVOICE_DIALOG', modal)
         },
+        reportDialog({commit}, modal) {
+            commit('CHANGE_REPORT_DIALOG', modal)
+        }
     },
     getters: {
         getDrawer(state) {
@@ -157,6 +164,9 @@ export default {
         },
         getPrintFinal(state) {
             return state.printFinal
+        },
+        getReportDialog(state) {
+            return state.reportDialog
         }
     }
 }

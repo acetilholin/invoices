@@ -68,6 +68,7 @@
                 </q-tr>
             </template>
         </q-table>
+        <report></report>
         <print-final-invoice></print-final-invoice>
     </div>
 </template>
@@ -77,6 +78,7 @@
 import {mapGetters, mapActions} from 'vuex'
 import FilterDates from "../../invoices/filter/FilterDates";
 import PrintFinalInvoice from "../dialogs/PrintFinalInvoice";
+import Report from "../dialogs/Report";
 
 export default {
     name: "FinalList",
@@ -120,8 +122,9 @@ export default {
         this.$store.dispatch('final/all')
     },
     components: {
-      FilterDates,
-      PrintFinalInvoice
+        Report,
+        FilterDates,
+        PrintFinalInvoice
     },
     computed: {
         ...mapGetters({
