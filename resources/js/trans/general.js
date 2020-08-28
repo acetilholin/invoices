@@ -8,6 +8,7 @@ const general = {
             total: 'Promet',
             delete: 'Izbriši',
             deleteMessage: 'Želite izbrisati vnos?',
+            deleteALL: 'Želite izbrisati predračun?',
             deleteMessageWarning: 'Izbrisani bodo vsi strankini predračuni in računi!',
             deleteTitle: 'Brisanje',
             wrongEmail: 'Neveljaven email',

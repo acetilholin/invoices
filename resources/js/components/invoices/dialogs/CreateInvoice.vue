@@ -6,6 +6,7 @@
         <q-dialog
             v-model="dialog"
             persistent
+            ref="createInvoice"
             :maximized="maximizedToggle"
             transition-show="slide-up"
             transition-hide="slide-down"
@@ -56,6 +57,11 @@
                             </q-list>
                         </q-btn-dropdown>
                     </div>
+                    <q-btn color="red" class="q-mt-lg" icon="delete" @click="deleteAll()" label="Izbriši">
+                        <q-tooltip>
+                            Izbriši celoten predračun
+                        </q-tooltip>
+                    </q-btn>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
@@ -167,7 +173,8 @@
                         <q-btn color="secondary"
                                outline
                                :loading="submitting"
-                               label="Shrani predračun"
+                               icon="save"
+                               label="Shrani"
                                @click="save"
                         >
                             <template v-slot:loading>
@@ -282,6 +289,11 @@ export default {
         this.$store.dispatch('klavzule/all')
         this.$store.dispatch('customers/all')
     },
+    mounted() {
+        if (localStorage.getItem('items')) {
+            this.items = JSON.parse(localStorage.getItem('items'))
+        }
+    },
     methods: {
         ...mapActions({
             addItemDialog: 'general/addItemDialog',
@@ -295,6 +307,7 @@ export default {
             this.items = this.items.filter(item => {
                 return item !== val
             })
+            localStorage.setItem('items', JSON.stringify(this.items));
         },
         addNewRecipient(val) {
           this.recipient.title = val.title
@@ -307,6 +320,7 @@ export default {
         addNewItem(newItem) {
             newItem.id = null
             this.items.push(newItem)
+            localStorage.setItem('items', JSON.stringify(this.items));
             this.showNotif(`${this.$t('general.itemAdded')}`, 'positive')
         },
         filterInput(val, update, abort) {
@@ -351,6 +365,7 @@ export default {
                     recipient: this.recipient
                 }
                 this.submitting = true
+                localStorage.removeItem('items')
                 this.createInvoice(newInvoice)
                     .then((response) => {
                         this.showNotif(response, 'positive')
@@ -365,11 +380,35 @@ export default {
                     })
             }
         },
+        deleteAll() {
+            this.$q.dialog({
+                title: `${this.$t("general.deleteTitle")}`,
+                message: `<span class='text-red'> ${this.$t("general.deleteALL")}</span>`,
+                html: true,
+                cancel: true,
+                persistent: true
+            }).onOk(() => {
+                localStorage.removeItem('items')
+                this.invoice.ime_priimek = ''
+                this.invoice.expiration = ''
+                this.invoice.work_date = ''
+                this.invoice.klavzula = ''
+                this.invoice.vat = 0.0
+                this.customer_id = ''
+                this.items.length = 0
+                this.$refs.createInvoice.hide()
+            })
+        },
         closeDialog() {
-          if (this.saved) {
-            this.invoice = []
-            this.items = []
-          }
+            if (this.saved) {
+                this.invoice.ime_priimek = ''
+                this.invoice.expiration = ''
+                this.invoice.work_date = ''
+                this.invoice.klavzula = ''
+                this.invoice.vat = 0.0
+                this.customer_id = ''
+                this.items.length = 0
+            }
         },
         addItem() {
             this.addItemDialog(true)

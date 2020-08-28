@@ -203,17 +203,13 @@
                 return total
             },
             totalPrice() {
-                let total = 0.0
-                let sum = 0.0
-
-                this.invoiceItems.forEach(item => {
+                let total = 0
+                this.invoiceItems.forEach(function(item) {
                     total += parseFloat(item.total_price)
-                    return total
                 })
 
-                sum = (total * this.invoice.vat / 100) + total
-                this.invoice.total = sum
-                return sum
+                this.invoice.total = (total * this.invoice.vat / 100) + total
+                return this.invoice.total
             },
             showNotif(message, type) {
                 this.$q.notify({
