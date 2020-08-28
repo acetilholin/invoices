@@ -7,7 +7,6 @@
             :data="invoices"
             :columns="columns"
             row-key="index"
-            color="primary"
             :filter="filter"
             :loading="loading"
             :pagination.sync="pagination"
@@ -92,7 +91,7 @@
         name: "InvoicesList",
         data() {
             return {
-                loading: false,
+                loading: true,
                 id: null,
                 pagination: {
                     rowsPerPage: 50
@@ -215,6 +214,13 @@
             ...mapGetters({
                 invoices: 'invoices/getInvoices'
             })
+        },
+        watch: {
+            invoices: {
+               handler() {
+                   this.loading = false
+               }
+            }
         }
     }
 </script>

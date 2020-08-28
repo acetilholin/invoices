@@ -6,6 +6,7 @@
             :data="users"
             :columns="columns"
             row-key="name"
+            :loading="loading"
             :filter="filter"
         >
             <template v-slot:top-right>
@@ -68,6 +69,7 @@
         name: "UsersList",
         data() {
             return {
+                loading: true,
                 filter: '',
                 columns: [
                     {
@@ -186,6 +188,13 @@
             ...mapGetters({
                 users: 'users/getUsers'
             })
+        },
+        watch: {
+            users: {
+                handler() {
+                    this.loading = false
+                }
+            }
         }
     }
 </script>

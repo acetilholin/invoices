@@ -7,7 +7,7 @@
             :columns="columns"
             :filter="filter"
             row-key="index"
-            color="primary"
+            :loading="loading"
             :pagination.sync="pagination"
         >
             <template v-slot:top-right>
@@ -84,6 +84,7 @@ export default {
     name: "FinalList",
     data() {
         return {
+            loading: true,
             pagination: {
                 rowsPerPage: 50
             },
@@ -189,6 +190,13 @@ export default {
                     })
             })
         },
+    },
+    watch: {
+        final: {
+            handler() {
+                this.loading = false
+            }
+        }
     }
 }
 </script>

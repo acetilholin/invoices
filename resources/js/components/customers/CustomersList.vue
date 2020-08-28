@@ -7,6 +7,7 @@
             :columns="columns"
             row-key="index"
             :filter="filter"
+            :loading="loading"
             :pagination.sync="pagination"
         >
             <template v-slot:top-right>
@@ -76,6 +77,7 @@
         name: "CustomersList",
         data() {
           return {
+              loading: true,
               id: null,
               customer: [],
               pagination: {
@@ -157,6 +159,13 @@
                 this.$store.dispatch('general/customerTotalDialog', true)
                 this.$store.dispatch('customers/total', id)
                 this.$store.dispatch('customers/show', id)
+            }
+        },
+        watch: {
+            customers: {
+                handler() {
+                    this.loading = false
+                }
             }
         }
     }
