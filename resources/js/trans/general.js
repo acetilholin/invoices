@@ -100,7 +100,6 @@ const general = {
             sklicevanje_stev: 'Sklicevanje na štev.',
             invoice: 'Predračun',
             final: 'Račun',
-            place: 'Prosenjakovci',
             validity: 'Veljavnost',
             work_done: 'Delo opravljeno',
             id_ddv: 'ID za DDV',
@@ -117,7 +116,6 @@ const general = {
             osnova: 'osnova',
             zeroEUR: '0,00 EUR',
             forPayment: 'ZA PLAČILO',
-            author: 'Janjić Andželko',
             total76A: 'Skupaj 76.A člen'
         },
         report: {

@@ -30,7 +30,8 @@ class Token extends Mailable
      */
     public function build()
     {
-        return $this->subject('Novo geslo')
+        return $this->from(env('ADMIN'))
+            ->subject('Novo geslo')
             ->view('mail.token', [
                 'token' => $this->token
             ]);

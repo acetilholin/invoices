@@ -54,7 +54,7 @@
                         </table>
                         <div class="float-right mt-2">
                             <b>{{ $t("invoices.invoice").toUpperCase() }}: </b>{{ invoice.sifra_predracuna }}<br>
-                            {{ $t("invoices.place") }}, {{ invoice.timestamp | moment('DD-MM-Y') }}<br>
+                            {{ place }}, {{ invoice.timestamp | moment('DD-MM-Y') }}<br>
                             <b>{{ $t("invoices.validity") }}:</b> {{ invoice.expiration | moment('DD-MM-Y') }}<br>
 
                             <span v-if="invoice.work_date">
@@ -151,7 +151,7 @@
                             </table>
                         </div>
                         <div id="name" style="margin-top: 1%" v-for="cmp in company">
-                            {{ $t("invoices.author") }}<br>
+                            {{ author }}<br>
                             <img :src="image(cmp.stamp)" style="height: 110px;" alt="">
                         </div>
                     </div>
@@ -169,13 +169,16 @@
 <script>
 
 import {mapActions, mapGetters} from 'vuex'
+import {author, place} from "../../../global/variables";
 
 export default {
     name: "PrintInvoice",
     data() {
         return {
             maximizedToggle: true,
-            output: null
+            output: null,
+            author: author,
+            place: place
         }
     },
     computed: {

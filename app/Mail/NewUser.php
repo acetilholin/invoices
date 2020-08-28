@@ -32,7 +32,8 @@ class NewUser extends Mailable
      */
     public function build()
     {
-        return $this->subject('Nov uporabnik')
+        return $this->from(env('ADMIN'))
+            ->subject('Nov uporabnik')
             ->view('mail.user', [
                 'email' => $this->email,
                 'password' => $this->password
