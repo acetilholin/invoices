@@ -192,7 +192,7 @@ export default {
             klavzula: 'final/getKlavzula'
         })
     },
-    created() {
+    mounted() {
         this.$store.dispatch('company/all')
     },
     filters: {

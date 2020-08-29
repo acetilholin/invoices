@@ -192,8 +192,8 @@ export default {
             klavzula: 'invoices/getKlavzula'
         })
     },
-    created() {
-      this.$store.dispatch('company/all')
+    mounted() {
+        this.$store.dispatch('company/all')
     },
     filters: {
         formatNum(val) {

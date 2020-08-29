@@ -38,10 +38,10 @@
 
                         <q-tab-panels v-model="tab" animated>
                             <q-tab-panel name="invoicesTotal">
-                                <total-table :invoices="invoices" :title="predracuni"></total-table>
+                                <total-invoices :invoices="invoices"></total-invoices>
                             </q-tab-panel>
                             <q-tab-panel name="finalTotal">
-                                <total-table :invoices="final" :title="racuni"></total-table>
+                                <total-final :invoices="final"></total-final>
                             </q-tab-panel>
                         </q-tab-panels>
                     </q-card>
@@ -54,14 +54,15 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
-import TotalTable from "../tables/TotalTable";
+import TotalInvoices from "../tables/TotalInvoices";
+import TotalFinal from "../tables/TotalFinal";
 
 export default {
     name: "CustomerTotal",
     data() {
         return {
-            predracuni: 'Predračuni',
-            racuni: 'Računi',
+            invoiceTab: 'predracuni',
+            finalTab: 'racuni',
             maximizedToggle: true,
             tab: 'invoicesTotal'
         }
@@ -75,7 +76,8 @@ export default {
         })
     },
     components: {
-      TotalTable
+        TotalFinal,
+        TotalInvoices
     },
     methods: {
         ...mapActions({
