@@ -1,6 +1,6 @@
 <template>
     <div class="statistics">
-        <div class="text-center q-mt-xl text-subtitle1" v-if="total">
+        <div class="text-center q-mt-xl text-subtitle1" v-if="totalInfo">
             {{ $t("statistics.totalEarnings") }}: <span class="text-primary">{{ total.interval }}</span>
             <br>
             <div>&Sigma;: <span class="text-green-10">{{ total.grandTotal}}€</span></div>
@@ -18,6 +18,11 @@ import Total from "../components/statistics/charts/Total";
 
 export default {
     name: "Statistics",
+    data() {
+       return {
+           totalInfo: false
+       }
+    },
     computed: {
         ...mapGetters({
             total: 'statistics/getTotal'
@@ -27,7 +32,18 @@ export default {
         Total
     },
     mounted() {
+        this.$q.loading.show({
+            spinnerSize: 40
+        })
         this.$store.dispatch('statistics/total')
+    },
+    watch: {
+        total: {
+            handler() {
+                this.$q.loading.hide()
+                this.totalInfo = true
+            }
+        }
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="website">
         <filter-dates class="q-mt-md q-mb-md" @interval="dataInterval"></filter-dates>
-        <div class="text-center text-subtitle1">
+        <div class="text-center text-subtitle1" v-if="visitsInfo">
             {{ $t("statistics.allVisits") }}: <span class="text-blue-8">{{ data.totalVisitors }}</span> <br>
             {{ $t("statistics.avg") }}: {{ data.avg }} /{{ $t("general.day") }}
         </div>
@@ -19,11 +19,19 @@ import FilterDates from "../components/invoices/filter/FilterDates";
 
     export default {
         name: "Website",
+        data() {
+            return {
+                visitsInfo: false
+            }
+        },
         components: {
           Visits,
             FilterDates
         },
         mounted() {
+            this.$q.loading.show({
+                spinnerSize: 40
+            })
             this.$store.dispatch('statistics/visits')
         },
         computed: {
@@ -37,6 +45,14 @@ import FilterDates from "../components/invoices/filter/FilterDates";
             }),
             dataInterval(interval) {
                 this.dateInterval(interval)
+            }
+        },
+        watch: {
+            data: {
+                handler() {
+                    this.$q.loading.hide()
+                    this.visitsInfo = true
+                }
             }
         }
     }
