@@ -183,6 +183,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Felixkiss\UniqueWithValidator\ServiceProvider::class,
         Spatie\Analytics\AnalyticsServiceProvider::class,
+        Fruitcake\Cors\CorsServiceProvider::class,
 
         /*
          * Package Service Providers...
