@@ -192,7 +192,7 @@ export default {
             klavzula: 'invoices/getKlavzula'
         })
     },
-    mounted() {
+    created() {
         this.$store.dispatch('company/all')
     },
     filters: {
