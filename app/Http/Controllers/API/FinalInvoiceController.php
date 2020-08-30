@@ -106,15 +106,7 @@ class FinalInvoiceController extends Controller
      */
     public function update(Request $request, FinalInvoice $finalInvoice)
     {
-        $data = $finalInvoice->getAttributes();
-        $invoice = Invoice::where('iid', $data['iid'])->first();
-        $invoiceData = $invoice->getAttributes();
-        unset($invoiceData['id']);
-        $finalInvoice->update($invoiceData);
 
-        return response()->json([
-            'success' => trans('final.finalIsUpdated')
-        ], 200);
     }
 
     /**

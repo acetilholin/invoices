@@ -10,9 +10,9 @@
                 <span class="q-mr-md" v-if="currentUser">
                         <q-chip>
                             <q-avatar class="bg-white">
-                                <img :src="userImage(currentUser.picture)" @click="modal" class="pointer">
-                            </q-avatar>
+                                <img :src="image(currentUser.picture)" @click="modal" class="pointer" alt="" >
                               {{ currentUser.username }}
+                            </q-avatar>
                         </q-chip>
                     </span>
                 <q-btn @click.prevent="signOut" outline color="white" label="Odjava" />
@@ -23,10 +23,12 @@
 </template>
 
 <script>
+
     import { appName } from '../../global/variables.js'
     import {mapGetters, mapActions} from "vuex";
     import Settings from "./Settings";
     import HeaderDialog from "./HeaderDialog";
+    import { countriesPath, picturesPath } from '../../global/variables'
 
     export default {
         name: "Header",
@@ -55,8 +57,8 @@
             changeDrawerState() {
                 this.drawerState(!this.drawer)
             },
-            userImage(img) {
-                return '/pictures/' + img
+            image(img) {
+                return picturesPath + img
             },
             modal() {
                 this.triggerModal(true)

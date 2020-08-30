@@ -66,6 +66,8 @@ class InvoiceHelper
     public function copyInvoice($invoiceData, $items)
     {
         unset($invoiceData['id']);
+        $invoiceData['sifra_predracuna'] = $this->sifraPredracuna();
+        $invoiceData['iid'] = Str::random(6);
         $invoice = Invoice::create($invoiceData);
         $invoice = $invoice->getAttributes();
         $id = $invoice['id'];
@@ -74,7 +76,6 @@ class InvoiceHelper
             foreach ($items as $item) {
                 $data = $item->getAttributes();
                 unset($data['id']);
-                $data['iid'] = Str::random(6);
                 $data['invoice_id'] = $id;
                 Item::create($data);
             }

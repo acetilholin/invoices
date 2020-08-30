@@ -64,6 +64,7 @@
 
     import CreateUser from "./CreateUser";
     import {mapGetters, mapActions} from "vuex";
+    import { countriesPath, picturesPath } from '../../global/variables'
 
     export default {
         name: "UsersList",
@@ -122,10 +123,10 @@
                 })
             },
             countryImage(img) {
-                return '/countries/' + img + '.svg'
+                return countriesPath + img + '.svg'
             },
             userImage(img) {
-                return '/pictures/' + img
+                return picturesPath + img
             },
             tableIndex(row) {
                 return this.users.indexOf(row) + 1

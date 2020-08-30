@@ -47,16 +47,6 @@
                                         <q-item-label><q-icon name="pageview" target="_blank" class="pointer text-black action-icon"></q-icon> {{ $t("general.view") }}</q-item-label>
                                     </q-item-section>
                                 </q-item>
-                                <q-item clickable v-close-popup @click="update(props.row.id)">
-                                    <q-item-section class="text-center">
-                                        <q-item-label>
-                                            <q-icon name="autorenew"
-                                                    class="pointer action-icon"
-                                            ></q-icon>
-                                            {{ $t("general.update") }}
-                                        </q-item-label>
-                                    </q-item-section>
-                                </q-item>
                                 <q-item clickable v-close-popup @click="confirm(props.row.id)">
                                     <q-item-section class="text-center text-red">
                                         <q-item-label><q-icon name="delete_outline" class="pointer action-icon"></q-icon> {{ $t("general.delete") }}</q-item-label>
@@ -163,15 +153,6 @@ export default {
         viewInvoice(id) {
             this.$store.dispatch('general/printFinalInvoiceDialog', true)
             this.$store.dispatch('final/view', id)
-        },
-        update(id) {
-            this.updateFinal(id)
-                .then((response) => {
-                    this.showNotif(response, 'positive')
-                })
-                .catch((e) => {
-                    this.showNotif(e, 'negative')
-                })
         },
         confirm(id) {
             this.$q.dialog({

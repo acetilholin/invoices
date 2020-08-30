@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Customer;
+use App\FinalInvoice;
 use App\helpers\FinalInvoiceHelper;
 use App\helpers\InvoiceHelper;
 use App\Http\Controllers\Controller;
@@ -203,6 +204,15 @@ class InvoiceController extends Controller
     {
         $invoiceData = request(['invoice']);
         $itemsData = request(['items']);
+
+        $id = $invoiceData['invoice']['id'];
+
+        $finalInvoice = FinalInvoice::where('id', $id)->first();
+
+        if ($finalInvoice) {
+            $finalInvoice->update($invoiceData['invoice']);
+        }
+
         $invoice->update($invoiceData['invoice']);
 
         $items = $itemsData['items'];

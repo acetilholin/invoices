@@ -36,7 +36,9 @@
 </template>
 
 <script>
+
     import {mapActions} from "vuex";
+    import {picturesPath} from "../../../global/variables";
 
     export default {
         name: "Picture",
@@ -74,7 +76,7 @@
                     })
             },
             userImage(img) {
-                return '/pictures/' + img
+                return picturesPath + img
             },
         }
     }

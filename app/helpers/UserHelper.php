@@ -32,10 +32,10 @@ class UserHelper
     {
         $ip = $_SERVER['REMOTE_ADDR'];
         $country = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
-        $userCountry = $country->geoplugin_countryName;
+        $userCountry = $country->geoplugin_countryCode;
         return $ipAndCountry = array(
             'ip' => $ip,
-            'country' => $userCountry
+            'country' => strtolower($userCountry)
         );
     }
 

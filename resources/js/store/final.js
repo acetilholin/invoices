@@ -76,16 +76,6 @@ export default {
                 .then((response) => {
                     commit('SET_FINAL_INVOICES', response.data.finalInvoices)
                 })
-        },
-        update({dispatch}, id) {
-            return axios.patch(`/finalInvoices/${id}`)
-                .then((response) => {
-                    dispatch('all')
-                    return response.data.success
-                })
-                .catch((e) => {
-                    throw (e.response.data.error);
-                })
         }
     },
     getters: {

@@ -58,7 +58,7 @@
                             <b>{{ $t("invoices.validity") }}:</b> {{ invoice.expiration | moment('DD-MM-Y') }}<br>
 
                             <span v-if="invoice.work_date">
-                                 <b>{{ $t("invoices.work_done") }}:</b> {{ invoice.work_date }}<br>
+                                 <b>{{ $t("invoices.work_done") }}:</b> {{ invoice.work_date | moment('DD-MM-Y') }}<br>
                             </span>
 
                             {{ $t("invoices.id_ddv") }}: <span v-for="cmp in company">{{ cmp.zavezanec_za_ddv }}</span><br>
@@ -169,7 +169,7 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
-import {author, place} from "../../../global/variables";
+import {author, picturesPath, place} from "../../../global/variables";
 
 export default {
     name: "PrintFinalInvoice",
@@ -235,7 +235,7 @@ export default {
             this.$htmlToPaper('content');
         },
         image(img) {
-            return '/pictures/' + img
+            return picturesPath + img
         },
         subTotal() {
             let total = 0
