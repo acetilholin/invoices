@@ -11,8 +11,8 @@
                         <q-chip>
                             <q-avatar class="bg-white">
                                 <img :src="image(currentUser.picture)" @click="modal" class="pointer" alt="" >
-                              {{ currentUser.username }}
                             </q-avatar>
+                              {{ currentUser.username }}
                         </q-chip>
                     </span>
                 <q-btn @click.prevent="signOut" outline color="white" label="Odjava" />

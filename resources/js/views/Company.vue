@@ -3,7 +3,7 @@
         <div class="row justify-center q-mb-md">
             <div class="col-3">
                 <span v-for="cmp in company">
-                    <q-img height="200px" :src="userImage(cmp.logo)" native-context-menu>
+                    <q-img height="200px" :src="image(cmp.logo)" native-context-menu>
                            <q-icon class="absolute all-pointer-events" size="22px" name="info" color="grey" style="top: 8px; left: 8px">
                             <q-tooltip>
                               Logotip podjetja
@@ -126,6 +126,7 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
+import {picturesPath} from "../global/variables";
 
 export default {
     name: "Company",
@@ -177,8 +178,8 @@ export default {
         ...mapActions({
             updateCompany: 'company/update'
         }),
-        userImage(img) {
-            return '/pictures/' + img
+        image(img) {
+            return picturesPath + img
         },
         showNotif(message, type) {
             this.$q.notify({
