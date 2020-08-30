@@ -46,7 +46,7 @@
                         </q-badge>
                     </q-td>
                     <q-td key="last_seen" :props="props">
-                        {{ props.row.last_seen | moment('hh:mm DD-MM-Y') }}
+                        {{ props.row.last_seen | moment('HH:mm DD-MM-Y') }}
                     </q-td>
                     <q-td key="country" :props="props">
                         <img :src="countryImage(props.row.country)" alt="" width="40px" height="40px">
