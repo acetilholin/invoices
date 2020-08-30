@@ -4,13 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Customer;
 use App\FinalInvoice;
+use App\helpers\FinalInvoiceHelper;
 use App\Http\Controllers\Controller;
-use App\Invoice;
 use App\Item;
 use App\Klavzula;
 use App\Recipient;
 use Illuminate\Http\Request;
-use App\Http\Resources\FinalInvoiceResource;
+
 use Illuminate\Support\Facades\DB;
 
 class FinalInvoiceController extends Controller
@@ -18,11 +18,15 @@ class FinalInvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return FinalInvoiceResource::collection(FinalInvoice::all());
+        $helper = new FinalInvoiceHelper();
+        $finalAll = $helper->getAllAndSort();
+        return response()->json([
+            'final' => $finalAll
+        ]);
     }
 
     /**

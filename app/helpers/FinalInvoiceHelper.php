@@ -5,6 +5,7 @@ namespace App\helpers;
 
 
 use App\FinalInvoice;
+use Illuminate\Support\Facades\DB;
 
 class FinalInvoiceHelper
 {
@@ -20,6 +21,11 @@ class FinalInvoiceHelper
             $max = $num > $max ? $num : $max;
         }
         return ($max + 1).'/'.date("Y");
+    }
+
+    public function getAllAndSort()
+    {
+        return DB::select('SELECT * FROM final_invoices ORDER BY sifra_predracuna + 0 ASC');
     }
 
     public function exportToFinalInvoices($invoiceData)

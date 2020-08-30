@@ -91,8 +91,7 @@ export default {
                     label: 'Šifra',
                     align: 'center',
                     field: 'sifra_predracuna',
-                    format: val => `${val}`,
-                    sortable: true
+                    format: val => `${val}`
                 },
                 {name: 'ime_priimek', align: 'center', label: 'Ime in priimek / naziv', field: 'ime_priimek'},
                 {

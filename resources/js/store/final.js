@@ -36,7 +36,7 @@ export default {
         all({commit}) {
             axios.get('/finalInvoices')
                 .then((response) => {
-                    commit('SET_FINAL_INVOICES', response.data.data)
+                    commit('SET_FINAL_INVOICES', response.data.final)
                 })
         },
         view({commit}, id) {
