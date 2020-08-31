@@ -7,6 +7,7 @@ const general = {
             export: 'Izvozi',
             total: 'Promet',
             delete: 'Izbriši',
+            helloMessage: 'Pozdravljeni :)',
             deleteMessage: 'Želite izbrisati vnos?',
             deleteALL: 'Želite izbrisati predračun?',
             deleteMessageWarning: 'Izbrisani bodo vsi strankini predračuni in računi!',

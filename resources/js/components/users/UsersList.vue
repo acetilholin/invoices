@@ -30,10 +30,16 @@
                     <q-td key="enabled" :props="props">
                         <q-badge :color="badge(props.row.enabled)" @click="enabledDisabled(props.row.id, props.row.enabled)" class="pointer">
                             <q-icon :name="props.row.enabled | enabled " />
+                            <q-tooltip>
+                               Spremenite status
+                            </q-tooltip>
                         </q-badge>
                     </q-td>
                     <q-td key="role" :props="props">
                         <span class="pointer" @click="adminUser(props.row.id, props.row.role)">{{ props.row.role | role }}</span>
+                        <q-tooltip>
+                            spremenite vlogo
+                        </q-tooltip>
                     </q-td>
                     <q-td key="picture" :props="props">
                         <q-avatar size="40px">
