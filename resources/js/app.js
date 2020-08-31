@@ -9,6 +9,7 @@ import VueAxios from 'vue-axios'
 import langSl from 'quasar/lang/sl'
 import VueHtmlToPaper from 'vue-html-to-paper';
 import VueCharts from 'vue-chartjs'
+import { URLLocalhost, URLProduction, Bootstrap, InvoiceCSS } from './global/variables'
 
 require('./store/subscriber')
 require('./bootstrap');
@@ -25,8 +26,8 @@ const options = {
         'scrollbars=yes'
     ],
     styles: [
-        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-        '/css/invoice.css'
+        Bootstrap,
+        InvoiceCSS
     ]
 }
 Vue.use(VueHtmlToPaper, options);
@@ -38,7 +39,7 @@ Vue.use(require('vue-moment'));
 
 window.Vue = require('vue');
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/auth'
+axios.defaults.baseURL = URLLocalhost
 
 Vue.config.silent = false; /* Suppress all Vue logs and warnings */
 Vue.config.productionTip = false /* development mode notice */

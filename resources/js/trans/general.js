@@ -49,7 +49,7 @@ const general = {
             EMChanged: 'Enota mere je spremenjena',
             pricePerItemChanged: 'Cena/kos spremenjena',
             discountChanged: 'Popust spremenjen',
-            lessThan100prc: 'Mora biti manjše od 100 %',
+            lessThan100prc: 'Mora biti od 0 do 99 %',
             itemRemoved: 'Artikel je odstranjen',
             klavzulaChanged: 'Klavzula je spremenjena',
             VATChanged: 'Davek je spremenjen',

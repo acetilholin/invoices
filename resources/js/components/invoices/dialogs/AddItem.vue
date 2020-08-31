@@ -47,7 +47,7 @@
                                label="Količina"
                                type="number"
                                class="col-2 input-margin"
-                               :rules="[ val => !!val || `${this.$t('general.enterQty')}`]"
+                               :rules="[ val => !!val && val > 0 || `${this.$t('general.biggerThan0')}`]"
                            />
                            <q-input
                                v-model.number="item.discount"
@@ -55,7 +55,7 @@
                                type="number"
                                suffix="%"
                                class="col-2 input-margin"
-                               :rules="[ val => val < 99 || `${this.$t('general.val0to99')}`]"
+                               :rules="[ val => val >= 0 && val < 100 || `${this.$t('general.lessThan100prc')}`]"
                            />
 
                        </div>

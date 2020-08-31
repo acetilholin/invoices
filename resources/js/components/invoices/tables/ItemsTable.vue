@@ -65,7 +65,13 @@
                     <q-td key="item_price" :props="props">
                         {{ props.row.item_price | price }}
                         <q-popup-edit v-model="props.row.item_price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
-                            <q-input type="number" v-model="props.row.item_price" @change="changeItemData(`${$t('general.pricePerItemChanged')}`,props.row)" dense autofocus />
+                            <q-input type="number"
+                                     v-model="props.row.item_price"
+                                     @change="changeItemData(`${$t('general.pricePerItemChanged')}`,props.row)"
+                                     dense
+                                     autofocus
+                                     :rules="[ val => val && val >= 0  || `${$t('general.biggerThan0')}`]"
+                            />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="total_price" :props="props">
@@ -79,7 +85,7 @@
                                      @change="changeItemData(`${$t('general.discountChanged')}`,props.row)"
                                      dense
                                      autofocus
-                                     :rules="[ val => val && val < 100  || `${this.$t('general.lessThan100prc')}`]"
+                                     :rules="[ val => val && val >= 0 && val < 100  || `${$t('general.lessThan100prc')}`]"
                             />
                         </q-popup-edit>
                     </q-td>
