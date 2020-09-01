@@ -15,7 +15,8 @@ export default {
         company: false,
         klavzule: false,
         editKlavzula: false,
-        reportDialog: false
+        reportDialog: false,
+        customerReportDialog: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -62,6 +63,9 @@ export default {
         },
         CHANGE_REPORT_DIALOG(state, payload) {
             state.reportDialog = payload
+        },
+        CHANGE_CUSTOMER_REPORT_DIALOG(state, payload) {
+            state.customerReportDialog = payload
         }
     },
     actions: {
@@ -120,6 +124,9 @@ export default {
         },
         reportDialog({commit}, modal) {
             commit('CHANGE_REPORT_DIALOG', modal)
+        },
+        customerReportDialog({commit}, modal) {
+            commit('CHANGE_CUSTOMER_REPORT_DIALOG', modal)
         }
     },
     getters: {
@@ -167,6 +174,9 @@ export default {
         },
         getReportDialog(state) {
             return state.reportDialog
+        },
+        getCustomerReportDialog(state) {
+            return state.customerReportDialog
         }
     }
 }

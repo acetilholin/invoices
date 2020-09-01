@@ -74,7 +74,14 @@ const general = {
         customers: {
             editCustomer: 'Uredi stranko',
             newUser: 'Nov uporabnik',
-            create: 'Nova stranka'
+            create: 'Nova stranka',
+            report: {
+                sifra: 'Šifra',
+                timestamp: 'Ustvarjen',
+                total: 'Znesek',
+                expiration: 'Zapadlost',
+                iznosi: 'Natisni vse iznose'
+            }
         },
         statistics: {
             allVisits: 'Vseh obiskov',
