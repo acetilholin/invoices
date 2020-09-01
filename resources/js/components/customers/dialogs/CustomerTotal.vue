@@ -38,10 +38,10 @@
 
                         <q-tab-panels v-model="tab" animated>
                             <q-tab-panel name="invoicesTotal">
-                                <total-invoices :invoices="invoices"></total-invoices>
+                                <total-invoices :invoices="invoices" :customer="customer"></total-invoices>
                             </q-tab-panel>
                             <q-tab-panel name="finalTotal">
-                                <total-final :invoices="final"></total-final>
+                                <total-final :invoices="final" :customer="customer"></total-final>
                             </q-tab-panel>
                         </q-tab-panels>
                     </q-card>

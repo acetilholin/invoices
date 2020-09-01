@@ -1,5 +1,16 @@
 <template>
     <div class="q-pa-md">
+        <div class="text-center q-mb-md">
+            <q-btn color="secondary"
+                   outline
+                   @click="customerReport"
+            >
+                <q-icon name="analytics"/>
+                <q-tooltip>
+                    {{ $t("customers.report.iznosi") }}
+                </q-tooltip>
+            </q-btn>
+        </div>
         <q-table
             :data="invoices"
             :columns="columns"
@@ -37,6 +48,7 @@
                 </q-tr>
             </template>
         </q-table>
+        <customer-report :invoices="invoices" :customer="customer"></customer-report>
         <print-invoice></print-invoice>
     </div>
 </template>
@@ -44,6 +56,7 @@
 <script>
 
 import PrintInvoice from "../../invoices/dialogs/PrintInvoice";
+import CustomerReport from "../dialogs/CustomerReport";
 
 export default {
     name: "TotalInvoices",
@@ -67,9 +80,10 @@ export default {
         }
     },
     components: {
-        PrintInvoice
+        PrintInvoice,
+        CustomerReport
     },
-    props: ['invoices'],
+    props: ['invoices','customer'],
     filters: {
         price(val) {
             return Math.round(val * 100) / 100 + ' €'
@@ -78,6 +92,9 @@ export default {
     methods: {
         tableIndex(row) {
             return this.invoices.indexOf(row) + 1
+        },
+        customerReport() {
+          this.$store.dispatch('general/customerReportDialog', true)
         },
         today() {
             return this.$moment().format('Y-MM-DD')

@@ -184,7 +184,8 @@
                         <q-btn color="secondary"
                                outline
                                :loading="submitting"
-                               label="Posodobi predračun"
+                               icon="autorenew"
+                               label="Posodobi"
                                @click="update(invoice.id)"
                         >
                             <template v-slot:loading>
