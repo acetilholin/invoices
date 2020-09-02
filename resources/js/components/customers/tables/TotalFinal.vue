@@ -48,7 +48,7 @@
                 </q-tr>
             </template>
         </q-table>
-        <customer-report :invoices="invoices" :customer="customer"></customer-report>
+        <customer-report :invoices="invoices" :customer="customer" :title='$t("customers.report.racuni")'></customer-report>
         <print-final-invoice></print-final-invoice>
     </div>
 </template>

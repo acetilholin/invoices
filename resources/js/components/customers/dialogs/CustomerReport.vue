@@ -38,6 +38,7 @@
                         </div>
                         <hr style="background: black">
                         <br>
+                        <div class="text-center mb-1"> {{ title | upper }}</div>
                         <table class="table full-width table-font q-pt-xl">
                             <thead>
                             <tr>
@@ -91,7 +92,7 @@ export default {
             maximizedToggle: true
         }
     },
-    props: ['invoices','customer'],
+    props: ['invoices','customer','title'],
     computed: {
         ...mapGetters({
             dialog: 'general/getCustomerReportDialog',
@@ -102,6 +103,9 @@ export default {
       this.$store.dispatch('company/all')
     },
     filters: {
+        upper(val) {
+          return val.toUpperCase()
+        },
         titleShort(val) {
             return val.substring(31,51)
         },

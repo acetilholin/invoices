@@ -80,7 +80,9 @@ const general = {
                 timestamp: 'Ustvarjen',
                 total: 'Znesek',
                 expiration: 'Zapadlost',
-                iznosi: 'Natisni vse iznose'
+                iznosi: 'Natisni vse iznose',
+                predracuni: 'Izdani predračuni',
+                racuni: 'Izdani računi'
             }
         },
         statistics: {

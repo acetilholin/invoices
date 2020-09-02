@@ -39,7 +39,7 @@ Vue.use(require('vue-moment'));
 
 window.Vue = require('vue');
 
-axios.defaults.baseURL = URLLocalhost
+axios.defaults.baseURL = URLProduction
 
 Vue.config.silent = false; /* Suppress all Vue logs and warnings */
 Vue.config.productionTip = false /* development mode notice */
