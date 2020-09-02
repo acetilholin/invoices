@@ -63,7 +63,7 @@
 
                             {{ $t("invoices.id_ddv") }}: <span v-for="cmp in company">{{ cmp.zavezanec_za_ddv }}</span><br>
 
-                            <span style="" v-if="customer.id_ddv">{{ $t("invoices.id_ddv_customer") }}: {{ customer.id_ddv }}</span>
+                            <span v-if="customer.id_ddv">{{ $t("invoices.id_ddv_customer") }}: {{ customer.id_ddv }}<br><br></span>
                         </div>
 
                         <div class="float-left mt-4 recipient">
@@ -85,13 +85,13 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">{{ $t("invoices.description") }}</th>
-                                    <th scope="col">{{ $t("invoices.em") }}</th>
-                                    <th scope="col">{{ $t("invoices.qty") }}</th>
-                                    <th scope="col">{{ $t("invoices.price") }}</th>
-                                    <th scope="col">{{ $t("invoices.discount") }}</th>
-                                    <th scope="col">{{ $t("invoices.ddv") }}</th>
-                                    <th scope="col">{{ $t("invoices.vrednost") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.description") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.em") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.qty") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.price") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.discount") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.ddv") }}</th>
+                                    <th scope="col" class="format-text">{{ $t("invoices.vrednost") }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -305,5 +305,8 @@ export default {
 }
 .clen {
     width: 80%;
+}
+.format-text {
+    text-align: left;
 }
 </style>

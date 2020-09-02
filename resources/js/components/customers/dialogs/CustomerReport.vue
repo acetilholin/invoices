@@ -42,10 +42,10 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">{{ $t("customers.report.sifra") }}</th>
-                                <th scope="col">{{ $t("customers.report.timestamp") }}</th>
-                                <th scope="col">{{ $t("customers.report.total") }}</th>
-                                <th scope="col">{{ $t("customers.report.expiration") }}</th>
+                                <th scope="col" class="format-text">{{ $t("customers.report.sifra") }}</th>
+                                <th scope="col" class="format-text">{{ $t("customers.report.timestamp") }}</th>
+                                <th scope="col" class="format-text">{{ $t("customers.report.total") }}</th>
+                                <th scope="col" class="format-text">{{ $t("customers.report.expiration") }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -173,14 +173,7 @@ export default {
 .table-font {
     font-size: 14px;
 }
-.klavzula-text {
-    font-size: 14px;
-}
-.recipient {
-    font-size: 23px !important;
-    margin-left: 3rem;
-}
-.clen {
-    width: 80%;
+.format-text {
+    text-align: left;
 }
 </style>

@@ -3,13 +3,13 @@ import Quasar from 'quasar'
 import App from "./main/App";
 import router from "./routes/routes";
 import store from "./store/store";
-import i18n  from './trans/translations'
+import i18n from './trans/translations'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import langSl from 'quasar/lang/sl'
 import VueHtmlToPaper from 'vue-html-to-paper';
 import VueCharts from 'vue-chartjs'
-import { URLLocalhost, URLProduction, Bootstrap, InvoiceCSS } from './global/variables'
+import {URLLocalhost, URLProduction, Bootstrap, InvoiceCSS} from './global/variables'
 
 require('./store/subscriber')
 require('./bootstrap');
