@@ -23,6 +23,7 @@
                                 v-model="customer.company"
                                 label="Podjetje / ime in priimek"
                                 class="col-12"
+                                autofocus
                                 type="text"
                                 :rules="[ val => val && val.length > 0 || `${this.$t('general.enterCustomer')}`]"
                             >

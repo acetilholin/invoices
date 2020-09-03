@@ -30,8 +30,9 @@
                             <q-input
                                 v-model="email"
                                 label="Email"
+                                autofocus
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -58,7 +59,8 @@
                                 v-model="newPass.email"
                                 label="Email"
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                                autofocus
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -69,10 +71,12 @@
                                 v-model="newPass.token"
                                 label="Žeton"
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite prejeti žeton']"
+                                :rules="[
+                                 val => val && val.length > 0 || `${this.$t('general.enterToken')}`,
+                                 val => val && val.length === 20 || `${this.$t('general.tokenLen20')}` ]"
                             >
                                 <template v-slot:prepend>
-                                    <q-icon name="vpn_key" />
+                                    <q-icon name="vpn_key"/>
                                 </template>
                             </q-input>
 
@@ -80,7 +84,7 @@
                                 v-model="newPass.password"
                                 label="Geslo"
                                 :type="isPwd2 ? 'password' : 'text'"
-                                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
+                                :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -99,8 +103,8 @@
                                 label="Ponovite geslo"
                                 type="password"
                                 :rules="[
-                                    val => val && val.length > 0 || 'Ponovite geslo',
-                                    val => val === this.newPass.password || 'Gesli se ne ujemata']"
+                                    val => val && val.length > 0 || `${this.$t('general.repeatPassword')}`,
+                                    val => val === this.newPass.password || `${this.$t('general.passMissmatch')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />

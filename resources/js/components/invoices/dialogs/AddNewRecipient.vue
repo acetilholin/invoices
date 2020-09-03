@@ -19,6 +19,7 @@
                             <q-input
                                 v-model="recipient.title"
                                 label="Naziv"
+                                autofocus
                                 class="col-11"
                                 :rules="[ val => val && val.length > 0 || `${this.$t('general.enterTitle')}`]"
                             />

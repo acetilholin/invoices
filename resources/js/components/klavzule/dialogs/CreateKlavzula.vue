@@ -23,6 +23,7 @@
                             <q-input
                                 v-model="klavzula.shortName"
                                 label="Kratica"
+                                autofocus
                                 type="text"
                                 class="col-4"
                                 :rules="[ val => val && val.length > 0 || `${this.$t('klavzule.klavzulaShort')}`]"

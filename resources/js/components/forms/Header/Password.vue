@@ -7,6 +7,7 @@
             <q-input
                 v-model="newPass.password_old"
                 label="Trenutno geslo"
+                autofocus
                 :type="isPwd1 ? 'password' : 'text'"
                 :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
             >

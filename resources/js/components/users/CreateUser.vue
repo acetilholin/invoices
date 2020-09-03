@@ -22,6 +22,7 @@
                    <q-input
                        v-model="user.email"
                        label="Email"
+                       autofocus
                        type="text"
                        :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                    >

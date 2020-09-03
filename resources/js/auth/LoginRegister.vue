@@ -30,8 +30,9 @@
                             <q-input
                                 v-model="loginForm.email"
                                 label="Email"
+                                autofocus
                                 type="text"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -41,7 +42,7 @@
                                 v-model="loginForm.password"
                                 :type="isPwd1 ? 'password' : 'text'"
                                 label="Geslo"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite geslo']"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterPassword')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -74,8 +75,9 @@
                             <q-input
                                 v-model="registerForm.email"
                                 label="Email"
+                                autofocus
                                 type="email"
-                                :rules="[ val => val && val.length > 0 || 'Vnesite email naslov', isValidEmail]"
+                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterEmail')}`, isValidEmail]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="alternate_email" />
@@ -86,7 +88,7 @@
                                 v-model="registerForm.username"
                                 label="Uporabniško ime"
                                 type="text"
-                                :rules="[ val => val && val.length > 3  || 'Vnesite uporabniško ime']"
+                                :rules="[ val => val && val.length > 3  || `${this.$t('general.enterUsername')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="person" />
@@ -97,7 +99,7 @@
                                 v-model="registerForm.password"
                                 label="Geslo"
                                 :type="isPwd2 ? 'password' : 'text'"
-                                :rules="[ val => val && val.length > 5 || 'Minimalno 6 znakov']"
+                                :rules="[ val => val && val.length > 5 || `${this.$t('general.min6')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -115,8 +117,8 @@
                                 label="Ponovite geslo"
                                 type="password"
                                 :rules="[
-                                    val => val && val.length > 0 || 'Ponovite geslo',
-                                    val => val === this.registerForm.password || 'Gesli se ne ujemata']"
+                                    val => val && val.length > 0 || `${this.$t('general.repeatPassword')}`,
+                                    val => val === this.registerForm.password || `${this.$t('general.passMissmatch')}`]"
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="lock" />
@@ -185,7 +187,7 @@
             loginUser() {
                 this.loginAction(this.loginForm)
                 .then((response) => {
-                    this.showNotif('Pozdravljeni :)','positive')
+                    this.showNotif(`${this.$t('general.helloMessage')}`,'positive')
                     this.$router.push('/')
                 })
                 .catch((e) => {

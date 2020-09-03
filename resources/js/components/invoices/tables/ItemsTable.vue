@@ -35,8 +35,19 @@
                     </q-td>
                     <q-td key="description" :props="props">
                         {{ props.row.description }}
-                        <q-popup-edit v-model="props.row.description" title="Spremeni opis" buttons label-set="Spremeni">
-                            <q-input type="text" v-model="props.row.description" dense autofocus />
+                        <q-popup-edit v-model="props.row.description"
+                                      title="Spremeni opis"
+                                      buttons
+                                      label-set="Spremeni"
+                                      :validate="descriptionIsInserted"
+                                      @hide="descriptionIsInserted"
+                        >
+                            <q-input type="text"
+                                     v-model="props.row.description"
+                                     dense
+                                     autofocus
+                                     :rules="[ val => val && val.length > 0  || `${$t('general.enterDescription')}`]"
+                            />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="qty" :props="props">
@@ -198,6 +209,15 @@
 
                 row.total_price = discount > 0 ? price * quantity - (price * quantity * discount / 100) : price * quantity
                 this.showNotif(message, 'positive')
+            },
+            changeDesc(message) {
+                this.showNotif(message, 'positive')
+            },
+            descriptionIsInserted(val) {
+                if (!val) {
+                    return false
+                }
+                this.changeDesc(` ${this.$t("general.descriptionChanged")}`)
             },
             itemsNum() {
                 let total = 0

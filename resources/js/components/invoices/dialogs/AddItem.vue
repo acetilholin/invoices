@@ -18,6 +18,7 @@
                        <div class="row">
                            <q-input
                                v-model="item.description"
+                               autofocus
                                label="Opis"
                                class="col-12"
                                :rules="[ val => val && val.length > 0 || `${this.$t('general.enterDescription')}`]"
