@@ -204,7 +204,7 @@ export default {
         },
         reformat(val) {
             if (!isNaN(val)) {
-                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 })
             }
         },
         titleShort(val) {

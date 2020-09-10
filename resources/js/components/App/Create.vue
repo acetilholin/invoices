@@ -37,6 +37,15 @@
                           label="Nova klavzula"
                           v-show="routeKlavzule()"
             />
+            <q-fab-action external-label
+                          label-position="top"
+                          color="red-9"
+                          text-color="white"
+                          @click="trigger"
+                          icon="query_builder"
+                          label="Nov mesečni vnos"
+                          v-show="months()"
+            />
         </q-fab>
     </div>
 </template>
@@ -53,6 +62,9 @@
             },
             routeKlavzule() {
                 return this.$router.currentRoute.fullPath === '/klavzule'
+            },
+            months() {
+                return this.$router.currentRoute.fullPath === '/months'
             },
             routeInvoices() {
                 return this.$router.currentRoute.fullPath === '/'

@@ -11,6 +11,8 @@ import klavzule from "./klavzule";
 import final from "./final";
 import company from "./company";
 import statistics from "./statistics";
+import months from "./months";
+import employees from "./employees";
 
 Vue.use(Vuex)
 
@@ -25,7 +27,9 @@ const store = new Vuex.Store({
         klavzule,
         final,
         company,
-        statistics
+        statistics,
+        months,
+        employees
     }
 })
 

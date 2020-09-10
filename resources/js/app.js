@@ -11,6 +11,14 @@ import VueHtmlToPaper from 'vue-html-to-paper';
 import VueCharts from 'vue-chartjs'
 import {URLLocalhost, URLProduction, Bootstrap, InvoiceCSS} from './global/variables'
 
+
+const moment = require('moment')
+require('moment/locale/sl')
+
+Vue.use(require('vue-moment'), {
+    moment
+})
+
 require('./store/subscriber')
 require('./bootstrap');
 
@@ -35,7 +43,6 @@ Vue.use(VueHtmlToPaper, options);
 Vue.use(VueCharts)
 
 Vue.use(VueAxios, axios)
-Vue.use(require('vue-moment'));
 
 window.Vue = require('vue');
 
@@ -46,7 +53,14 @@ Vue.config.productionTip = false /* development mode notice */
 
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+    const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+
     const authenticated = store.getters["auth/authenticated"]
+    const user = store.getters["auth/user"]
+
+   if (requiresAdmin && user.role !== 'admin') {
+       router.push({path: '/'})
+   }
 
     if (requiresAuth && !authenticated) {
         next('/login-register')

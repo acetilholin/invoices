@@ -63,6 +63,14 @@
                         <router-link to="/users" class="text-subtitle1">{{ $t("drawer.users") }}</router-link>
                     </q-item-section>
                 </q-item>
+                <q-item clickable v-ripple v-if="permissions()">
+                    <q-item-section avatar>
+                        <q-icon :class="{'icon-active' : currentPage === '/months'}" name="query_builder" />
+                    </q-item-section>
+                    <q-item-section>
+                        <router-link to="/months" class="text-subtitle1">{{ $t("drawer.hours") }}</router-link>
+                    </q-item-section>
+                </q-item>
                 <q-item clickable v-ripple v-if="company">
                     <q-item-section avatar>
                         <q-icon :class="{'icon-active' : currentPage === '/company'}" name="corporate_fare" />
@@ -106,6 +114,12 @@
             currentPage() {
                 return this.$route.path
             }
+        },
+        methods: {
+          permissions() {
+              let user = this.$store.getters["auth/user"]
+              return user ? user.role === 'admin' : null
+          }
         },
         created() {
             this.$store.dispatch('general/settings')

@@ -101,7 +101,7 @@ export default {
     filters: {
         reformat(val) {
             if (val !== undefined) {
-                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 })
             }
         },
         euro(val) {

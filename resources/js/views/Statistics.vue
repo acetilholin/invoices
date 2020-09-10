@@ -3,7 +3,7 @@
         <div class="text-center q-mt-xl text-subtitle1" v-if="totalInfo">
             {{ $t("statistics.totalEarnings") }}: <span class="text-primary">{{ total.interval }}</span>
             <br>
-            <div>&Sigma;: <span class="text-green-10">{{ total.grandTotal | decimals }}</span></div>
+            <div>&Sigma;: <span class="text-green-10">{{ total.grandTotal | decimals | euro }}</span></div>
         </div>
         <div class="small q-mt-lg">
             <total :total="total"></total>
@@ -32,8 +32,11 @@ export default {
         Total
     },
     filters: {
-        decimals(value) {
-            return Math.round(value * 100) / 100 + ' €'
+        decimals(val) {
+            return val.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+        },
+        euro(val) {
+            return val + ' €'
         }
     },
     mounted() {

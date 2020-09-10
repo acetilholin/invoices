@@ -13,6 +13,7 @@ import Website from "../views/Website";
 import Users from "../views/Users";
 import Company from "../views/Company";
 import Klavzule from "../views/Klavzule";
+import Months from "../views/Months";
 
 const routes = [
     {
@@ -57,11 +58,21 @@ const routes = [
     },
     {
         path: '/company',
-        component: Company
+        component: Company,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/months',
+        component: Months,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true
+        }
     },
     {
         path: '/klavzule',
-        component: Klavzule
+        component: Klavzule,
+        meta: {requiresAuth: true}
     }
 ]
 

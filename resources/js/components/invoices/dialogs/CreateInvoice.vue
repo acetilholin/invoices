@@ -163,7 +163,7 @@
                                        self="bottom middle"
                                        :offset="[10, 10]"
                             >
-                                Dodaj artikel
+                                {{ $t("invoices.addItem") }}
                             </q-tooltip>
                         </q-btn>
                     </div>
@@ -339,7 +339,7 @@ export default {
                 type: type
             })
         },
-        mandytoryFields() {
+        mandatoryFields() {
             switch(true) {
                 case !this.invoice.ime_priimek:
                     this.showNotif(`${this.$t('general.enterCustomerInvoice')}`,'warning');
@@ -358,7 +358,7 @@ export default {
             }
         },
         save() {
-            if (!this.mandytoryFields()) {
+            if (!this.mandatoryFields()) {
                 let newInvoice = {
                     invoice: this.invoice,
                     items: this.items,

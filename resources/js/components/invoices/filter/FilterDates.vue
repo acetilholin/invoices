@@ -38,6 +38,17 @@
                 </q-icon>
             </template>
         </q-input>
+
+        <q-select v-model="employee"
+                  v-if="monthRoute()"
+                  :options="employees"
+                  label="Zaposleni"
+                  class="col-2 q-ml-sm"
+                  option-label="person"
+                  option-value="person"
+                  @input="employeeSelected"
+        />
+
         <div class="q-pa-md q-gutter-sm">
             <q-btn color="primary" outline label="Reset" @click="getAll">
                 <q-tooltip>
@@ -56,13 +67,25 @@
 </template>
 
 <script>
+
+import {mapGetters} from 'vuex'
+
 export default {
     name: "FilterDates",
     data() {
         return {
             fromDate: null,
-            toDate: null
+            toDate: null,
+            employee: null
         }
+    },
+    created() {
+      this.$store.dispatch('employees/all')
+    },
+    computed: {
+        ...mapGetters({
+            employees: 'employees/getEmployees'
+        })
     },
     methods: {
         showNotif(message, type) {
@@ -72,6 +95,14 @@ export default {
                 position: 'top',
                 type: type
             })
+        },
+        employeeSelected() {
+            let interval = {
+                from: this.fromDate,
+                to: this.toDate,
+                employee_id: this.employee.id
+            }
+            this.$emit('interval', interval)
         },
         dateChanged() {
             if (this.fromDate && this.toDate) {
@@ -85,6 +116,7 @@ export default {
         getAll() {
             this.fromDate = null
             this.toDate = null
+            this.employee = null
 
             switch (true) {
                 case this.$router.currentRoute.fullPath === '/':
@@ -93,12 +125,18 @@ export default {
                 case this.$router.currentRoute.fullPath === '/final-invoices':
                     this.$store.dispatch('final/all')
                     break
+                case this.$router.currentRoute.fullPath === '/website':
+                    this.$store.dispatch('statistics/visits')
+                    break
                 default:
-                    this.$store.dispatch('statistics/data')
+                    this.$store.dispatch('months/all')
             }
         },
         finalRoute() {
             return this.$router.currentRoute.fullPath === '/final-invoices'
+        },
+        monthRoute() {
+            return this.$router.currentRoute.fullPath === '/months'
         },
         report() {
             if (this.fromDate && this.toDate) {
@@ -117,7 +155,8 @@ export default {
         filterDataByDates() {
            let interval = {
                from: this.fromDate,
-               to: this.toDate
+               to: this.toDate,
+               employee_id: 0
            }
            this.$emit('interval', interval)
         }

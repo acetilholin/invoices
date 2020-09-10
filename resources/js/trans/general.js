@@ -67,7 +67,8 @@ const general = {
             day: 'dan',
             visitsOnPage: 'Obiskov na strani v obdobju',
             days: 'dni',
-            totalPerMonth: 'Promet po mesecih'
+            totalPerMonth: 'Promet po mesecih',
+            newInsert: 'Nov vnos'
         },
         klavzule: {
             newKlavzula: 'Nova klavzula',
@@ -89,6 +90,33 @@ const general = {
                 racuni: 'Izdani računi'
             }
         },
+        employees: {
+          editEmployee: 'Uredi zaposlenega',
+          insertEmployee: 'Vnesite ime in priimek zaposlenega',
+          enterAddress: 'Vnesite naslov',
+          createEmployee: 'Nov zaposleni',
+          addInsert: 'Nov vnos'
+        },
+        hours: {
+          newMonthlyReport: 'Nov mesečni izpis',
+          dayAdded: 'Vnos je dodan',
+          dayType: 'Izberite tip dneva',
+          chooseDate: 'Izberite datum',
+          chooseMonth: 'Izberite mesec',
+          chooseEmployee: 'Izberite zaposlenega',
+          fullDay: 'Prazno polje se smatra kot cel dan',
+          dayRemoved: 'Dan je odstranjen',
+          dayTypeChanged: 'Tip dneva spremenjen',
+          dateChanged: 'Datum je spremenjen',
+          listTotal: 'Izbriši celoten mesečni izpis',
+          employee: 'Zaposleni',
+          month: 'Mesec',
+          monthReportEdit: 'Urejanje mesečnega izpisa',
+          hoursMonthReport: 'Mesečni izpis ur za mesec',
+          day_type: 'Tip dneva',
+          date: 'Datum',
+          daysTotal: 'Skupaj dni'
+        },
         statistics: {
             allVisits: 'Vseh obiskov',
             avg: 'Povprečno',
@@ -102,7 +130,8 @@ const general = {
             website: 'Web stran',
             users: 'Uporabniki',
             klavzule: 'Klavzule',
-            company: 'Podjetje'
+            company: 'Podjetje',
+            hours: 'Ure'
         },
         header: {
             user: 'Uporabnik'
@@ -131,7 +160,8 @@ const general = {
             osnova: 'osnova',
             zeroEUR: '0,00 EUR',
             forPayment: 'ZA PLAČILO',
-            total76A: 'Skupaj 76.A člen'
+            total76A: 'Skupaj 76.A člen',
+            addItem: 'Dodaj artikel'
         },
         report: {
             book: 'KNJIGA IZDANIH RAČUNOV - promet blaga in storitev za obdobje',
