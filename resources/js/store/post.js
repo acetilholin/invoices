@@ -9,7 +9,7 @@ export default {
         }
     },
     actions: {
-        postAction({commit}) {
+        all({commit}) {
             axios.get('/posts')
                 .then(response => {
                     commit('SET_POSTS', response.data.posts)

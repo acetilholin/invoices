@@ -109,7 +109,7 @@ export default {
         }),
     },
     created() {
-        this.$store.dispatch('post/postAction')
+        this.$store.dispatch('post/all')
     },
     methods: {
         ...mapActions({

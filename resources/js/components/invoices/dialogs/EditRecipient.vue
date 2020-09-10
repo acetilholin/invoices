@@ -97,7 +97,7 @@ export default {
     },
     props: ['recipient','invoice'],
     created() {
-        this.$store.dispatch('post/postAction')
+        this.$store.dispatch('post/all')
     },
     computed: {
         ...mapGetters({

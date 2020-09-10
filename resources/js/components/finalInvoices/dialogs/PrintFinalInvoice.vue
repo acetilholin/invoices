@@ -151,8 +151,7 @@
                             </table>
                         </div>
                         <div id="name" style="margin-top: 1%" v-for="cmp in company">
-                            {{ author }}<br>
-                            <img :src="image(cmp.stamp)" style="height: 110px;" alt="">
+                            {{ author }}
                         </div>
                     </div>
                 </q-card-section>
@@ -198,7 +197,7 @@ export default {
     filters: {
         reformat(val) {
             if (!isNaN(val)) {
-                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+                return val.toLocaleString('de-DE', { minimumFractionDigits: 2 })
             }
         },
         titleShort(val) {

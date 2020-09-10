@@ -210,6 +210,7 @@ class InvoiceController extends Controller
         $finalInvoice = FinalInvoice::where('id', $id)->first();
 
         if ($finalInvoice) {
+            unset($invoiceData['invoice']['sifra_predracuna']);
             $finalInvoice->update($invoiceData['invoice']);
         }
 

@@ -16,7 +16,14 @@ export default {
         klavzule: false,
         editKlavzula: false,
         reportDialog: false,
-        customerReportDialog: false
+        customerReportDialog: false,
+        employeesDialog: false,
+        editEmployee: false,
+        createEmployee: false,
+        createMonth: false,
+        addDay: false,
+        editMonth: false,
+        printMonth: false
     },
     mutations: {
         CHANGE_DRAWER(state, payload) {
@@ -66,6 +73,27 @@ export default {
         },
         CHANGE_CUSTOMER_REPORT_DIALOG(state, payload) {
             state.customerReportDialog = payload
+        },
+        CHANGE_EMPLOYEES_DIALOG(state, payload) {
+            state.employeesDialog = payload
+        },
+        CHANGE_EDIT_EMPLOYEE(state, payload) {
+            state.editEmployee = payload
+        },
+        CHANGE_CREATE_EMPLOYEE(state, payload) {
+            state.createEmployee = payload
+        },
+        CHANGE_CREATE_MONTH(state, payload) {
+            state.createMonth = payload
+        },
+        CHANGE_ADD_DAY(state, payload) {
+            state.addDay = payload
+        },
+        CHANGE_EDIT_MONTH(state, payload) {
+            state.editMonth = payload
+        },
+        CHANGE_MONTH_PRINT(state, payload) {
+            state.printMonth = payload
         }
     },
     actions: {
@@ -127,6 +155,27 @@ export default {
         },
         customerReportDialog({commit}, modal) {
             commit('CHANGE_CUSTOMER_REPORT_DIALOG', modal)
+        },
+        EmployeesDialog({commit}, modal) {
+            commit('CHANGE_EMPLOYEES_DIALOG', modal)
+        },
+        editEmployeeModal({commit}, modal) {
+            commit('CHANGE_EDIT_EMPLOYEE', modal)
+        },
+        CreateEmployeeDialog({commit}, modal) {
+            commit('CHANGE_CREATE_EMPLOYEE', modal)
+        },
+        createMonthDialog({commit}, modal) {
+            commit('CHANGE_CREATE_MONTH', modal)
+        },
+        addDayDialog({commit}, modal) {
+            commit('CHANGE_ADD_DAY', modal)
+        },
+        editMonthDialog({commit}, modal) {
+            commit('CHANGE_EDIT_MONTH', modal)
+        },
+        monthPrint({commit}, modal) {
+            commit('CHANGE_MONTH_PRINT', modal)
         }
     },
     getters: {
@@ -177,6 +226,27 @@ export default {
         },
         getCustomerReportDialog(state) {
             return state.customerReportDialog
+        },
+        getEmployeeDialog(state) {
+            return state.employeesDialog
+        },
+        getEditEmployee(state) {
+            return state.editEmployee
+        },
+        getCreateEmployee(state) {
+            return state.createEmployee
+        },
+        getCreateMonth(state) {
+            return state.createMonth
+        },
+        getAddDay(state) {
+            return state.addDay
+        },
+        getEditMonth(state) {
+            return state.editMonth
+        },
+        getPrintMonth(state) {
+            return state.printMonth
         }
     }
 }

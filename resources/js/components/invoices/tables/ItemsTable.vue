@@ -52,33 +52,46 @@
                     </q-td>
                     <q-td key="qty" :props="props">
                         {{ props.row.qty }}
-                        <q-popup-edit v-model="props.row.qty" title="Spremeni količino" buttons label-set="Spremeni">
+                        <q-popup-edit v-model="props.row.qty"
+                                      title="Spremeni količino"
+                                      buttons
+                                      label-set="Spremeni"
+                                      @save="changeItemData(`${$t('general.QTYChanged')}`,props.row)"
+
+                        >
                             <q-input type="number"
                                      v-model="props.row.qty"
                                      dense
                                      autofocus
-                                     @change="changeItemData(`${$t('general.QTYChanged')}`,props.row)"
                                      :rules="[ val => val && val > 0  || `${$t('general.biggerThan0')}`]"
                             />
                         </q-popup-edit>
                     </q-td>
                     <q-td key="unit" :props="props">{{ props.row.unit }}
-                      <q-popup-edit v-model="props.row.unit" title="Spremeni EM" buttons label-set="Spremeni">
+                        <q-popup-edit v-model="props.row.unit"
+                                      title="Spremeni EM"
+                                      buttons
+                                      label-set="Spremeni"
+                                      @save="changeItemData(`${$t('general.EMChanged')}`,props.row)"
+                        >
                         <q-select v-model="props.row.unit"
                                   :options="units"
                                   label="Enota mere"
                                   dense
                                   autofocus
-                                  @input="changeItemData(`${$t('general.EMChanged')}`,props.row)"
                         />
                       </q-popup-edit>
                     </q-td>
                     <q-td key="item_price" :props="props">
                         {{ props.row.item_price | price }}
-                        <q-popup-edit v-model="props.row.item_price" title="Spremeni ceno/kos" buttons label-set="Spremeni">
+                        <q-popup-edit v-model="props.row.item_price"
+                                      title="Spremeni ceno/kos"
+                                      buttons
+                                      label-set="Spremeni"
+                                      @save="changeItemData(`${$t('general.pricePerItemChanged')}`,props.row)"
+                        >
                             <q-input type="number"
                                      v-model="props.row.item_price"
-                                     @change="changeItemData(`${$t('general.pricePerItemChanged')}`,props.row)"
                                      dense
                                      autofocus
                                      :rules="[ val => val && val >= 0  || `${$t('general.biggerThan0')}`]"
@@ -90,10 +103,14 @@
                     </q-td>
                     <q-td key="discount" :props="props">
                         {{ props.row.discount | discount }}
-                        <q-popup-edit v-model="props.row.discount" title="Spremeni popust" buttons label-set="Spremeni">
+                        <q-popup-edit v-model="props.row.discount"
+                                      title="Spremeni popust"
+                                      buttons
+                                      label-set="Spremeni"
+                                      @save="changeItemData(`${$t('general.discountChanged')}`,props.row)"
+                        >
                             <q-input type="number"
                                      v-model="props.row.discount"
-                                     @change="changeItemData(`${$t('general.discountChanged')}`,props.row)"
                                      dense
                                      autofocus
                                      :rules="[ val => val && val >= 0 && val < 100  || `${$t('general.lessThan100prc')}`]"

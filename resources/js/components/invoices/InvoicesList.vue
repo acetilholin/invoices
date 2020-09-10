@@ -192,7 +192,6 @@
                     .catch((e) => {
                         this.showNotif(e, 'negative')
                     })
-
             },
             filterDataByInterval(interval) {
                 this.filterData(interval)
