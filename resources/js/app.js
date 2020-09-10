@@ -46,7 +46,7 @@ Vue.use(VueAxios, axios)
 
 window.Vue = require('vue');
 
-axios.defaults.baseURL = URLProduction
+axios.defaults.baseURL = URLLocalhost
 
 Vue.config.silent = false; /* Suppress all Vue logs and warnings */
 Vue.config.productionTip = false /* development mode notice */
