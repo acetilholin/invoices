@@ -145,8 +145,8 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $t("invoices.total76A") }}</td>
-                                    <td>{{ subTotal() | reformat | eur }}</td>
-                                    <td>{{ vatDifference76() | reformat | eur }}</td>
+                                    <td>{{ subTotal() | reformat }}</td>
+                                    <td>{{ vatDifference76() | reformat }}</td>
                                 </tr>
                             </table>
                         </div>
