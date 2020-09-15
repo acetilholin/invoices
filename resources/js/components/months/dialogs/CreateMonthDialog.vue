@@ -232,6 +232,11 @@ export default {
             localStorage.setItem('days', JSON.stringify(this.days));
             this.showNotif(`${this.$t('hours.dayAdded')}`, 'positive')
         }
+    },
+    mounted() {
+        if (localStorage.getItem('days')) {
+            this.days = JSON.parse(localStorage.getItem('days'))
+        }
     }
 }
 </script>
