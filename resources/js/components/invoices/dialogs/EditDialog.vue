@@ -227,6 +227,7 @@
                 submitting: false,
                 options: this.customers,
                 maximizedToggle: true,
+                customerID: null,
                 vatOptions: [
                     {
                         val: 0,
@@ -288,6 +289,7 @@
                 },
                 set: function (newValue) {
                     this.invoice.ime_priimek = newValue.naziv_partnerja
+                    this.invoice.customer_id = newValue.id
                 }
             }
         },

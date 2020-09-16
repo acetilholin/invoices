@@ -6,6 +6,7 @@
             :columns="columns"
             row-key="name"
             binary-state-sort
+            :pagination.sync="pagination"
         >
             <template v-slot:body="props">
                 <q-tr :props="props">
@@ -69,6 +70,9 @@ export default {
     name: "DaysTable",
     data() {
         return {
+            pagination: {
+                rowsPerPage: 20
+            },
             tableData: null,
             types: ['delovni dan','praznik','bolniška','dopust'],
             columns: [

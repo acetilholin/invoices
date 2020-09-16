@@ -63,7 +63,6 @@ class MonthHelper
         return $allDays;
     }
 
-
     public function copy($month, $days)
     {
         unset($month['id']);

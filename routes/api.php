@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+Route::group(['middleware' => ['api', 'domain'], 'prefix' => 'auth'], function ($router) {
     Route::post('logout', 'Auth\AuthController@logout');
     Route::post('refresh', 'Auth\AuthController@refresh');
     Route::post('login', 'Auth\AuthController@login');
@@ -44,8 +44,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::resource('days', 'API\DayController');
 
     Route::resource('months', 'API\MonthController');
-    Route::get('months/{id}/copy','API\MonthController@copy');
-    Route::post('months/interval','API\MonthController@interval');
+    Route::get('months/{id}/copy', 'API\MonthController@copy');
+    Route::post('months/interval', 'API\MonthController@interval');
 
     Route::resource('employees', 'API\EmployeeController');
 
