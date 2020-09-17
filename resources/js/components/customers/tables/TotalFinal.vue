@@ -32,7 +32,7 @@
                         {{ props.row.sifra_predracuna }}
                     </q-td>
                     <q-td key="timestamp" :props="props">
-                        {{ props.row.timestamp }}
+                        {{ props.row.timestamp | moment('DD-MM-Y') }}
                     </q-td>
                     <q-td key="total" :props="props">
                         {{ props.row.total | price }}
