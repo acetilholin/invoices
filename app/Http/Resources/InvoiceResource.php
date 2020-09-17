@@ -23,7 +23,6 @@ class InvoiceResource extends JsonResource
             'timestamp' => $this->timestamp,
             'expiration' => $this->expiration,
             'quantity' => $this->quantity,
-            'author' => $this->author,
             'work_date' => $this->work_date,
             'klavzula' => $this->klavzula
         ];
