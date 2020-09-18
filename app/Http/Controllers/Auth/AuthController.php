@@ -91,6 +91,7 @@ class AuthController extends Controller
             return response()->json(['error' => $messages], 401);
         }
 
+        unset($credentials['password_confirmation']);
         $credentials['password'] = Hash::make($credentials['password']);
 
         User::create($credentials);
