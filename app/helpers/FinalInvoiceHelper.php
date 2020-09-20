@@ -28,6 +28,11 @@ class FinalInvoiceHelper
         return DB::select('SELECT * FROM final_invoices ORDER BY sifra_predracuna + 0 ASC');
     }
 
+    public function getIntervalAndSort($from, $to)
+    {
+        return DB::select("SELECT * FROM final_invoices WHERE timestamp BETWEEN '".$from."' AND '".$to."' ORDER BY sifra_predracuna + 0 ASC");
+    }
+
     public function exportToFinalInvoices($invoiceData)
     {
         $finalInvoice = FinalInvoice::where('iid', $invoiceData['iid'])->first();

@@ -125,10 +125,9 @@ class FinalInvoiceController extends Controller
         $to = $request->to;
         $allInvoices = [];
 
-        $finalInvoices = DB::table('final_invoices')
-            ->whereBetween('timestamp', [$from, $to])
-            ->orderBy('timestamp', 'asc')
-            ->get();
+        $helper = new FinalInvoiceHelper();
+
+        $finalInvoices = $helper->getIntervalAndSort($from, $to);
 
         foreach ($finalInvoices as $invoice) {
             $noVAT = 0;
