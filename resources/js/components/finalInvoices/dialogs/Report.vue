@@ -27,8 +27,8 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Datum</th>
                             <th scope="col">Stranka</th>
-                            <th scope="col">Podjetje</th>
                             <th scope="col">Račun</th>
                             <th scope="col">ID DDV</th>
                             <th scope="col">Brez davka</th>
