@@ -83,7 +83,7 @@
                     <add-day @newDay="addNewDay"></add-day>
                 </q-card-section>
                 <q-card-section class="q-pt-none">
-                    <days-table :days="monthData.days" @removeDay="removeFromDays"></days-table>
+                    <days-table :days="days" @removeDay="removeFromDays"></days-table>
                 </q-card-section>
             </q-card>
         </q-dialog>
@@ -116,7 +116,8 @@ export default {
         ...mapGetters({
             dialog: 'general/getEditMonth',
             monthData: 'months/getMonthData',
-            employees: 'employees/getEmployees'
+            employees: 'employees/getEmployees',
+            days: 'months/getDays'
         }),
         person: {
             get: function () {
@@ -176,7 +177,7 @@ export default {
             let monthData = {
                 id: id,
                 employee_id: this.monthData.eId,
-                days: this.monthData.days,
+                days: this.days,
                 month: this.monthData.month
             }
 

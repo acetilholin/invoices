@@ -39,37 +39,63 @@
                         <hr style="background: black">
                         <br>
                         <div class="text-center mb-1" v-if="monthData.month">
-                            {{ $t("hours.hoursMonthReport") | uppercase }} - {{ monthData.month.date | moment('MMMM') | uppercase}}
+                            {{ $t("hours.hoursMonthReport") | uppercase }} - {{ monthData.month.date | moment('MMMM YYYY') | uppercase}}
+                        </div>
+                        <div class="mt-3 mb-2">
+                            <span class="title-short">{{ $t("hours.NU1_short") }}</span> - <span class="text-long">{{ $t("hours.NU1_text") }}</span><br>
+                            <span class="title-short">{{ $t("hours.NU2_short") }}</span> - <span class="text-long">{{ $t("hours.NU2_text") }}</span><br>
+                            <span class="title-short">{{ $t("hours.NU3_short") }}</span> - <span class="text-long">{{ $t("hours.NU3_text") }}</span><br>
                         </div>
                         <table class="table full-width table-font q-pt-xl">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" class="format-text">{{ $t("hours.date") }}</th>
-                                <th scope="col" class="format-text">{{ $t("hours.day_type") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.date") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.work_day") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.holiday") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.festival") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.NU1_short") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.NU2_short") }}</th>
+                                <th scope="col" class="text-center">{{ $t("hours.NU3_short") }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(day, index) in monthData.days">
-                                <th scope="row">{{ index + 1 }}</th>
-                                <td>{{ day.date | moment('dddd DD-MM-Y') }}</td>
-                                <td>{{ day.day_type }}</td>
+                                <th class="text-center" scope="row">{{ index + 1 }}</th>
+                                <td class="text-center">{{ day.date | moment('dddd DD-MM-Y') }}</td>
+                                <td class="text-center">{{ day.day_type === 'DD' ? '8' : ' ' }}</td>
+                                <td class="text-center">{{ day.day_type === 'LD' ? '8' : ' ' }}</td>
+                                <td class="text-center">{{ day.day_type === 'praznik' ? '8' : ' ' }}</td>
+                                <td class="text-center">{{ day.day_type === 'NU1' ? '8' : ' ' }}</td>
+                                <td class="text-center">{{ day.day_type === 'NU2' ? '8' : ' ' }}</td>
+                                <td class="text-center">{{ day.day_type === 'NU3' ? '8' : ' ' }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="col" class="text-center">{{ totalDays  | days }}</th>
+                                <th scope="col" class="text-center"></th>
+                                <th scope="col" class="text-center">{{ workDays | hours }}</th>
+                                <th scope="col" class="text-center">{{ holidays | hours }}</th>
+                                <th scope="col" class="text-center">{{ festivals | hours }}</th>
+                                <th scope="col" class="text-center">{{ nu1 | hours }}</th>
+                                <th scope="col" class="text-center">{{ nu2 | hours }}</th>
+                                <th scope="col" class="text-center">{{ nu3 | hours }}</th>
                             </tr>
                             </tbody>
                         </table>
                         <hr style="background: black;" class="margin-line">
-                        <div class="float-left mt-3">
+                        <div class="mt-3">
                             {{ monthData.employee }}<br>
                             {{ monthData.address }}<br>
                             {{ monthData.posta }}<br>
                         </div>
-                        <div class="float-right mt-3">
-                            {{ $t("hours.daysTotal") }}: {{ daysTotal() }}
+                        <div id="name" class="float-right" v-for="cmp in company">
+                            {{ author }}<br>
+                            <img :src="image(cmp.stamp)" style="height: 110px;" alt="">
                         </div>
                     </div>
                 </q-card-section>
                 <q-page-container>
-                    <q-page-sticky position="bottom-right" :offset="[25, 100]">
+                    <q-page-sticky position="bottom-right" :offset="[25, 40]">
                         <q-btn fab icon="print" color="green" @click="print"/>
                     </q-page-sticky>
                 </q-page-container>
@@ -81,13 +107,21 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
-import {picturesPath} from "../../../global/variables";
+import {picturesPath, author} from "../../../global/variables";
 
 export default {
     name: "PrintMonth",
     data() {
         return {
-            maximizedToggle: true
+            maximizedToggle: true,
+            workDays:  0,
+            totalDays: 0,
+            holidays: 0,
+            festivals: 0,
+            nu1: 0,
+            nu2: 0,
+            nu3: 0,
+            author: author
         }
     },
     computed: {
@@ -103,6 +137,12 @@ export default {
                 return val.toUpperCase()
             }
         },
+        days(val) {
+          return val + ' dni'
+        },
+        hours(val) {
+          return val + ' ur'
+        },
         titleShort(val) {
             return val.substring(31,51)
         },
@@ -113,10 +153,35 @@ export default {
     created() {
       this.$store.dispatch('company/all')
     },
+    beforeUpdate() {
+        this.calculateTotal()
+    },
     methods: {
         ...mapActions({
             closePrintDialog: 'general/monthPrint'
         }),
+        calculateTotal() {
+           this.workDays = 0
+           this.totalDays = 0
+           this.holidays = 0
+           this.festivals = 0
+           this.nu1 = 0
+           this.nu2 = 0
+           this.nu3 = 0
+            let day = 8
+
+            if (this.monthData.days) {
+                this.monthData.days.forEach(item => {
+                    this.workDays += item.day_type === 'DD' ? day : 0
+                    this.holidays += item.day_type === 'LD' ? day : 0
+                    this.festivals += item.day_type === 'praznik' ? day : 0
+                    this.nu1 += item.day_type === 'NU1' ? day : 0
+                    this.nu2 += item.day_type === 'NU2' ? day : 0
+                    this.nu3 += item.day_type === 'NU3' ? day : 0
+                    this.totalDays ++
+                })
+            }
+        },
         closeDialog() {
             this.closePrintDialog(false)
         },
@@ -125,15 +190,6 @@ export default {
         },
         image(img) {
             return picturesPath + img
-        },
-        daysTotal() {
-            let num = 0
-            if (this.monthData.days) {
-                this.monthData.days.forEach(item => {
-                    num++
-                })
-                return num
-            }
         }
     }
 }
@@ -172,6 +228,12 @@ export default {
 }
 .format-text {
     text-align: left;
+}
+.title-short {
+    font-size: 13px !important;
+}
+.text-long {
+    font-size: 12px !important;
 }
 </style>
 

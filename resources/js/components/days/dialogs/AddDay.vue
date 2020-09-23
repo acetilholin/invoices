@@ -37,10 +37,12 @@
                                     </q-icon>
                                 </template>
                             </q-input>
-                            <q-select v-model="day.day_type"
+                            <q-select v-model="dayTypeOption"
                                       :options="types"
                                       bottom-slots
                                       label="Tip dneva"
+                                      option-label="label"
+                                      option-value="value"
                                       class="col-6 q-ml-sm"
                                       :rules="[val => !!val || `${$t('hours.dayType')}`]"
                             >
@@ -70,6 +72,7 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
+import { Daytypes } from '../../../global/variables'
 
 export default {
     name: "AddDay",
@@ -79,13 +82,21 @@ export default {
                 date: null,
                 day_type: null
             },
-            types: ['delovni dan','praznik','bolniška','dopust']
+            types: Daytypes,
         }
     },
     computed: {
         ...mapGetters({
             medium: 'general/getAddDay'
-        })
+        }),
+        dayTypeOption: {
+            get: function () {
+                return this.day.day_type
+            },
+            set: function (newValue) {
+                this.day.day_type = newValue.value
+            }
+        }
     },
     methods: {
         ...mapActions({
@@ -93,10 +104,12 @@ export default {
         }),
         closeDialog() {
             this.close(false)
+            this.day.day_type = ''
+            this.day.date = ''
         },
         onReset() {
-            this.day.date = null
-            this.day.day_type = null
+            this.day.day_type = ''
+            this.day.date = ''
         },
         onSubmit() {
             let newDay = {

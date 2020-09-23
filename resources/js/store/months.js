@@ -2,7 +2,8 @@ export default {
     namespaced: true,
     state: {
         months: [],
-        monthData: []
+        monthData: [],
+        days: []
     },
     mutations: {
         SET_MONTHS(state, payload) {
@@ -12,12 +13,15 @@ export default {
             state.monthData = payload
         },
         REMOVE_DAY_FROM_MONTH(state, payload) {
-            state.monthData.days = state.monthData.days.filter(item => {
+            state.days = state.days.filter(item => {
                 return item !== payload
             })
         },
         ADD_DAY_TO_MONTH(state, payload) {
-            state.monthData.days.push(payload)
+            state.days.push(payload)
+        },
+        SET_DAYS(state, payload) {
+            state.days = payload
         }
     },
     actions: {
@@ -56,6 +60,7 @@ export default {
             })
                 .then((response) => {
                     dispatch('all')
+                    commit('SET_DAYS', response.data.days)
                     return response.data.success
                 })
                 .catch((e) => {
@@ -76,6 +81,7 @@ export default {
             await axios.get(`/months/${id}/edit`)
                 .then(response => {
                     commit('SET_MONTH_DATA', response.data)
+                    commit('SET_DAYS', response.data.days)
                 })
                 .catch((e) => {
                     throw (e.response.data.error);
@@ -117,6 +123,9 @@ export default {
         },
         getMonthData(state) {
             return state.monthData
+        },
+        getDays(state) {
+            return state.days
         }
     }
 }

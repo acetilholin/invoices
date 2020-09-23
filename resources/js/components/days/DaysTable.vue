@@ -49,12 +49,15 @@
                                       @save="changeDaysData(`${$t('hours.dayTypeChanged')}`)"
                         >
                             <q-select v-model="props.row.day_type"
-                                      :options="types"
+                                      :options="DayTypes"
                                       label="Tip dneva"
                                       dense
                                       autofocus
                             />
                         </q-popup-edit>
+                        <q-tooltip v-if="tooltipDisplay(props.row.day_type)" @before-show="tooltipInfo(props.row.day_type)">
+                           {{ info }}
+                        </q-tooltip>
                     </q-td>
                     <q-td key="edit" :props="props">
                         <q-icon name="delete_outline" @click="confirm(props.row)" class="pointer text-red action-icon"></q-icon>
@@ -66,6 +69,9 @@
 </template>
 
 <script>
+
+import { DayTypesShort } from '../../global/variables'
+
 export default {
     name: "DaysTable",
     data() {
@@ -74,7 +80,8 @@ export default {
                 rowsPerPage: 20
             },
             tableData: null,
-            types: ['delovni dan','praznik','bolniška','dopust'],
+            info: null,
+            DayTypes: DayTypesShort,
             columns: [
                 {
                     name: 'index',
@@ -104,6 +111,31 @@ export default {
     methods: {
         tableIndex(row) {
             return this.tableData.indexOf(row) + 1
+        },
+        changeDayType(type) {
+           return type.value
+        },
+        tooltipDisplay(dayType) {
+            return dayType !== 'praznk'
+        },
+        tooltipInfo(dayType) {
+            switch (true) {
+                case dayType === 'DD':
+                    this.info = this.$t("hours.work_day")
+                    break
+                case dayType === 'LD':
+                    this.info = this.$t("hours.holiday")
+                    break
+                case dayType === 'NU1':
+                    this.info = this.$t("hours.NU1")
+                    break
+                case dayType === 'NU2':
+                    this.info = this.$t("hours.NU2")
+                    break
+                case dayType === 'NU3':
+                    this.info = this.$t("hours.NU3")
+                    break
+            }
         },
         showNotif(message, type) {
             this.$q.notify({

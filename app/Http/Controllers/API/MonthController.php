@@ -132,13 +132,23 @@ class MonthController extends Controller
         $monthData = $data['month'];
         $daysData = $data['days'];
         $monthData['employee_id'] = $data['employee_id'];
+        $allDays = [];
 
         try {
+
             $month->update($monthData);
             $helper = new MonthHelper();
             $helper->update($daysData);
+
+            $days = $month->days;
+
+            foreach ($days as $day) {
+                $allDays[] = $day;
+            }
+
             return response()->json([
                 'success' => trans('month.monthUpdated'),
+                'days' => $allDays
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => trans('month.cannotUpdate')], 401);
