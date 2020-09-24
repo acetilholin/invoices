@@ -49,7 +49,7 @@
                         <table class="table full-width table-font q-pt-xl">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col" class="text-center">#</th>
                                 <th scope="col" class="text-center">{{ $t("hours.date") }}</th>
                                 <th scope="col" class="text-center">{{ $t("hours.work_day") }}</th>
                                 <th scope="col" class="text-center">{{ $t("hours.holiday") }}</th>
