@@ -11,7 +11,7 @@ use App\Http\Resources\UsersResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use App\Mail\NewUser;
+use App\Notifications\User as UserNotification;
 
 class UserController extends Controller
 {
@@ -64,8 +64,9 @@ class UserController extends Controller
             $userData['last_seen'] =  date("Y-m-d");
 
             try {
-                User::create($userData)->save();
-                \Mail::to($userData['email'])->send(new NewUser($userData['email'], $notEncrypted));
+                $user = User::create($userData);
+                $user->notify(new UserNotification($userData['email'], $notEncrypted));
+
                 return response()->json([
                     'success' => trans('user.userCreated')
                 ], 200);
