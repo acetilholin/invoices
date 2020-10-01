@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\helpers\MsgFormatterHelper;
-use App\Mail\Token;
+use App\Notifications\Token;
 use App\helpers\TokenHelper;
 use Illuminate\Support\Str;
 
@@ -115,7 +115,8 @@ class AuthController extends Controller
             $token = Str::random(20);
             $tokenHelper = new TokenHelper();
             $tokenHelper->InsertToken($email, $token);
-            \Mail::to($email)->send(new Token($token));
+
+            $user->notify(new Token($token));
             return response()->json(['success' => trans('loginRegister.emailSent')], 200);
         }
     }
