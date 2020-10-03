@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Customer;
+use App\FinalInvoice;
 use App\helpers\CustomerHelper;
 use App\helpers\MsgFormatterHelper;
 use App\Http\Controllers\Controller;
+use App\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Resources\CustomersResource;
 use Illuminate\Support\Facades\Validator;
@@ -73,13 +75,55 @@ class CustomerController extends Controller
             $allInvoices[] = $invoice->getAttributes();
         }
 
-          foreach ($finalInvoices as $invoice) {
-              $allFinalInvoices[] = $invoice->getAttributes();
-          }
+        foreach ($finalInvoices as $invoice) {
+            $allFinalInvoices[] = $invoice->getAttributes();
+        }
 
         return response()->json([
             'invoices' => $allInvoices,
             'final' => $allFinalInvoices
+        ]);
+    }
+
+    /**
+     * Display invoices invoices for specific interval
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fromToFinal(Request $request)
+    {
+        $from = $request->from;
+        $to = $request->to;
+        $customerId = $request->customer_id;
+
+        $finalInvoices = FinalInvoice::whereBetween('timestamp', [$from, $to])
+            ->where('customer_id', $customerId)
+            ->get();
+
+        return response()->json([
+            'final' => $finalInvoices
+        ]);
+    }
+
+    /**
+     * Display invoices invoices for specific interval
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fromToInvoice(Request $request)
+    {
+        $from = $request->from;
+        $to = $request->to;
+        $customerId = $request->customer_id;
+
+        $invoices = Invoice::whereBetween('timestamp', [$from, $to])
+            ->where('customer_id', $customerId)
+            ->get();
+
+        return response()->json([
+            'invoices' => $invoices
         ]);
     }
 

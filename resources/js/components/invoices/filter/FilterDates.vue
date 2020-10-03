@@ -63,6 +63,17 @@
                 </q-tooltip>
             </q-btn>
         </div>
+        <div class="q-pb-md q-pt-md q-gutter-sm" v-if="customersRoute()">
+            <q-btn color="secondary"
+                   outline
+                   @click="customerReport"
+            >
+                <q-icon name="analytics"/>
+                <q-tooltip>
+                    {{ $t("customers.report.iznosi") }}
+                </q-tooltip>
+            </q-btn>
+        </div>
     </div>
 </template>
 
@@ -84,7 +95,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            employees: 'employees/getEmployees'
+            employees: 'employees/getEmployees',
+            customer_id: 'customers/getCustomerID'
         })
     },
     methods: {
@@ -118,19 +130,22 @@ export default {
             this.toDate = null
             this.employee = null
 
-            switch (true) {
-                case this.$router.currentRoute.fullPath === '/':
-                    this.$store.dispatch('invoices/allInvoices')
-                    break
-                case this.$router.currentRoute.fullPath === '/final-invoices':
-                    this.$store.dispatch('final/all')
-                    break
-                case this.$router.currentRoute.fullPath === '/website':
-                    this.$store.dispatch('statistics/visits')
-                    break
-                default:
-                    this.$store.dispatch('months/all')
-            }
+          switch (true) {
+            case this.$router.currentRoute.fullPath === '/':
+              this.$store.dispatch('invoices/allInvoices')
+              break
+            case this.$router.currentRoute.fullPath === '/final-invoices':
+              this.$store.dispatch('final/all')
+              break
+            case this.$router.currentRoute.fullPath === '/website':
+              this.$store.dispatch('statistics/visits')
+              break
+            case this.$router.currentRoute.fullPath === '/customers':
+              this.$store.dispatch('customers/total', this.customer_id)
+              break
+            default:
+              this.$store.dispatch('months/all')
+          }
         },
         finalRoute() {
             return this.$router.currentRoute.fullPath === '/final-invoices'
@@ -151,6 +166,12 @@ export default {
                     this.$store.dispatch('general/reportDialog', true)
                 }
             }
+        },
+        customersRoute() {
+            return this.$router.currentRoute.fullPath === '/customers'
+        },
+        customerReport() {
+            this.$store.dispatch('general/customerReportDialog', true)
         },
         filterDataByDates() {
            let interval = {

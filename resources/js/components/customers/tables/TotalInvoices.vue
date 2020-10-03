@@ -1,15 +1,7 @@
 <template>
     <div class="q-pa-md">
         <div class="text-center q-mb-md">
-            <q-btn color="secondary"
-                   outline
-                   @click="customerReport"
-            >
-                <q-icon name="analytics"/>
-                <q-tooltip>
-                    {{ $t("customers.report.iznosi") }}
-                </q-tooltip>
-            </q-btn>
+            <filter-dates @interval="interval"></filter-dates>
         </div>
         <q-table
             :data="invoices"
@@ -57,6 +49,8 @@
 
 import PrintInvoice from "../../invoices/dialogs/PrintInvoice";
 import CustomerReport from "../dialogs/CustomerReport";
+import {mapActions} from 'vuex'
+import FilterDates from "../../invoices/filter/FilterDates";
 
 export default {
     name: "TotalInvoices",
@@ -80,6 +74,7 @@ export default {
         }
     },
     components: {
+        FilterDates,
         PrintInvoice,
         CustomerReport
     },
@@ -90,14 +85,18 @@ export default {
         },
     },
     methods: {
+        ...mapActions({
+            filter: 'customers/filterInvoices'
+        }),
         tableIndex(row) {
             return this.invoices.indexOf(row) + 1
         },
-        customerReport() {
-          this.$store.dispatch('general/customerReportDialog', true)
-        },
         today() {
             return this.$moment().format('Y-MM-DD')
+        },
+        interval(interval) {
+            interval.customer_id = this.customer.id
+            this.filter(interval)
         },
         totalPrice() {
             let total = 0.0

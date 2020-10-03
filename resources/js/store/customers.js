@@ -4,7 +4,8 @@ export default {
         customers: [],
         currentCustomer: [],
         customerTotalInvoices: [],
-        customerTotalFinal: []
+        customerTotalFinal: [],
+        customer_id: null
     },
     mutations: {
         SET_CUSTOMERS(state, payload) {
@@ -18,6 +19,9 @@ export default {
         },
         SET_CUSTOMER_TOTAL_FINAL(state, payload) {
             state.customerTotalFinal = payload
+        },
+        SET_CUSTOMER_ID(state, payload) {
+            state.customer_id = payload
         }
     },
     actions: {
@@ -75,6 +79,28 @@ export default {
                     throw (e.response.data.error);
                 })
         },
+        filterInvoices({commit}, interval) {
+            axios.post('/customers/fromToInvoice', {
+                from: interval.from,
+                to: interval.to,
+                customer_id: interval.customer_id
+            })
+                .then((response) => {
+                    commit('SET_CUSTOMER_TOTAL_INVOICES', response.data.invoices)
+                    commit('SET_CUSTOMER_ID', interval.customer_id)
+                })
+        },
+        filterFinal({commit}, interval) {
+            axios.post('/customers/fromToFinal', {
+                from: interval.from,
+                to: interval.to,
+                customer_id: interval.customer_id
+            })
+                .then((response) => {
+                    commit('SET_CUSTOMER_TOTAL_FINAL', response.data.final)
+                    commit('SET_CUSTOMER_ID', interval.customer_id)
+                })
+        },
         total({commit}, id) {
             axios.get(`/customers/${id}`)
                 .then((response) => {
@@ -101,6 +127,9 @@ export default {
         },
         getCustomerTotalFinal(state) {
             return state.customerTotalFinal
+        },
+        getCustomerID(state) {
+            return state.customer_id
         }
     }
 }

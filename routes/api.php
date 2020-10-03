@@ -30,6 +30,8 @@ Route::group(['middleware' => ['api', 'domain'], 'prefix' => 'auth'], function (
     Route::post('setting/update', 'API\SettingController@update');
 
     Route::resource('customers', 'API\CustomerController');
+    Route::post('customers/fromToInvoice','API\CustomerController@fromToInvoice');
+    Route::post('customers/fromToFinal','API\CustomerController@fromToFinal');
 
     Route::resource('items', 'API\ItemController');
 
