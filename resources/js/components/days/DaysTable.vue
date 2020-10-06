@@ -13,7 +13,7 @@
                     <q-td>
                         {{ tableIndex(props.row) }}
                     </q-td>
-                    <q-td key="date" :props="props">
+                    <q-td key="date" :props="props" style="cursor: pointer">
                         {{ props.row.date | moment('dddd DD-MM-Y') }}
                         <q-popup-edit v-model="props.row.date"
                                       buttons
@@ -41,7 +41,7 @@
                             </q-input>
                         </q-popup-edit>
                     </q-td>
-                    <q-td key="day_type" :props="props">
+                    <q-td key="day_type" :props="props" style="cursor: pointer">
                         {{ props.row.day_type }}
                         <q-popup-edit v-model="props.row.day_type"
                                       buttons
@@ -135,6 +135,8 @@ export default {
                 case dayType === 'NU3':
                     this.info = this.$t("hours.NU3")
                     break
+                default:
+                    this.info = this.$t("hours.festival")
             }
         },
         showNotif(message, type) {

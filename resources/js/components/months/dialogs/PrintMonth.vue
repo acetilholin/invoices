@@ -37,11 +37,10 @@
                             </div>
                         </div>
                         <hr style="background: black">
-                        <br>
                         <div class="text-center mb-1" v-if="monthData.month">
-                            {{ $t("hours.hoursMonthReport") | uppercase }} - {{ monthData.month.date | moment('MMMM YYYY') | uppercase}}
+                            {{ $t("hours.hoursMonthReport") | uppercase }} - {{ monthData.month.date | moment('MMMM YYYY') | uppercase }}, {{ monthData.employee | uppercase }}
                         </div>
-                        <div class="mt-3 mb-2">
+                        <div class="mt-2 mb-2">
                             <span class="title-short">{{ $t("hours.NU1_short") }}</span> - <span class="text-long">{{ $t("hours.NU1_text") }}</span><br>
                             <span class="title-short">{{ $t("hours.NU2_short") }}</span> - <span class="text-long">{{ $t("hours.NU2_text") }}</span><br>
                             <span class="title-short">{{ $t("hours.NU3_short") }}</span> - <span class="text-long">{{ $t("hours.NU3_text") }}</span><br>
@@ -82,15 +81,22 @@
                             </tr>
                             </tbody>
                         </table>
-                        <hr style="background: black;" class="margin-line">
-                        <div class="mt-3">
-                            {{ monthData.employee }}<br>
-                            {{ monthData.address }}<br>
-                            {{ monthData.posta }}<br>
-                        </div>
-                        <div id="name" class="float-right" v-for="cmp in company">
-                            {{ author }}<br>
-                            <img :src="image(cmp.stamp)" style="height: 110px;" alt="">
+                        <hr style="background: black">
+                        <div class="container">
+                            <div class="row">
+                                <div class="column left">
+                                    {{ monthData.employee }}<br>
+                                    {{ monthData.address }}<br>
+                                    {{ monthData.posta }}<br>
+                                </div>
+                                <div class="column middle"></div>
+                                <div class="column right" v-for="cmp in company">
+                                    <span class="float-right">
+                                        {{ author }}<br>
+                                        <img :src="image(cmp.stamp)" style="height: 80px; width: 130px" alt="">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </q-card-section>
@@ -206,7 +212,16 @@ export default {
     width: 20%;
 }
 .right {
-    width: 35%;
+    width: 30%;
+}
+.left-bottom {
+    width: 30%;
+}
+.middle-bottom {
+    width: 55%;
+}
+.right-bottom {
+    width: 15%;
 }
 .text-right {
     text-align: right
@@ -218,16 +233,13 @@ export default {
     vertical-align: middle
 }
 .margin-line {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .font-size-body {
     font-size: 19px
 }
 .table-font {
     font-size: 14px;
-}
-.format-text {
-    text-align: left;
 }
 .title-short {
     font-size: 13px !important;

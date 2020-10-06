@@ -33,7 +33,7 @@
                     <q-td>
                         {{ tableIndex(props.row) }}
                     </q-td>
-                    <q-td key="description" :props="props">
+                    <q-td key="description" :props="props" style="cursor: pointer">
                         {{ props.row.description }}
                         <q-popup-edit v-model="props.row.description"
                                       title="Spremeni opis"
@@ -50,7 +50,7 @@
                             />
                         </q-popup-edit>
                     </q-td>
-                    <q-td key="qty" :props="props">
+                    <q-td key="qty" :props="props" style="cursor: pointer">
                         {{ props.row.qty }}
                         <q-popup-edit v-model="props.row.qty"
                                       title="Spremeni količino"
@@ -67,7 +67,7 @@
                             />
                         </q-popup-edit>
                     </q-td>
-                    <q-td key="unit" :props="props">{{ props.row.unit }}
+                    <q-td key="unit" :props="props" style="cursor: pointer">{{ props.row.unit }}
                         <q-popup-edit v-model="props.row.unit"
                                       title="Spremeni EM"
                                       buttons
@@ -82,7 +82,7 @@
                         />
                       </q-popup-edit>
                     </q-td>
-                    <q-td key="item_price" :props="props">
+                    <q-td key="item_price" :props="props" style="cursor: pointer">
                         {{ props.row.item_price | price }}
                         <q-popup-edit v-model="props.row.item_price"
                                       title="Spremeni ceno/kos"
@@ -101,7 +101,7 @@
                     <q-td key="total_price" :props="props">
                         {{ props.row.total_price | price }}
                     </q-td>
-                    <q-td key="discount" :props="props">
+                    <q-td key="discount" :props="props" style="cursor: pointer">
                         {{ props.row.discount | discount }}
                         <q-popup-edit v-model="props.row.discount"
                                       title="Spremeni popust"
