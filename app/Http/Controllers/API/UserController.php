@@ -98,8 +98,12 @@ class UserController extends Controller
         $id = $request->id;
         $user = User::find($id);
 
+        $currentUserData = auth()->user();
+        $currentUser = $currentUserData->getAttributes();
+        $uid = $currentUser['id'];
+
         $userHelper = new UserHelper();
-        $status = $userHelper->checkPermissions('edit', $user);
+        $status = $userHelper->checkPermissions('edit', $user, $uid);
 
         if ($status) {
             return response()->json(['error' => $status], 401);
@@ -199,7 +203,12 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $userHelper = new UserHelper();
-        $status = $userHelper->checkPermissions('delete', $user);
+
+        $currentUserData = auth()->user();
+        $currentUser = $currentUserData->getAttributes();
+        $uid = $currentUser['id'];
+
+        $status = $userHelper->checkPermissions('delete', $user, $uid);
 
         if ($status) {
             return response()->json(['error' => $status], 401);

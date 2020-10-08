@@ -69,9 +69,8 @@ class UserHelper
             ->update(['password' => $password]);
     }
 
-    public function checkPermissions($operation, $user)
+    public function checkPermissions($operation, $user, $uid)
     {
-        $uid = session()->get('uid');
         $currentUser = User::find($uid);
 
         if ($user->email == env('ADMIN')) {
