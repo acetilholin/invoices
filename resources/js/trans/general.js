@@ -173,7 +173,8 @@ const general = {
             zeroEUR: '0,00 EUR',
             forPayment: 'ZA PLAČILO',
             total76A: 'Skupaj 76.A člen',
-            addItem: 'Dodaj artikel'
+            addItem: 'Dodaj artikel',
+            klavzula76ATrans: 'VAT is accounted by the place of immovoble property under Article 47 of Directive.'
         },
         report: {
             book: 'KNJIGA IZDANIH RAČUNOV - promet blaga in storitev za obdobje',

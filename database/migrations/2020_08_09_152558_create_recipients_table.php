@@ -20,6 +20,7 @@ class CreateRecipientsTable extends Migration
             $table->text('title');
             $table->text('street');
             $table->text('posta');
+            $table->boolean('tujina');
             $table->timestamps();
         });
     }
