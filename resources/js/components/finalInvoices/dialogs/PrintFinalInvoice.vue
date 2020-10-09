@@ -135,11 +135,7 @@
                         </div>
                     </div>
                     <div class="container" style="margin-top: 70px; margin-bottom: 5px">
-                        <p style="margin-bottom: 3%;" v-if="klavzula" class="klavzula-text">{{ klavzula.description }}
-                            <span v-if="recipient">
-                                <span v-if="recipient.tujina"><br><i>{{ $t("invoices.klavzula76ATrans") }}</i></span>
-                            </span>
-                        </p>
+                        <p style="margin-bottom: 3%;" v-if="klavzula" class="klavzula-text">{{ klavzula.description }}</p>
                         <div class="mt-2 mb-5" v-if="invoice.klavzula === '76A'">
                             <table class="clen">
                                 <tr>
