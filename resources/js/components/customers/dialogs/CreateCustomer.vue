@@ -91,8 +91,7 @@
                                 v-model="customer.id_ddv"
                                 label="ID za DDV"
                                 class="col-3 input-margin"
-                                mask="SI########"
-                                hint="Format: SI12345678"
+                                hint=""
                             >
                                 <template v-slot:prepend>
                                     <q-icon name="work" />
