@@ -41,17 +41,23 @@
                             </div>
                         </div>
                         <hr style="background: black">
-                        <table v-for="cmp in company">
-                            <tr>
-                                <td>{{ $t("invoices.iban") }}: {{ $t("invoices.swift") }} {{ cmp.banka1 }}&nbsp;&nbsp;/&nbsp;&nbsp;{{ $t("invoices.swift") }} {{ cmp.banka2 }}</td>
-                            </tr>
-                            <tr>
-                                <td>TRR: {{ cmp.trr1 }}&nbsp;&nbsp;/&nbsp;&nbsp;{{ cmp.trr2 }}</td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("invoices.sklicevanje_stev") }}: 00{{ company.sklic_st !== " " ? company.sklic_st : '' }}-{{ invoice.sifra_predracuna | sifra }}</td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="column left"></div>
+                            <div class="column middle"></div>
+                            <div class="column right">
+                                <table v-for="cmp in company">
+                                    <tr>
+                                        <td>{{ $t("invoices.iban") }}: {{ $t("invoices.swift") }} {{ cmp.banka1 }}&nbsp;&nbsp;/&nbsp;&nbsp;{{ $t("invoices.swift") }} {{ cmp.banka2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TRR: {{ cmp.trr1 }}&nbsp;&nbsp;/&nbsp;&nbsp;{{ cmp.trr2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ $t("invoices.sklicevanje_stev") }}: 00{{ company.sklic_st !== " " ? company.sklic_st : '' }}-{{ invoice.sifra_predracuna | sifra }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         <div class="float-right mt-2">
                             <b>{{ $t("invoices.final").toUpperCase() }}: </b>{{ invoice.sifra_predracuna }}<br>
                             {{ place }}, {{ invoice.timestamp | moment('DD-MM-Y') }}<br>
@@ -68,11 +74,11 @@
 
                         <div class="float-left mt-4 recipient">
                             <b>{{ customer.naziv_partnerja | uppercase }}</b><br>
-                            {{ customer.kraj_ulica | uppercase}}<br>
-                            {{ customer.posta | uppercase}}<br>
+                            <b>{{ customer.kraj_ulica | uppercase}}</b><br>
+                            <b>{{ customer.posta | uppercase}}</b><br>
                         </div>
                         <div class="pb-5" v-if="recipient"></div>
-                        <div id="mainContent" style="margin-top: 150px">
+                        <div id="mainContent" style="margin-top: 170px">
                             <div class="float-left mb-1 mt-3">
                                 <span v-if="recipient">
                                      <b>{{ $t("invoices.recipient") }}</b>:<br>
